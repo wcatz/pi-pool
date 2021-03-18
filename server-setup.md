@@ -32,6 +32,8 @@ sudo dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k; sudo rm -f 
 sudo hdparm -Tt /dev/sda
 ```
 
+### Overclock, memory & radios
+
 Edit  /boot/firmware/config.txt. Just paste Pi Pool additions in at the bottom.
 
 ```bash
