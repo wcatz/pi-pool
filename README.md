@@ -28,11 +28,15 @@ The most popular guides out there are aimed at x86 architecture and '_knowing wh
 The cardano-node & cardano-cli binaries linked to in this guide require aarch64 architecture to run. You **must** use Pi4B 8GB for the Pi-Relay and Pi-Core. For the Pi-Cold img you can use the Pi3B+ or PI4B 4GB or 8GB version with a micro sd card.
 {% endhint %}
 
+{% hint style="info" %}
+[Here is a list of working adapters](https://jamesachambers.com/raspberry-pi-4-usb-boot-config-guide-for-ssd-flash-drives/)
+{% endhint %}
+
 ### Shopping list
 
 * 2 [Pi4B 8GB](https://thepihut.com/products/raspberry-pi-4-model-b?variant=31994565689406) version.
-* 2 SSD Drives : \(NVMe M.2 **low power**, form & speed\).
-* M.2 key NVMe to USB3.1 adapter or whatever works with your drive.
+* 2 SSD Drives : \(NVMe **low power**, form & speed\).
+* NVMe to USB3.1 adapter or whatever works with your drive.
 * A 3'rd 64bit capable Pi as an offline machine\(Pi-Cold\). 
 * Class 10 micro sd card 8GB or larger. Pi-Cold has a desktop and a copy of this guide available in the browser.
 * Extra USB flash drives for backing up keys and configurations.
@@ -48,6 +52,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 * \*\*\*\*[Chris-Graffagnino](https://github.com/Chris-Graffagnino)/[Setup Cardano Shelley staking node](https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/blob/master/docs/jormungandr_node_setup_guide.md)
 * [Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w) Telegram Group
 * [Berry Pool](https://t.me/berry_pool) Telegram group
+* [Legendary Technology: New Raspberry Pi 4 Bootloader USB](https://jamesachambers.com/new-raspberry-pi-4-bootloader-usb-network-boot-guide/)
 
 ## Downloads
 
