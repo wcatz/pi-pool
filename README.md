@@ -29,7 +29,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 {% endhint %}
 
 {% hint style="info" %}
-[Here is a list of working adapters](https://jamesachambers.com/raspberry-pi-4-usb-boot-config-guide-for-ssd-flash-drives/)
+[Here is a list of working adapters.](https://jamesachambers.com/raspberry-pi-4-usb-boot-config-guide-for-ssd-flash-drives/)
 {% endhint %}
 
 ### Shopping list
