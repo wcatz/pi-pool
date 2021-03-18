@@ -18,6 +18,20 @@ Here are some links for overclocking and testing your drive speeds. If you have 
 Take note that Ubuntu stores config.txt in a different location than Raspbian.
 {% endhint %}
 
+### Test drive speed
+
+#### Write speed
+
+```text
+sudo dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k; sudo rm -f /tmp/output
+```
+
+#### Read speed
+
+```text
+sudo hdparm -Tt /dev/sda
+```
+
 Edit  /boot/firmware/config.txt. Just paste Pi Pool additions in at the bottom.
 
 ```bash
