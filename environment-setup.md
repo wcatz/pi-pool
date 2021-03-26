@@ -313,6 +313,10 @@ Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to m
 You will not be able to see transactions being processed due to TraceMempool = false in mainnet-config.json.
 {% endhint %}
 
+```bash
+gLiveView.sh
+```
+
 ## Download snapshot
 
 Make sure your node is not running & delete the db folder if it exists
