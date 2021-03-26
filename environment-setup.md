@@ -154,7 +154,7 @@ sed -i ${NODE_CONFIG}-config.json \
     -e "s/TraceMempool\": true/TraceMempool\": false/g"
 ```
 
-## Systemd unit files
+### Systemd unit files
 
 Let us now create the systemd unit file and startup script so systemd can manage cardano-node.
 
