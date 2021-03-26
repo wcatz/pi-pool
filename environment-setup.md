@@ -174,7 +174,7 @@ TOPOLOGY=${FILES}/mainnet-topology.json
 DB_PATH=${DIRECTORY}/db
 SOCKET_PATH=${DIRECTORY}/db/socket
 CONFIG=${FILES}/mainnet-config.json
-cardano-node run --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --host-addr ${HOSTADDR} --port ${PORT} --config ${CONFIG}
+cardano-node run +RTS -N4 -RTS --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --host-addr ${HOSTADDR} --port ${PORT} --config ${CONFIG}
 ```
 
 Allow execution of our new startup script.
