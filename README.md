@@ -6,6 +6,8 @@ description: >-
 
 # Overview & Credits
 
+![](.gitbook/assets/star-forge.jpg)
+
 {% hint style="danger" %}
 It is strongly recommended to work through the [Stake Pool School](https://cardano-foundation.gitbook.io/stake-pool-course/) course presented by the Cardano Foundation.
 {% endhint %}
