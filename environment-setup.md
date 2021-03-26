@@ -330,3 +330,5 @@ wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 
 
 
+![Should look something like this once your synced to the tip of the chain.](.gitbook/assets/pi-node-glive.png)
+
