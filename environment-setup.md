@@ -319,7 +319,7 @@ gLiveView.sh
 
 ## Download snapshot
 
-Make sure your node is not running & delete the db folder if it exists
+Make sure your node is not running & delete the db folder if it exists.
 
 ```bash
 cardano-service stop
