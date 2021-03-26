@@ -258,6 +258,31 @@ Now we just have to:
 * cardano-service stop       \(stops cardano-node.service\)
 * cardano-service status    \(shows the status of cardano-node.service\)
 
+### gLiveView.sh
+
+gLiveView.sh is a bash script that will give you metrics in a terminal window for your node. Change directory into $HOME/.local/bin & download gLiveView.sh and corresponding env configuration file.
+
+```bash
+cd $HOME/.local/bin
+curl -s -o gLiveView.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
+curl -s -o env https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
+chmod 755 gLiveView.sh
+```
+
+We have to edit the env file to work with our environment. The port number here will have to be updated to match the port cardano-node is running on. For the **Pi-Node** it's port 3003. As we build the pool we will work down. For example Pi-Relay\(2\) will run on port 3002.
+
+{% hint style="info" %}
+You can change the port cardano-node runs on in /home/ada/.local/bin/cardano-service.
+{% endhint %}
+
+```bash
+sed -i env \
+    -e "s/"6000"/"3003"/g" \
+    -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\/mainnet-config.json\"/g" \
+    -e "s/\#SOCKET=\"\${CNODE_HOME}\/sockets\/node0.socket\"/SOCKET=\"\${NODE_HOME}\/db\/socket\"/g"
+    
+```
+
 ## Congratulations you are now ready to start cardano-node
 
 {% hint style="danger" %}
@@ -272,7 +297,7 @@ Do not attempt this on an 8GB sd card. Not enough space! Create your image file 
 
 You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 10 hours and the db folder is about 7GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
 
-I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshop and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
+I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
 
 ```bash
 cardano-service enable
@@ -281,6 +306,12 @@ cardano-service status
 ```
 
 Status should show as enabled & running.
+
+Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to monitor.
+
+{% hint style="danger" %}
+You will not be able to see transactions being processed due to traceMempool = false in mainnet-config.json.
+{% endhint %}
 
 ## Download snapshot
 
