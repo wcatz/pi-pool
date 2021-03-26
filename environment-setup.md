@@ -310,7 +310,7 @@ Status should show as enabled & running.
 Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to monitor.
 
 {% hint style="danger" %}
-You will not be able to see transactions being processed due to traceMempool = false in mainnet-config.json.
+You will not be able to see transactions being processed due to TraceMempool = false in mainnet-config.json.
 {% endhint %}
 
 ## Download snapshot
