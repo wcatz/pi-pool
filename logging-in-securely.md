@@ -42,6 +42,10 @@ Plug in a network cable connected to your router and boot your new image.
 | username = ada | username = ubuntu |
 | password = lovelace | password = ubuntu |
 
+{% hint style="warning" %}
+Upon successful login you will be prompted to change your password. 
+{% endhint %}
+
 ### Obtain IPv4 address
 
 Either log into your router and locate the address assigned by it's dhcp server or connect a monitor. Write the Pi's IPv4 address down.

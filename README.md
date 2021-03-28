@@ -6,6 +6,8 @@ description: >-
 
 # Overview & Credits
 
+![](.gitbook/assets/star-forge.jpg)
+
 {% hint style="danger" %}
 It is strongly recommended to work through the [Stake Pool School](https://cardano-foundation.gitbook.io/stake-pool-course/) course presented by the Cardano Foundation.
 {% endhint %}
@@ -57,6 +59,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 ## Downloads
 
 * Pi-Pool .img.gz downloads
+  * [Pi-Node](https://db.adamantium.online/Pi-Node.img.gz) \(Base\)
   * Pi-Relay \(relay\)
   * Pi-Core \(block producer\)
   * Pi-Cold \(offline cold keys\)
