@@ -7,5 +7,5 @@
   * [User Setup](pi-node/user-setup.md)
   * [Server Setup](pi-node/server-setup.md)
   * [Environment Setup](pi-node/environment-setup.md)
+* [Pi-Relay](pi-relay/README.md)
 * [Create .img file](create-.img-file.md)
-
