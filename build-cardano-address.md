@@ -36,7 +36,7 @@ mv clang+llvm-9.0.1-aarch64-linux-gnu/bin/* /home/ada/.local/bin
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 ```
 
-No need for the Haskel IDE. Type YES for .bashrc additions and source.
+No need for the Haskel IDE. Type yes for .bashrc additions and source.
 
 ```bash
 source $HOME/.bashrc
