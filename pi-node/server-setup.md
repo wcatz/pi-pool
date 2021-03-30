@@ -141,9 +141,6 @@ sudo nano /etc/sysctl.conf
 
 ## Pi Pool ##
 
-vm.swappiness=10
-vm.vfs_cache_pressure=50
-
 fs.file-max = 10000000
 fs.nr_open = 10000000
 
@@ -219,12 +216,25 @@ sudo nano /etc/default/irqbalance
 ENABLED="0"
 ```
 
-### Zram swap
-
-{% embed url="https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/" %}
-
 ```text
-sudo apt install zram-config
 sudo reboot
 ```
+
+### Swapping to disk
+
+These images do not have swap. The following Reddit post sums up how I feel about it. It is our responsibility as pool operators to know when hardware upgrades are required and have a solution in place if needed. If a relay runs out of memory it will be an abnormal event. If something like that is happening I don't want Ubuntu to swap the problem to disk. I want a kernel panic and a reboot. Then I want my monitoring server to alert me. This is one reason why two or more relays are recommended. This is not an email server....
+
+You do not have to agree with me and are welcome to add a swap partition. Ubuntu starts swapping after 40% of memory is used by default. Which is a vm.swappiness setting of 60. If you must use swap be sure to set it to 10, swap at 90% used.
+
+> [I don't use swap. I have the following reasons:](https://www.reddit.com/r/Ubuntu/comments/fd19mz/do_i_need_swap/fjg9tqm?utm_source=share&utm_medium=web2x&context=3)
+
+> * Linux does swapping during disk I/O based on the swappiness factor. It needs to be set to basically 0, as I feel that any value is too high. The default 60 is so high that you can end up reading and writing several dozen MB/s to swap continuously when reading data from a modern NVMe drive, which can do 1 GB/s or more. Even if it's only few % of that which gets turned to swapping, that sustained over few dozens of seconds still in practice swaps out your terminal emulator, your window manager, your browser and everything else. Eventually it devolves to the point where swapin and swapout rates become the same, i.e. the kernel has squeezed everything it possibly can to swap, and is still looking for more pages, but everything user does now causes pages to get swapped back in.
+> * swapping in addition to already doing heavy disk i/o makes Linux run like a dog, probably due to disk scheduling related reasons. In practice, the machine will spend literal seconds switching browser tabs, and stutters so hard that not even the mouse cursor will move sometimes. It feels like your Linux system has become completely overpowered by the simple act of reading some random file in the background.
+> * even zram swap \(which swaps just to memory using deflate compression\) with swappiness tuned to 0 or 1 seems to cause some amount of visible stutter that is not present when Linux has no swap. In this case, there is no additional disk I/O, and the compression should only take mere microseconds per page, so I'm not quite sure why that happens.
+>
+> Conclusion: as I've found no configuration where use of swap wouldn't have a visible detrimental effect, I run all my Linux systems without any swap, even systems that have just 4 GB of memory \(they are single purpose machines\) up to the ones that have 96 GB \(can run a dozen VMs & crap\). In my experience, the memory extension concept of swap isn't that great due to the low performance of SSDs relative to main memory, and even something like zram swap works much better to extend your system's capability without seemingly completely halting it when swapping gets heavy. However, I've had a few machines with zram enabled crash in a way that implicated I/O related to zram, so I'm not using even that anymore.
+>
+> Besides hibernation memory storage, the only actual use case of swap is discovering anonymous memory pages that the application left laying around and which it doesn't need anymore, but didn't free to the system. The kernel has no other means to discover them and free them for some other, more useful purpose. Ideally, swapped out memory should never need to be paged in again, not even at application's exit. This may be a sizable fraction of used memory, perhaps up to about 20 % based on some measurements I have made with both server and desktop workloads. I'd rather see people study what this memory is for, e.g. if GTK+ or some other library allocates a lot of stuff during init that it never really needs, and whether libraries could be fixed to free this kind of useless memory themselves.
+>
+> As you have observed, swap is less of a problem these days for SSDs. Wear leveling takes care of the problem of swap constantly exercising the same sectors of the drive. Bear in mind, however, that consumer SSDs can break easily, particularly if they are based on the currently cheapest 4-bit QLC cells, as they have dramatically lower endurance than server-grade 2-bit MLC, which are also found on the roughly twice as expensive prosumer type drives, e.g. Samsung Pro line. While I don't expect swap to be the thing that kills your drive, a sustained write load can still break the cheapest drives in some weeks or months, so their endurance in practice can run out. And as I said, Linux's swappiness settings are such that they turn even pure disk reading into disk writing due to I/O pressure encouraging the kernel to find more free RAM, and the bad ramifications from swapping are in my experience quite serious, even when the SSD itself can take the additional unnecessary write load.
 

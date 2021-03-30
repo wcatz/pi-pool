@@ -10,12 +10,3 @@
 * [Pi-Relay](pi-relay.md)
 * [Create .img file](create-.img-file.md)
 
-## Pi-Core & Pi-Cold
-
-* [Stake pool creation](pi-core-and-pi-cold/untitled.md)
-* [Payment & stake key pairs](pi-core-and-pi-cold/payment-and-stake-key-pairs.md)
-
----
-
-* [Build cardano-address on aarch64](build-cardano-address.md)
-
