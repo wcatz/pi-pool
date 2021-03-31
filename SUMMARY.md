@@ -12,7 +12,7 @@
 ## Pi-Core & Pi-Cold
 
 * [Stake pool keys](pi-core-and-pi-cold/stake-pool-creation.md)
-* [Pools wallet & staking keys](pi-core-and-pi-cold/pools-wallet-and-staking-keys.md)
+* [Pool wallet & staking keys](pi-core-and-pi-cold/pool-wallet-and-staking-keys.md)
 
 ---
 
