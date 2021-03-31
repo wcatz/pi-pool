@@ -107,11 +107,13 @@ echo startKesPeriod: ${startKesPeriod}
 {% endtab %}
 {% endtabs %}
 
-Copy **kes.vkey** to your **cold environment**. 
+Move **kes.vkey** to your **cold environment**. 
 
 {% hint style="warning" %}
 Replace &lt;startKesPeriod&gt; below to match.
 {% endhint %}
+
+Create your operational certificate \(node.crt\).
 
 {% tabs %}
 {% tab title="Offline Cold" %}
@@ -126,9 +128,9 @@ cardano-cli node issue-op-cert \
 {% endtab %}
 {% endtabs %}
 
-Copy **node.cert** to your **hot environment**.
+Move **node.cert** to your **hot environment**.
 
-Make a verification \(VRF\) key pair.
+Generate the verification \(VRF\) key pair.
 
 {% tabs %}
 {% tab title="Core" %}
@@ -156,7 +158,7 @@ cardano-service stop
 {% endtab %}
 {% endtabs %}
 
-Update the cardano-service startup script to include your kes, vrf  and operational certificate.
+Update the cardano-service startup script to include your KES, VRF and operational certificate.
 
 ```bash
 nano $HOME/.local/bin/cardano-service
