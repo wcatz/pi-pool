@@ -1,4 +1,4 @@
-# Stake pool creation
+# Stake pool keys
 
 ## Raspberry Pi & entropy
 
