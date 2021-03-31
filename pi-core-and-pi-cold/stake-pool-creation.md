@@ -45,7 +45,7 @@ cardano-cli node key-gen-KES \
 {% endtab %}
 {% endtabs %}
 
-Make a directory to store your cold keys on your offline machine.
+Make a directory to store your cold keys in your offline machine.
 
 {% tabs %}
 {% tab title="Offline Cold" %}
