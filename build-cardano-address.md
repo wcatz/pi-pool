@@ -1,5 +1,9 @@
 # Build cardano-address on aarch64
 
+{% hint style="danger" %}
+This is a work in progress and note taking. Here be dragons...
+{% endhint %}
+
 ![](.gitbook/assets/image%20%283%29.png)
 
 ### Install zram
