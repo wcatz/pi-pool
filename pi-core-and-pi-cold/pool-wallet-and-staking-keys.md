@@ -4,6 +4,10 @@ description: Create the stake pools wallet and and staking key.
 
 # Pool wallet & staking keys
 
+{% hint style="danger" %}
+not done yet sorry.
+{% endhint %}
+
 {% hint style="warning" %}
 It is very convenient to create your wallet keys from a mnemonic seed. This will allow you to manage the pools wallet from Yoroi or Daedalus & easily restore the pools wallet into any compatible wallet and manage rewards.
 
