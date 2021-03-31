@@ -196,11 +196,11 @@ cardano-node run +RTS -N4 -RTS \
 
 Update your cores mainnet-topology.json file.
 
-```text
+```bash
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
 ```
 
-```text
+```bash
  {
     "Producers": [
       {
@@ -214,7 +214,7 @@ nano $NODE_FILES/${NODE_CONFIG}-topology.json
 
 Restart your block producer as a core node.
 
-```text
+```bash
 cardano-service start
 ```
 
