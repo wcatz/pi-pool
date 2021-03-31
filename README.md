@@ -78,5 +78,3 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 
 * [https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html](https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html)
 * [https://www.raspberrypi.org/forums/viewtopic.php?t=245931](https://www.raspberrypi.org/forums/viewtopic.php?t=245931)
-
-[gitbook landing page](https://app.gitbook.com/@ada-pi/s/raspi-spo/)
