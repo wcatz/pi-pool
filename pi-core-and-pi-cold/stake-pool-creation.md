@@ -109,6 +109,10 @@ echo startKesPeriod: ${startKesPeriod}
 
 Copy **kes.vkey** to your **cold environment**. 
 
+{% hint style="warning" %}
+Replace &lt;startKesPeriod&gt; below to match.
+{% endhint %}
+
 {% tabs %}
 {% tab title="Offline Cold" %}
 ```bash
@@ -124,7 +128,7 @@ cardano-cli node issue-op-cert \
 
 Copy **node.cert** to your **hot environment**.
 
-Make a VRF key pair.
+Make a verification \(VRF\) key pair.
 
 {% tabs %}
 {% tab title="Core" %}
@@ -136,7 +140,7 @@ cardano-cli node key-gen-VRF \
 {% endtab %}
 {% endtabs %}
 
-Update vrf key permissions to read-only.
+Update VRF key permission to read-only.
 
 ```bash
 chmod 400 vrf.skey
@@ -152,7 +156,7 @@ cardano-service stop
 {% endtab %}
 {% endtabs %}
 
-Update the cardano-service startup script to include your keys and certificate.
+Update the cardano-service startup script to include your kes, vrf  and operational certificate.
 
 ```bash
 nano $HOME/.local/bin/cardano-service
