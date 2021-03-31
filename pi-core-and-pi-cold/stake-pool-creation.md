@@ -95,7 +95,7 @@ echo slotNo: ${slotNo}
 {% endtab %}
 {% endtabs %}
 
-Find the kesPeriod by dividing the slot tip number by the slotsPerKESPeriod.
+Find the kesPeriod by dividing the slot tip by the slotsPerKESPeriod.
 
 {% tabs %}
 {% tab title="Core" %}
