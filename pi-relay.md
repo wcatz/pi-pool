@@ -70,8 +70,6 @@ crontab -l
 
 Paste the following in, save & exit.
 
-Complete this section after **four hours** when your relay node IP is properly registered.
-
 ```bash
 33 * * * * ${HOME}/.local/bin/topologyUpdater.sh
 ```
