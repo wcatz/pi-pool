@@ -5,7 +5,7 @@ description: Create the stake pools wallet and and staking key.
 # Pools wallet & staking keys
 
 {% hint style="warning" %}
-It is very convenient to create your wallet keys from a seed phrase. This will allow you to manage the pools wallet from Yoroi or Daedalus & easily restore the pools wallet into any compatible wallet and manage rewards.
+It is very convenient to create your wallet keys from a mnemonic seed. This will allow you to manage the pools wallet from Yoroi or Daedalus & easily restore the pools wallet into any compatible wallet and manage rewards.
 
 cardano-wallet will not build on arm. Below is how to do it with an x86 machine running cardano-wallet and then transfer the keys to your cold offline machine.
 
