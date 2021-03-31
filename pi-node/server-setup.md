@@ -141,6 +141,7 @@ sudo nano /etc/sysctl.conf
 
 ## Pi Pool ##
 
+# swap less                      
 vm.swappiness=10
 vm.vfs_cache_pressure=50
 
