@@ -8,7 +8,6 @@
   * [Server Setup](pi-node/server-setup.md)
   * [Environment Setup](pi-node/environment-setup.md)
 * [Pi-Relay](pi-relay.md)
-* [Create .img file](create-.img-file.md)
 
 ## Pi-Core & Pi-Cold
 
@@ -18,4 +17,5 @@
 ---
 
 * [Build cardano-address on aarch64](build-cardano-address.md)
+* [Create .img file](create-.img-file.md)
 
