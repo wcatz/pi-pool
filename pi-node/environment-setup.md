@@ -159,7 +159,7 @@ sed -i ${NODE_CONFIG}-config.json \
 Let us now create the systemd unit file and startup script so systemd can manage cardano-node.
 
 ```bash
-sudo nano $HOME/.local/bin/cardano-service
+nano $HOME/.local/bin/cardano-service
 ```
 
 Paste the following, save & exit.
