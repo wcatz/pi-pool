@@ -13,16 +13,16 @@ It is strongly recommended to work through the [Stake Pool School](https://carda
 {% endhint %}
 
 {% hint style="warning" %}
-If you would like to create an .img file of your work that can be flashed for reuse on other Raspberry Pi's you should build on an 8GB sd card. It will take less time to image. See [image creation section](https://pi-pool.adamantium.online/create-.img-file). 
+If you would like to create an .img file of your work that can be flashed for reuse on other Raspberry Pi's you should build on an 8GB sd card. It will take less time to image. See [image creation section](https://pi-pool.adamantium.online/create-.img-file).
 {% endhint %}
 
 ## Why this guide?
 
-Consolidate and organize the various guides into a single document that can be followed or referenced _specifically_ for running a pool using two \(or more\) Raspberry Pi 4B \(the 8GB version\) and one offline Pi for cold key operations. 
+Consolidate and organize the various guides into a single document that can be followed or referenced _specifically_ for running a pool using two \(or more\) Raspberry Pi 4B \(the 8GB version\) and one offline Pi for cold key operations.
 
 Provide documentation of every step taken while building the Pi-Relay, Pi-Core & Pi-Cold images available for bootstrapping pool creation. A reference & guide.
 
-The most popular guides out there are aimed at x86 architecture and '_knowing what to throw away and knowing what to keep_' is not always clear. I aim to change that '_with a little help from my friends_'. 🎸 
+The most popular guides out there are aimed at x86 architecture and '_knowing what to throw away and knowing what to keep_' is not always clear. I aim to change that '_with a little help from my friends_'. 🎸
 
 ## Hardware
 
@@ -39,7 +39,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 * 2 [Pi4B 8GB](https://thepihut.com/products/raspberry-pi-4-model-b?variant=31994565689406) version.
 * 2 SSD Drives : \(NVMe **low power**, form & speed\).
 * NVMe to USB3.1 adapter or whatever works with your drive.
-* A 3'rd 64bit capable Pi as an offline machine\(Pi-Cold\). 
+* A 3'rd 64bit capable Pi as an offline machine\(Pi-Cold\).
 * Class 10 micro sd card 8GB or larger. Pi-Cold has a desktop and a copy of this guide available in the browser.
 * Extra USB flash drives for backing up keys and configurations.
 * Consider a single 50+ watt power supply
@@ -63,7 +63,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
   * Pi-Relay \(relay\)
   * Pi-Core \(block producer\)
   * Pi-Cold \(offline cold keys\)
-* Latest unofficial [static arm binaries](https://ci.zw3rk.com/job/Tools/master/rpi64-musl.tarball/latest-finished/download) & [build overview](https://ci.zw3rk.com/job/Tools/master/rpi64-musl.tarball/latest-finished) 
+* Latest unofficial [static arm binaries](https://ci.zw3rk.com/job/Tools/master/rpi64-musl.tarball/latest-finished/download) & [build overview](https://ci.zw3rk.com/job/Tools/master/rpi64-musl.tarball/latest-finished)
   * [Moritz Angermann](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)
 * Raspberry Pi Imager \([rpi-imager](https://github.com/raspberrypi/rpi-imager)\)
   * update eeprom
@@ -79,3 +79,4 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 * [https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html](https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html)
 * [https://www.raspberrypi.org/forums/viewtopic.php?t=245931](https://www.raspberrypi.org/forums/viewtopic.php?t=245931)
 
+[gitbook landing page](https://app.gitbook.com/@ada-pi/s/raspi-spo/)
