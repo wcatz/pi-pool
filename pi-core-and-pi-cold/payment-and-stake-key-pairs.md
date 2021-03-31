@@ -15,14 +15,14 @@ It is recommended to download the cardano-wallet binary, check it's sha256 hash 
 ## Generate
 
 {% hint style="danger" %}
-🔥 **Critical Operational Security Advice:** `payment` and `stake` keys must be generated and used to build transactions in an cold environment. In other words, your **air-gapped offline Cold machine**. The only steps performed online in a hot environment are those steps that require live data. Namely the follow type of steps:
+🔥 **Critical Operational Security Advice:** `payment` and `stake` keys must be generated and used to build transactions in cold environment. In other words, your **air-gapped offline Cold machine**. The only steps performed online in a hot environment are those steps that require live data. Namely the follow type of steps:
 
 * querying the current slot tip
 * querying the balance of an address
 * submitting a transaction
 {% endhint %}
 
-Create a 15-word or 24-word length shelley compatible mnemonic with [Daedalus](https://daedaluswallet.io/) or [Yoroi](https://yoroi-wallet.com) on a offline machine preferred.
+Create a 15-word or 24-word length Shelley compatible mnemonic with [Daedalus](https://daedaluswallet.io/) or [Yoroi](https://yoroi-wallet.com) on a offline machine preferred.
 
 ### Retrieve x86 cardano-wallet binary
 
