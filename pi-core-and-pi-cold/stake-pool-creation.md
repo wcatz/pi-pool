@@ -1,6 +1,6 @@
 # Stake pool creation
 
-## Raspberry Pi & Entropy
+## Raspberry Pi & entropy
 
 Before we start generating keys with a headless server we should create a safe amount of entropy.
 
