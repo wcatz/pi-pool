@@ -17,7 +17,7 @@ Change CNODE\_PORT to match the port your relay is running on.
 # shellcheck disable=SC2086,SC2034
  
 USERNAME=$(whoami)
-CNODE_PORT=3003 # must match your relay node port as set in the startup command
+CNODE_PORT=3002 # must match your relay node port as set in the startup command
 CNODE_HOSTNAME="CHANGE ME"  # optional. must resolve to the IP you are requesting from
 CNODE_BIN="/home/ada/.local/bin"
 CNODE_HOME=$NODE_HOME
