@@ -71,5 +71,7 @@ cabal build --ghc-options=-dynamic all
 
 {% hint style="info" %}
 [https://github.com/input-output-hk/cardano-addresses](https://github.com/input-output-hk/cardano-addresses)[https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894](https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894)
+
+[https://gist.github.com/shroomist/2b261d3cc8784c0df743787e8ce12a01\#file-rpi-cardano-build-L28](https://gist.github.com/shroomist/2b261d3cc8784c0df743787e8ce12a01#file-rpi-cardano-build-L28)
 {% endhint %}
 
