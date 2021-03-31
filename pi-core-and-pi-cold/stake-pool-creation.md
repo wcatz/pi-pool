@@ -13,6 +13,7 @@ Before we start generating keys with a headless server we should create a safe a
 > But consider the fate of a standalone, headless server \(or a microcontroller for that matter\) with no human typing or mousing around, and no spinning iron drive providing mechanical irregularity. Where does _it_ get entropy after it starts up? What if an attacker, or bad luck, forces periodic reboots? This is a [real problem](http://www.theregister.co.uk/2015/12/02/raspberry_pi_weak_ssh_keys/).
 
 ```bash
+## install rng-tools on both core & cold
 sudo apt-get install rng-tools
 sudo reboot
 ```
