@@ -173,8 +173,16 @@ CONFIG=${FILES}/mainnet-config.json
 KES=${DIRECTORY}/kes.skey
 VRF=${DIRECTORY}/vrf.skey
 CERT=${DIRECTORY}/node.cert
-cardano-node run +RTS -N4 -RTS --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --port ${PORT} --config ${CONFIG} --shelley-kes-key ${KES} --shelley-vrf-key ${VRF} --shelley-operational-certificate ${CERT}
-
+## +RTS -N4 -RTS = Multicore(4)
+cardano-node run +RTS -N4 -RTS \
+  --topology ${TOPOLOGY} \
+  --database-path ${DB_PATH} \
+  --socket-path ${SOCKET_PATH} \
+  --port ${PORT} \
+  --config ${CONFIG} \
+  --shelley-kes-key ${KES} \
+  --shelley-vrf-key ${VRF} \
+  --shelley-operational-certificate ${CERT}
 ```
 {% endtab %}
 {% endtabs %}
