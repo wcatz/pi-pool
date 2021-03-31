@@ -194,6 +194,24 @@ cardano-node run +RTS -N4 -RTS \
 {% endtab %}
 {% endtabs %}
 
+Update your cores mainnet-topology.json file.
+
+```text
+nano $NODE_FILES/${NODE_CONFIG}-topology.json
+```
+
+```text
+ {
+    "Producers": [
+      {
+        "addr": "<relays private ip address>",
+        "port": 3002,
+        "valency": 1
+      }
+    ]
+  }
+```
+
 Restart your block producer as a core node.
 
 ```text
