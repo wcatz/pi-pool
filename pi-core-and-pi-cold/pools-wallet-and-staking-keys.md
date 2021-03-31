@@ -2,7 +2,7 @@
 description: Create the stake pools wallet and and staking key.
 ---
 
-# Payment & stake key pairs
+# Pools wallet & staking keys
 
 {% hint style="warning" %}
 It is very convenient to create your wallet keys from a seed phrase. This will allow you to manage the pools wallet from Yoroi or Daedalus & easily restore the pools wallet into any compatible wallet and manage rewards.
