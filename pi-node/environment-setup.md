@@ -167,7 +167,7 @@ Paste the following, save & exit.
 ```bash
 #!/bin/bash
 DIRECTORY=/home/ada/pi-pool
-FILES=/home/ada/pi-pool/files
+FILES=${DIRECTORY}/files
 PORT=3003
 HOSTADDR=0.0.0.0
 TOPOLOGY=${FILES}/mainnet-topology.json
