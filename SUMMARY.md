@@ -18,5 +18,4 @@
 
 * [Build cardano-address on aarch64](build-cardano-address.md)
 * [Create .img file](create-.img-file.md)
-* [Untitled](untitled.md)
 
