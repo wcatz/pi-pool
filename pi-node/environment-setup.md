@@ -112,7 +112,7 @@ source $HOME/.bashrc
 ### Retrieve aarch64 binaries
 
 {% hint style="info" %}
-It is no longer possible to build GHC for arm out of the box. The **unofficial** cardano-node & cardano-cli binaries available to us are being built by an IOHK engineer in his spare time. Please visit the '[Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)' Telegram group for more information.
+It is no longer possible to build GHC for arm out of the box. The **unofficial** cardano-node & cardano-cli binaries available to us are being built by an IOHK engineer in his **spare time**. Please visit the '[Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)' Telegram group for more information.
 {% endhint %}
 
 ```bash
