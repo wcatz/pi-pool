@@ -43,7 +43,7 @@ Plug in a network cable connected to your router and boot your new image.
 | password = lovelace | password = ubuntu |
 
 {% hint style="warning" %}
-Upon successful login you will be prompted to change your password. 
+Upon successful login you will be prompted to change your password & login with new credentials.
 {% endhint %}
 
 ### Obtain IPv4 address
