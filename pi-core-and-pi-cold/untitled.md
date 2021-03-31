@@ -50,7 +50,7 @@ Make a directory to store your cold keys on your offline machine.
 {% tab title="Offline Cold" %}
 ```bash
 mkdir $HOME/cold-keys
-pushd $HOME/cold-keys
+cd $HOME/cold-keys
 ```
 {% endtab %}
 {% endtabs %}
@@ -77,7 +77,6 @@ Determine the number of slots per KES period from the genesis file.
 {% tabs %}
 {% tab title="Core" %}
 ```bash
-pushd +1
 slotsPerKESPeriod=$(cat $NODE_FILES/${NODE_CONFIG}-shelley-genesis.json | jq -r '.slotsPerKESPeriod')
 echo slotsPerKESPeriod: ${slotsPerKESPeriod}
 ```
@@ -163,8 +162,8 @@ nano $HOME/.local/bin/cardano-service
 {% tab title="Core" %}
 ```bash
 #!/bin/bash
-DIRECTORY=$NODE_HOME
-FILES=${DIRECTORY}/files
+DIRECTORY=/home/ada/pi-pool
+FILES=/home/ada/pi-pool/files
 PORT=3000
 HOSTADDR=0.0.0.0
 TOPOLOGY=${FILES}/mainnet-topology.json
@@ -174,7 +173,8 @@ CONFIG=${FILES}/mainnet-config.json
 KES=${DIRECTORY}/kes.skey
 VRF=${DIRECTORY}/vrf.skey
 CERT=${DIRECTORY}/node.cert
-cardano-node run +RTS -N4 -RTS --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG} --shelley-kes-key \${KES} --shelley-vrf-key \${VRF} --shelley-operational-certificate \${CERT}
+cardano-node run +RTS -N4 -RTS --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --port ${PORT} --config ${CONFIG} --shelley-kes-key ${KES} --shelley-vrf-key ${VRF} --shelley-operational-certificate ${CERT}
+
 ```
 {% endtab %}
 {% endtabs %}
