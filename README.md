@@ -72,9 +72,10 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 * [cardanocli-js](https://docs.pipool.online/)
   * node.js library for pool creation/maintenance
 * Latest chain snapshot for quicker sync
-  * wget -r -np -nH -R "index.html\*" -e robots=off https://db.adamantium.online/db/
+  * wget -r -np -nH -R "index.html\*" -e robots=off [https://db.adamantium.online/db/](https://db.adamantium.online/db/)
 
 ## Links
 
 * [https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html](https://cryptsus.com/blog/how-to-secure-your-ssh-server-with-public-key-elliptic-curve-ed25519-crypto.html)
 * [https://www.raspberrypi.org/forums/viewtopic.php?t=245931](https://www.raspberrypi.org/forums/viewtopic.php?t=245931)
+
