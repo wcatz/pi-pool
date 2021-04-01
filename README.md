@@ -40,7 +40,7 @@ The cardano-node & cardano-cli binaries linked to in this guide require aarch64 
 * 2 SSD Drives : \(NVMe **low power**, form & speed\).
 * NVMe to USB3.1 adapter or whatever works with your drive.
 * A 3'rd 64bit capable Pi as an offline machine\(Pi-Cold\).
-* Class 10 micro sd card 8GB or larger. Pi-Cold has a desktop and a copy of this guide available in the browser.
+* Class 10 micro sd card 16GB or larger. Pi-Cold has a desktop and a copy of this guide available in the browser.
 * Extra USB flash drives for backing up keys and configurations.
 * Consider a single 50+ watt power supply
 * Consider a 5 volt gigabit switch
