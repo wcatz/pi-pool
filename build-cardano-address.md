@@ -19,7 +19,7 @@ build-essential curl libffi-dev libffi8ubuntu1 \
 libgmp-dev libgmp10 libncurses-dev libncurses5 \
 libtinfo5 libpcre3-dev clang-9 llvm-9 llvm-9-dev \
 llvm-9-tools libnuma-dev g++ gcc libc6-dev libffi-dev \
-libgmp-dev make xz-utils zlib1g-dev git gnupg netbase
+libgmp-dev make xz-utils zlib1g-dev git gnupg netbase haskell-stack
 ```
 
 ```bash
@@ -50,8 +50,7 @@ source $HOME/.bashrc
 ```
 
 ```bash
-ghcup install ghc 8.10.4
-ghcup set ghc
+stack upgrade
 ```
 
 ```bash
