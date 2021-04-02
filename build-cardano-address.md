@@ -17,7 +17,7 @@ sudo reboot
 sudo apt install \
 build-essential curl libffi-dev libffi8ubuntu1 \
 libgmp-dev libgmp10 libncurses-dev libncurses5 \
-libtinfo5 libpcre3-dev clang-9 llvm-9 llvm-9-dev llvm-9-tools libnuma-dev
+libtinfo5 libpcre3-dev scrypt clang-9 llvm-9 llvm-9-dev llvm-9-tools libnuma-dev
 ```
 
 ```bash
