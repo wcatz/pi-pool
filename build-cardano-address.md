@@ -62,11 +62,10 @@ export PATH=/usr/lib/llvm-9/bin:$PATH
 export CPLUS_INCLUDE_PATH=$(llvm-config --includedir):$CPLUS_INCLUDE_PATH
 export LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH
 
+cabal build all
 ```
 
 {% embed url="https://downloads.haskell.org/~ghcup/0.1.13/armv7-linux-ghcup-0.1.13" %}
-
-{% embed url="https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz" %}
 
 {% hint style="info" %}
 [https://github.com/input-output-hk/cardano-addresses](https://github.com/input-output-hk/cardano-addresses)[https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894](https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894)
