@@ -51,7 +51,7 @@ Upon successful login you will be prompted to change your password & login with 
 Either log into your router and locate the address assigned by it's dhcp server or connect a monitor. Write the Pi's IPv4 address down.
 
 ```bash
-ip -c -4 a | awk '/inet/ {print $2}'
+ip -c -4 a | awk '/inet/ {print $2>1}'
 ```
 
 ## Copy ssh pub key to new server
