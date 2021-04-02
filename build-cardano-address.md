@@ -51,7 +51,7 @@ source $HOME/.bashrc
 {% embed url="https://llvm.org/docs/HowToBuildOnARM.html" %}
 
 ```bash
-ghcup install ghc 8.6.5
+ghcup install ghc 8.10.2
 ghcup set ghc
 ```
 
@@ -61,8 +61,17 @@ cd cardano-addresses
 cabal update
 git fetch --all --tags
 git checkout tags/3.2.0
-echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
-cabal build --ghc-options=-dynamic all
+cabal configure --with-compiler=ghc-8.10.2
+echo "package cardano-crypto-praos" >>  cabal.project.local
+echo "  flags: -external-libsodium-vrf" >>  cabal.project.local
+
+sudo apt-get install clang-9 llvm-9 llvm-9-dev llvm-9-tools
+
+sudo apt-get install libnuma-dev
+export PATH=/usr/lib/llvm-9/bin:$PATH
+export CPLUS_INCLUDE_PATH=$(llvm-config --includedir):$CPLUS_INCLUDE_PATH
+export LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH
+
 ```
 
 {% embed url="https://downloads.haskell.org/~ghcup/0.1.13/armv7-linux-ghcup-0.1.13" %}
