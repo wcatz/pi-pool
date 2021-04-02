@@ -14,7 +14,10 @@ sudo reboot
 ```
 
 ```bash
-sudo apt install build-essential curl libffi-dev libffi8ubuntu1 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 libpcre3-dev
+sudo apt install \
+build-essential curl libffi-dev libffi8ubuntu1 \
+libgmp-dev libgmp10 libncurses-dev libncurses5 \
+libtinfo5 libpcre3-dev clang-9 llvm-9 llvm-9-dev llvm-9-tools libnuma-dev
 ```
 
 ```bash
@@ -28,12 +31,6 @@ make
 sudo make install
 ```
 
-```bash
-wget https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-tar -xvf clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-mv clang+llvm-9.0.1-aarch64-linux-gnu/bin/* /home/ada/.local/bin
-```
-
 ### Install ghcup
 
 ```text
@@ -45,10 +42,6 @@ No need for the Haskel IDE. Type yes for .bashrc additions and source.
 ```bash
 source $HOME/.bashrc
 ```
-
-{% embed url="https://github.com/haskell/cabal/issues/6521\#issuecomment-774306372" %}
-
-{% embed url="https://llvm.org/docs/HowToBuildOnARM.html" %}
 
 ```bash
 ghcup install ghc 8.10.2
@@ -64,9 +57,6 @@ git checkout tags/3.2.0
 cabal configure --with-compiler=ghc-8.10.2
 echo "package cardano-crypto-praos" >>  cabal.project.local
 echo "  flags: -external-libsodium-vrf" >>  cabal.project.local
-
-sudo apt-get install clang-9 llvm-9 llvm-9-dev llvm-9-tools
-
 sudo apt-get install libnuma-dev
 export PATH=/usr/lib/llvm-9/bin:$PATH
 export CPLUS_INCLUDE_PATH=$(llvm-config --includedir):$CPLUS_INCLUDE_PATH
