@@ -44,7 +44,7 @@ source $HOME/.bashrc
 ```
 
 ```bash
-ghcup install ghc 8.10.2
+ghcup install ghc 8.10.4
 ghcup set ghc
 ```
 
@@ -54,7 +54,7 @@ cd cardano-addresses
 cabal update
 git fetch --all --tags
 git checkout tags/3.2.0
-cabal configure --with-compiler=ghc-8.10.2
+cabal configure --with-compiler=ghc-8.10.4
 echo "package cardano-crypto-praos" >>  cabal.project.local
 echo "  flags: -external-libsodium-vrf" >>  cabal.project.local
 sudo apt-get install libnuma-dev
