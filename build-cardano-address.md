@@ -17,7 +17,7 @@ sudo reboot
 sudo apt install \
 build-essential curl libffi-dev libffi8ubuntu1 \
 libgmp-dev libgmp10 libncurses-dev libncurses5 \
-libtinfo5 libpcre3-dev scrypt clang-9 llvm-9 llvm-9-dev llvm-9-tools libnuma-dev
+libtinfo5 libpcre3-dev clang-9 llvm-9 llvm-9-dev llvm-9-tools libnuma-dev
 ```
 
 ```bash
@@ -30,6 +30,10 @@ git checkout 66f017f1
 make
 sudo make install
 ```
+
+{% embed url="https://github.com/informatikr/scrypt" %}
+
+
 
 ### Install ghcup
 
@@ -57,7 +61,6 @@ git checkout tags/3.2.0
 cabal configure --with-compiler=ghc-8.10.4
 echo "package cardano-crypto-praos" >>  cabal.project.local
 echo "  flags: -external-libsodium-vrf" >>  cabal.project.local
-sudo apt-get install libnuma-dev
 export PATH=/usr/lib/llvm-9/bin:$PATH
 export CPLUS_INCLUDE_PATH=$(llvm-config --includedir):$CPLUS_INCLUDE_PATH
 export LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH
