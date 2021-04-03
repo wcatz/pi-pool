@@ -7,9 +7,11 @@ description: >-
 # Overview & Credits
 
 {% hint style="danger" %}
-Thanks for visiting! Please visit the following link for up to date guides including mine. This will be deprecated.
+Thanks for visiting! Please visit the following link for up to date guides including mine. This will be deprecated or used for testing.
 
-[https://app.gitbook.com/@ada-pi/s/ada-pi/](https://app.gitbook.com/@ada-pi/s/ada-pi/)
+**here be dragons**
+
+\*\*\*\*[https://app.gitbook.com/@ada-pi/s/ada-pi/](https://app.gitbook.com/@ada-pi/s/ada-pi/)
 {% endhint %}
 
 ![](.gitbook/assets/star-forge.jpg)
