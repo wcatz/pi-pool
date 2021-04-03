@@ -6,6 +6,12 @@ description: >-
 
 # Overview & Credits
 
+{% hint style="danger" %}
+Thanks for visiting! Please visit the following link for up to date guides including mine. This will be deprecated.
+
+[https://app.gitbook.com/@ada-pi/s/ada-pi/](https://app.gitbook.com/@ada-pi/s/ada-pi/)
+{% endhint %}
+
 ![](.gitbook/assets/star-forge.jpg)
 
 {% hint style="danger" %}
