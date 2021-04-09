@@ -16,10 +16,10 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 Install necessities.
 
 ```bash
-sudo apt install build-essential libssl-dev tcptraceroute chrony python3-pip \
-         git jq bc make automake rsync htop curl unzip net-tools build-essential pkg-config \
+sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
+         jq make automake unzip net-tools build-essential pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
-         zlib1g-dev make g++ wget libncursesw5 libtool autoconf -y
+         zlib1g-dev make g++ libncursesw5 libtool autoconf -y
 ```
 
 House cleaning. 🧹 
@@ -32,68 +32,7 @@ sudo apt autoclean
 
 ## Environment
 
-### Chrony
-
-We need to get our time synchronization as accurate as possible. Open /etc/chrony/chrony.conf
-
-```bash
-sudo nano /etc/chrony/chrony.conf
-```
-
-Replace the contents of the file with below, Save and exit.
-
-```bash
-pool time.google.com       iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-#pool time.facebook.com     iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool time.euro.apple.com   iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool time.apple.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool ntp.ubuntu.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-
-# This directive specify the location of the file containing ID/key pairs for
-# NTP authentication.
-keyfile /etc/chrony/chrony.keys
-
-# This directive specify the file into which chronyd will store the rate
-# information.
-driftfile /var/lib/chrony/chrony.drift
-
-# Uncomment the following line to turn logging on.
-#log tracking measurements statistics
-
-# Log files location.
-logdir /var/log/chrony
-
-# Stop bad estimates upsetting machine clock.
-maxupdateskew 5.0
-
-# This directive enables kernel synchronisation (every 11 minutes) of the
-# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
-rtcsync
-
-# Step the system clock instead of slewing it if the adjustment is larger than
-# one second, but only in the first three clock updates.
-makestep 0.1 -1
-
-# Get TAI-UTC offset and leap seconds from the system tz database
-leapsectz right/UTC
-
-# Serve time even if not synchronized to a time source.
-local stratum 10
-```
-
-```bash
-sudo service chrony restart
-```
-
-### Create a few directories
-
-```bash
-mkdir -p $HOME/.local/bin
-mkdir -p $HOME/pi-pool/files
-mkdir $HOME/git
-```
-
-### Create bash variables & add ~/.local/bin to our $PATH
+### Create bash variables & add ~/.local/bin to our $PATH 🏃♀ 
 
 {% hint style="info" %}
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
@@ -101,28 +40,62 @@ mkdir $HOME/git
 
 ```bash
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
-echo export NODE_HOME=$HOME/pi-pool >> $HOME/.bashrc
-echo export NODE_FILES=$HOME/pi-pool/files >> $HOME/.bashrc
+echo export NODE_HOME=$HOME/pi_pool >> $HOME/.bashrc
+echo export NODE_FILES=$HOME/pi_pool/files >> $HOME/.bashrc
 echo export NODE_CONFIG=mainnet>> $HOME/.bashrc
 echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
-echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
+echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/sockets/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
+
+### Guild Operators' Repository
+
+Guild operators is a set of tools created by pool operators to make the day to day tasks of managing a pool easier.  We are going to use the [prereqs.sh](https://github.com/cardano-community/guild-operators/blob/master/scripts/cnode-helper-scripts/prereqs.sh) in interactive mode to setup our environment and pull in the scripts used for pool maintenance.
+
+{% hint style="info" %}
+We are going to change some of the default behavior of the script
+{% endhint %}
+
+{% embed url="https://cardano-community.github.io/guild-operators/\#/README" %}
+
+```bash
+mkdir "$HOME/tmp";cd "$HOME/tmp"
+curl -sS -o prereqs.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/prereqs.sh
+chmod 755 prereqs.sh
+```
+
+Turn on interactive mode.
+
+```bash
+sed -i prereqs.sh \
+    -e "s/#INTERACTIVE='N'"\/"INTERACTIVE='Y'/g"
+```
+
+And execute.
+
+```bash
+./prereqs.sh
+```
+
+> Please enter the project path \(default: /opt/cardano\): /home/ada 
+>
+> Please enter directory name \(default: cnode\): pi-pool 
+>
+> Do you want to install build dependencies for cardano node? \(yes/no\): no
 
 ### Retrieve aarch64 binaries
 
 {% hint style="info" %}
-It is no longer possible to build GHC for arm out of the box. The **unofficial** cardano-node & cardano-cli binaries available to us are being built by an IOHK engineer in his **spare time**. Please visit the '[Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)' Telegram group for more information.
+The **unofficial** cardano-node & cardano-cli binaries available to us are being built by an IOHK engineer in his **spare time**. Please visit the '[Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)' Telegram group for more information.
 {% endhint %}
 
 ```bash
-mkdir $HOME/tmp
 cd $HOME/tmp
-wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/job/Tools/master/rpi64-musl.tarball/latest-finished/download
+wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/job/Tools/master/aarch64-unknown-linux-musl-cardano-node-musl.tarball/latest-finished/download
 unzip *.zip
+mkdir $HOME/.local/bin
 mv cardano-node/* $HOME/.local/bin
 cd $HOME
-rm -r $HOME/tmp
 ```
 
 Confirm binaries are in ada $PATH.
@@ -130,28 +103,6 @@ Confirm binaries are in ada $PATH.
 ```bash
 cardano-node version
 cardano-cli version
-```
-
-### Retrieve configuration files
-
-```bash
-cd $NODE_FILES
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-shelley-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
-```
-
-Set  TraceBlockFetchDecisions to "true" & TraceMempool to "false".
-
-{% hint style="warning" %}
-It is recommended to turn TraceMempool to false for relays as of this writing \(cardano-node version 1.25.1\) as it is using an excessive amount of cpu. A fix will come soon. I keep it running on my core node, it's a valuable metric.
-{% endhint %}
-
-```bash
-sed -i ${NODE_CONFIG}-config.json \
-    -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
-    -e "s/TraceMempool\": true/TraceMempool\": false/g"
 ```
 
 ### Systemd unit files
@@ -267,13 +218,9 @@ Now we just have to:
 
 ### gLiveView.sh
 
-gLiveView.sh is a bash script that will give you metrics in a terminal window for your node. Change directory into $HOME/.local/bin & download gLiveView.sh and corresponding env configuration file.
-
 ```bash
 cd $HOME/.local/bin
-curl -s -o gLiveView.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
-curl -s -o env https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
-chmod 755 gLiveView.sh
+
 ```
 
 We have to edit the env file to work with our environment. The port number here will have to be updated to match the port cardano-node is running on. For the **Pi-Node** it's port 3003. As we build the pool we will work down. For example Pi-Relay\(2\) will run on port 3002.

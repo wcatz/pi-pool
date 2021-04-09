@@ -59,6 +59,18 @@ Updating Ubuntu is going to take 10 minutes or more unless they update the image
 sudo apt update && sudo apt upgrade
 ```
 
+{% hint style="info" %}
+If you see errors trying to update, the system clock may not be accurate. You can resolve this by installing chrony. 
+
+sudo apt install chrony
+
+sudo service chrony restart
+
+We will configure it later on but that will get the clock right.
+{% endhint %}
+
+
+
 If that was successful we can delete the default ubuntu user and it's home directory.
 
 ```bash
