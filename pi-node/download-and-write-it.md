@@ -57,7 +57,7 @@ Locate your target drive & write it to disk.
 
 Locate your target drive & write it to disk.
 
-![Ubuntu Server 20.10 \(RPI 3/4/400\) 64-bit server OS for arm64 architectures](../.gitbook/assets/image%20%281%29.png)
+![Ubuntu Server 20.04 \(RPI 3/4/400\) 64-bit server OS for arm64 architectures](../.gitbook/assets/image%20%281%29.png)
 {% endtab %}
 {% endtabs %}
 
