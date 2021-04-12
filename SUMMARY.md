@@ -18,5 +18,5 @@
 
 * [Build cardano-address on aarch64](build-cardano-address.md)
 * [Create .img file](create-.img-file.md)
-* [guild-ops](guild-ops.md)
+* [polish](polish.md)
 
