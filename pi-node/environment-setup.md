@@ -48,41 +48,6 @@ echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/sockets/socket" >> $HOME/.bashr
 source $HOME/.bashrc
 ```
 
-### Guild Operators' Repository
-
-Guild operators is a set of tools created by pool operators to make the day to day tasks of managing a pool easier.  We are going to use the [prereqs.sh](https://github.com/cardano-community/guild-operators/blob/master/scripts/cnode-helper-scripts/prereqs.sh) in interactive mode to setup our environment and pull in the scripts used for pool maintenance.
-
-{% hint style="info" %}
-We are going to change some of the default behavior of the script
-{% endhint %}
-
-{% embed url="https://cardano-community.github.io/guild-operators/\#/README" %}
-
-```bash
-mkdir "$HOME/tmp";cd "$HOME/tmp"
-curl -sS -o prereqs.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/prereqs.sh
-chmod 755 prereqs.sh
-```
-
-Turn on interactive mode.
-
-```bash
-sed -i prereqs.sh \
-    -e "s/#INTERACTIVE='N'"\/"INTERACTIVE='Y'/g"
-```
-
-And execute.
-
-```bash
-./prereqs.sh
-```
-
-> Please enter the project path \(default: /opt/cardano\): /home/ada 
->
-> Please enter directory name \(default: cnode\): pi-pool 
->
-> Do you want to install build dependencies for cardano node? \(yes/no\): no
-
 ### Retrieve aarch64 binaries
 
 {% hint style="info" %}
