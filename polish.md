@@ -4,22 +4,10 @@ description: addition
 
 # polish
 
-## install wordops
-
-{% embed url="https://docs.wordops.net/" %}
-
-```bash
-wget -qO wo wops.cc && sudo bash wo --force # needed for 20.10
-```
-
-```bash
-sudo wo stack install --nginx --force
-```
-
 node & clijs
 
 ```bash
-snap install node --classic
+sudo snap install node --classic
 ```
 
 {% embed url="https://github.com/Berry-Pool/cardanocli-js" %}
