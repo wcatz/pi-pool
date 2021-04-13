@@ -38,20 +38,11 @@ sudo apt install nginx
 sed -i /home/ada/pi-pool/files/mainnet-config.json -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
-{% hint style="info" %}
- Super-powers are granted randomly so please submit an issue if you're not happy with yours.
-{% endhint %}
-
-Once you're strong enough, save the world:
-
-
-
-{% code title="hello.sh" %}
 ```bash
-# Ain't no code for that yet, sorry
-echo 'You got to trust me on this, I saved the world'
+#33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
 ```
-{% endcode %}
+
+
 
 
 
