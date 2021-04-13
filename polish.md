@@ -16,8 +16,26 @@ sudo snap install node --classic
 npm install cardanocli-js
 ```
 
+{% embed url="https://certbot.eff.org/lets-encrypt/snap-nginx" %}
+
+```bash
+sudo snap install --classic certbot
 ```
 
+```bash
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+```bash
+sudo apt install nginx
+```
+
+```bash
+ sudo npm install pm2 -g
+```
+
+```
+sed -i /home/ada/pi-pool/files/mainnet-config.json -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
 {% hint style="info" %}
@@ -25,6 +43,8 @@ npm install cardanocli-js
 {% endhint %}
 
 Once you're strong enough, save the world:
+
+
 
 {% code title="hello.sh" %}
 ```bash
