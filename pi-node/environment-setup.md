@@ -217,7 +217,7 @@ chmod +x gLiveView.sh
 
 ### topologyUpdater.sh
 
-Until peer to peer is enabled on the network operators need a way to get a list of relays to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay after four hours and start generating a list of relays in a json file in the logs directory. A second script, relay-topology\_pull.sh can then be used to generate a mainnet-topolgy file with relays that are aware of you and you of them.
+Until peer to peer is enabled on the network operators need a way to get a list of relays/peers to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay after four hours and start generating a list of relays in a json file in the logs directory. A second script, relay-topology\_pull.sh can then be used manually to generate a mainnet-topolgy file with relays/peers that are aware of you and you of them.
 
 The list generated will show you the distance in miles & a clue as to where the relay is located.
 
@@ -309,6 +309,10 @@ Save, exit and make it executable.
 ```bash
 chmod +x relay-topology_pull.sh
 ```
+
+{% hint style="danger" %}
+pulling in a new list will overwrite your existing topology file. Keep that in mind.
+{% endhint %}
 
 {% hint style="info" %}
 relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10. 
