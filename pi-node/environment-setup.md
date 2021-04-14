@@ -32,6 +32,16 @@ sudo apt autoclean
 
 ## Environment
 
+Make some directories.
+
+```bash
+mkdir -p $HOME/.local/bin
+mkdir -p $HOME/pi-pool/files
+mkdir -p $HOME/pi-pool/scripts
+mkdir -p $HOME/pi-pool/logs
+mkdir $HOME/git
+```
+
 ### Create bash variables & add ~/.local/bin to our $PATH 🏃♀ 
 
 {% hint style="info" %}
