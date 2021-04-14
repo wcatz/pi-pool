@@ -228,7 +228,7 @@ Now we just have to:
 * cardano-service stop       \(stops cardano-node.service\)
 * cardano-service status    \(shows the status of cardano-node.service\)
 
-### gLiveView.sh
+## gLiveView.sh
 
 Guild operators scripts has a couple useful tools for operating a pool. We do not want the project as a whole, though there are a couple scripts we are going to use.
 
@@ -576,7 +576,7 @@ In the left hand vertical menu go to **Dashboards** &gt; **Manage** and click on
 
 ![](../.gitbook/assets/pi-pool-grafana.png)
 
-### ⛓ Syncing the chain ⛓ 
+## ⛓ Syncing the chain ⛓ 
 
 You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
 
