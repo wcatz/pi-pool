@@ -563,7 +563,7 @@ You are now ready to start cardano-node. Doing so will start the process of 'syn
 ## Download snapshot
 
 {% hint style="danger" %}
-Do not attempt this on an 8GB sd card. Not enough space! Create your image file and flash it to your ssd.
+Do not attempt this on an 8GB sd card. Not enough space! [Create your image file](https://app.gitbook.com/@wcatz/s/pi-pool-guide/create-.img-file) and flash it to your ssd.
 {% endhint %}
 
 I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
