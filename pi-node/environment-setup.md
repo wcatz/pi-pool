@@ -611,10 +611,6 @@ cardano-service start
 cardano-service status
 ```
 
-{% hint style="info" %}
-[Head back up to configure Grafana to use Prometheus as a data source and add a dashboard](https://app.gitbook.com/@wcatz/s/pi-pool-guide/~/drafts/-MYGHLg0mcZMnrtSpB06/pi-node/environment-setup#configure-grafana).
-{% endhint %}
-
 
 
 
