@@ -345,6 +345,10 @@ crontab -e
 
 Add the following to the bottom, save & exit.
 
+{% hint style="info" %}
+The Pi-Node image has this cron entry disabled by default. You can enable it by removing the \#.
+{% endhint %}
+
 ```bash
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
 ```
@@ -556,15 +560,27 @@ At this point you may want to start cardano-service and get synced up before we 
 
 On your local machine open your browser and got to http://&lt;Pi-Node's private ip&gt;:5000
 
-Log in and set a new password. Default username and password is admin:admin.
+Log in and set a new password. Default username and password is **admin:admin**.
 
-## Congratulations you are now ready to start cardano-node 🥳 
+#### Configure data source
+
+In the left hand vertical menu go to **Configure** &gt; **Datasources** and click to **Add data source**. Choose Prometheus. Everything can be left default. You can change the name to Cardano Node like I have done or leave it Prometheus. At the bottom save & test. You should get the green "Data source is working".
+
+#### Import dashboard
+
+Save the dashboard json file hosted on my server to your local machine.
+
+{% embed url="https://db.adamantium.online/pi-pool-dash.json" %}
+
+In the left hand vertical menu go to **Dashboards** &gt; **Manage** and click on **Import**. Select the file you just downloaded/created and save. Head back to **Dashboards** &gt; **Manage** and click on your new dashboard.
+
+![](../.gitbook/assets/pi-pool-grafana.png)
 
 ### ⛓ Syncing the chain ⛓ 
 
 You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
 
-## Download snapshot
+### Download snapshot
 
 {% hint style="danger" %}
 Do not attempt this on an 8GB sd card. Not enough space! [Create your image file](https://app.gitbook.com/@wcatz/s/pi-pool-guide/create-.img-file) and flash it to your ssd.
