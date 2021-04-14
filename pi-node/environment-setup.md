@@ -44,7 +44,7 @@ echo export NODE_HOME=$HOME/pi_pool >> $HOME/.bashrc
 echo export NODE_FILES=$HOME/pi_pool/files >> $HOME/.bashrc
 echo export NODE_CONFIG=mainnet>> $HOME/.bashrc
 echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
-echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/sockets/socket" >> $HOME/.bashrc
+echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
 
