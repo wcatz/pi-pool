@@ -269,6 +269,28 @@ Save, exit and make it executable.
 chmod +x topologyUpdater.sh
 ```
 
+Now you can run the script once to ensure it is working. 
+
+```bash
+./topologyUpdater.sh
+```
+
+> `{ "resultcode": "201", "datetime":"2021-03-29 01:23:45", "clientIp": "1.2.3.4", "iptype": 4, "msg": "nice to meet you" }`
+
+Now that it's working we can create a cron job that will run the script every hour.
+
+```bash
+crontab -e
+```
+
+add following to the bottom, save & exit.
+
+```bash
+33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
+```
+
+After 4 hours of on boarding you will be added to the service and can pull your new list of peers into the mainnet-topology file.
+
 Create another file relay-topology\_pull.sh and paste in the following.
 
 ```bash
