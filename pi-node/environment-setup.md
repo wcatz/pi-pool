@@ -17,9 +17,41 @@ Install necessities.
 
 ```bash
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
-         jq make automake unzip net-tools build-essential pkg-config \
+         jq make automake unzip net-tools nginx pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
          zlib1g-dev make g++ libncursesw5 libtool autoconf -y
+```
+
+Install nodejs & cardanoclijs
+
+{% embed url="https://github.com/Berry-Pool/cardanocli-js" %}
+
+```bash
+sudo snap install node --classic
+```
+
+```bash
+npm install cardanocli-js
+```
+
+Install Let's Encrypt certbot.
+
+{% embed url="https://certbot.eff.org/lets-encrypt/snap-nginx" %}
+
+```bash
+sudo snap install --classic certbot
+```
+
+Dynamically link binary into our path.
+
+```bash
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+Install node process manager globally.
+
+```bash
+ sudo npm install pm2 -g
 ```
 
 House cleaning. 🧹 
@@ -296,7 +328,7 @@ Now that it's working we can create a cron job that will run the script every ho
 crontab -e
 ```
 
-Add following to the bottom, save & exit.
+Add the following to the bottom, save & exit.
 
 ```bash
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
@@ -338,6 +370,10 @@ cd $NODE_HOME/scripts
 relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10. 
 {% endhint %}
 
+```bash
+nano $NODE_FILES/${NODE_CONFIG}-topology.json
+```
+
 When your list is pruned you can save, exit and restart cardano-node & ensure it is running.
 
 {% hint style="warning" %}
@@ -348,8 +384,6 @@ Don't forget to remove the last comma in your topology file!
 cardano-service restart
 cardano-service status
 ```
-
-### Prometheus & Grafana
 
 ## Congratulations you are now ready to start cardano-node
 
@@ -398,4 +432,43 @@ wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 ![Should look something like this once your synced to the tip of the chain.](../.gitbook/assets/pi-node-glive.png)
 
 
+
+## Prometheus, Node Exporter & Grafana
+
+Prometheus connects to cardano-nodes backend and make metrics available over http. Grafana in turn can use that data to display graphs and create alerts. Node exporter is used to serve system metrics over http for Grafana to use. Our Grafana dashboard will be made up of data from our Ubuntu system & cardano-node. Grafana can display data from other sources as well, like [adapools.org](https://adapools.org/).
+
+{% hint style="info" %}
+You can connect a Telegram bot to Grafana which can alert you of problems with the server. Much easier than trying to configure email alerts.
+{% endhint %}
+
+{% embed url="https://github.com/prometheus" %}
+
+{% embed url="https://github.com/grafana/grafana" %}
+
+![](../.gitbook/assets/pi-pool-grafana.png)
+
+Install Prometheus & Node Exporter.
+
+```bash
+sudo apt-get install -y prometheus prometheus-node-exporter 
+```
+
+Add Grafana's gpg key to Ubuntu.
+
+```bash
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+```
+
+Add latest stable repo to apt sources.
+
+```bash
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+
+Update your package lists & install Grafana.
+
+```bash
+sudo apt update
+sudo apt install grafana
+```
 
