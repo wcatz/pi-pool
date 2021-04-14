@@ -40,6 +40,7 @@ mkdir -p $HOME/pi-pool/files
 mkdir -p $HOME/pi-pool/scripts
 mkdir -p $HOME/pi-pool/logs
 mkdir $HOME/git
+mkdir $HOME/tmp
 ```
 
 ### Create bash variables & add ~/.local/bin to our $PATH 🏃♀ 
@@ -65,7 +66,6 @@ The **unofficial** cardano-node & cardano-cli binaries available to us are being
 {% endhint %}
 
 ```bash
-mkdir $HOME/tmp
 cd $HOME/tmp
 wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/job/Tools/master/aarch64-unknown-linux-musl-cardano-node-musl.tarball/latest-finished/download
 unzip *.zip
@@ -296,7 +296,7 @@ Now that it's working we can create a cron job that will run the script every ho
 crontab -e
 ```
 
-add following to the bottom, save & exit.
+Add following to the bottom, save & exit.
 
 ```bash
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
@@ -324,12 +324,30 @@ chmod +x relay-topology_pull.sh
 ```
 
 {% hint style="danger" %}
-pulling in a new list will overwrite your existing topology file. Keep that in mind.
+Pulling in a new list will overwrite your existing topology file. Keep that in mind.
 {% endhint %}
+
+After 4 hours you can pull in your new list and restart the cardano-service.
+
+```bash
+cd $NODE_HOME/scripts
+./relay-topology_pull.sh
+```
 
 {% hint style="info" %}
 relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10. 
 {% endhint %}
+
+When your list is pruned you can save, exit and restart cardano-node & ensure it is running.
+
+{% hint style="warning" %}
+Don't forget to remove the last comma in your topology file!
+{% endhint %}
+
+```bash
+cardano-service restart
+cardano-service status
+```
 
 ### Prometheus & Grafana
 
