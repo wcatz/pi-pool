@@ -554,6 +554,10 @@ At this point you may want to start cardano-service and get synced up before we 
 
 ### Configure Grafana
 
+On your local machine open your browser and got to http://&lt;Pi-Node's private ip&gt;:5000
+
+Log in and set a new password. Default username and password is admin:admin.
+
 ## Congratulations you are now ready to start cardano-node 🥳 
 
 ### ⛓ Syncing the chain ⛓ 
@@ -574,7 +578,7 @@ cardano-service start
 cardano-service status
 ```
 
-Make sure your node is not running & delete the db folder if it exists.
+Make sure your node is **not** running & delete the db folder if it exists.
 
 ```bash
 cardano-service stop
@@ -582,6 +586,20 @@ cd $NODE_HOME
 rm -r db/
 wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 ```
+
+Once wget completes enable & start cardano-node.
+
+```bash
+cardano-service enable
+cardano-service start
+cardano-service status
+```
+
+{% hint style="info" %}
+[Head back up to configure Grafana to use Prometheus as a data source and add a dashboard](https://app.gitbook.com/@wcatz/s/pi-pool-guide/~/drafts/-MYGHLg0mcZMnrtSpB06/pi-node/environment-setup#configure-grafana).
+{% endhint %}
+
+
 
 
 
