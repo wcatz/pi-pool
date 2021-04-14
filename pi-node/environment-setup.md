@@ -611,7 +611,5 @@ cardano-service start
 cardano-service status
 ```
 
-
-
-
+## Grafana, Nginx proxy\_pass & ssl
 
