@@ -34,7 +34,7 @@ sudo snap install node --classic
 npm install cardanocli-js
 ```
 
-Install Let's Encrypt certbot.
+Install Certbot.
 
 {% embed url="https://certbot.eff.org/lets-encrypt/snap-nginx" %}
 
@@ -260,15 +260,28 @@ Allow execution of gLiveView.sh.
 chmod +x gLiveView.sh
 ```
 
-### topologyUpdater.sh
+We will have a look at gLiveView.sh once we are ready to start cardano-node. But first some more configuring..
 
-Until peer to peer is enabled on the network operators need a way to get a list of relays/peers to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay after four hours and start generating a list of relays in a json file in the logs directory. A second script, relay-topology\_pull.sh can then be used manually to generate a mainnet-topolgy file with relays/peers that are aware of you and you of them.
+## topologyUpdater.sh
 
+Until peer to peer is enabled on the network operators need a way to get a list of relays/peers to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay to it's directory after four hours and start generating a list of relays in a json file in the $NODE\_HOME/logs directory. A second script, relay-topology\_pull.sh can then be used manually to generate a mainnet-topolgy file with relays/peers that are aware of you and you of them.
+
+{% hint style="info" %}
 The list generated will show you the distance in miles & a clue as to where the relay is located.
+{% endhint %}
+
+Open a file named topologyUpdater.sh
 
 ```bash
+cd $NODE_HOME/scripts
 nano topologyUpdater.sh
 ```
+
+Paste in the following, save & exit.
+
+{% hint style="warning" %}
+The port number here must match the port cardano-node is running on. If you are using dns records you can add the FQDN that matches on line 6\(line 6 only\). Leave it as is if you are not using dns. The service will pick up the public IP and use that.
+{% endhint %}
 
 ```bash
 #!/bin/bash
@@ -319,6 +332,8 @@ Now you can run the script once to ensure it is working.
 ```bash
 ./topologyUpdater.sh
 ```
+
+Successful execution will result in a message similar to.. 
 
 > `{ "resultcode": "201", "datetime":"2021-03-29 01:23:45", "clientIp": "1.2.3.4", "iptype": 4, "msg": "nice to meet you" }`
 
@@ -374,22 +389,17 @@ relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usual
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
 ```
 
-When your list is pruned you can save, exit and restart cardano-node & ensure it is running.
+{% hint style="info" %}
+You can use gLiveView.sh to view ping times in relation to the peers in your mainnet-topology file. Use Ping to resolve hostnames to IP's.
+{% endhint %}
+
+Changes to this file will take affect upon restarting the cardano-service.
 
 {% hint style="warning" %}
 Don't forget to remove the last comma in your topology file!
 {% endhint %}
 
-```bash
-cardano-service restart
-cardano-service status
-```
-
 ## Congratulations you are now ready to start cardano-node
-
-{% hint style="danger" %}
-If you would like to make an image file you can use to quickly write what you have completed thus far to other Raspberry Pi 4's now is the time to do so before you start to sync the chain\(db folder\).
-{% endhint %}
 
 ## ⛓ Syncing the chain ⛓ 
 
@@ -435,7 +445,7 @@ wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 
 ## Prometheus, Node Exporter & Grafana
 
-Prometheus connects to cardano-nodes backend and make metrics available over http. Grafana in turn can use that data to display graphs and create alerts. Node exporter is used to serve system metrics over http for Grafana to use. Our Grafana dashboard will be made up of data from our Ubuntu system & cardano-node. Grafana can display data from other sources as well, like [adapools.org](https://adapools.org/).
+Prometheus connects to cardano-nodes backend and serves metrics over http. Grafana in turn can use that data to display graphs and create alerts. Our Grafana dashboard will be made up of data from our Ubuntu system & cardano-node. Grafana can display data from other sources as well, like [adapools.org](https://adapools.org/).
 
 {% hint style="info" %}
 You can connect a Telegram bot to Grafana which can alert you of problems with the server. Much easier than trying to configure email alerts.
@@ -447,7 +457,11 @@ You can connect a Telegram bot to Grafana which can alert you of problems with t
 
 ![](../.gitbook/assets/pi-pool-grafana.png)
 
-Install Prometheus & Node Exporter.
+### Install Prometheus & Node Exporter.
+
+{% hint style="info" %}
+Prometheus is only required on the monitor server. To export
+{% endhint %}
 
 ```bash
 sudo apt-get install -y prometheus prometheus-node-exporter 
@@ -470,5 +484,46 @@ Update your package lists & install Grafana.
 ```bash
 sudo apt update
 sudo apt install grafana
+```
+
+### Configure Prometheus
+
+Open prometheus.yml.
+
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
+
+Replace the contents of the file with.
+
+{% hint style="warning" %}
+Indentation must be correct YAML format or Prometheus will fail to start.
+{% endhint %}
+
+```yaml
+global:
+  scrape_interval:     5s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label job=<job_name> to any timeseries scraped from this config.
+  - job_name: 'cardano-node'
+
+    static_configs:
+      - targets: ['localhost:12798']
+        labels:
+          alias: 'N1'
+          type:  'cardano-node'
+
+      - targets: ['localhost:9100']
+        labels:
+          alias: 'N1'
+          type: 'node'
 ```
 
