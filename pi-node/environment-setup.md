@@ -399,24 +399,6 @@ Changes to this file will take affect upon restarting the cardano-service.
 Don't forget to remove the last comma in your topology file!
 {% endhint %}
 
-## Congratulations you are now ready to start cardano-node
-
-## ⛓ Syncing the chain ⛓ 
-
-{% hint style="danger" %}
-Do not attempt this on an 8GB sd card. Not enough space! Create your image file and flash it to your ssd.
-{% endhint %}
-
-You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
-
-I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
-
-```bash
-cardano-service enable
-cardano-service start
-cardano-service status
-```
-
 Status should show as enabled & running.
 
 Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to monitor.
@@ -425,19 +407,6 @@ Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to m
 cd $NODE_HOME/scripts
 ./gLiveView.sh
 ```
-
-## Download snapshot
-
-Make sure your node is not running & delete the db folder if it exists.
-
-```bash
-cardano-service stop
-cd $NODE_HOME
-rm -r db/
-wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
-```
-
-
 
 ![Should look something like this once your synced to the tip of the chain.](../.gitbook/assets/pi-node-glive.png)
 
@@ -453,37 +422,16 @@ You can connect a Telegram bot to Grafana which can alert you of problems with t
 
 {% embed url="https://github.com/prometheus" %}
 
-{% embed url="https://github.com/grafana/grafana" %}
-
 ![](../.gitbook/assets/pi-pool-grafana.png)
 
 ### Install Prometheus & Node Exporter.
 
 {% hint style="info" %}
-Prometheus is only required on the monitor server. To export
+Prometheus can scrape the http endpoints of other servers running node exporter. Meaning Grafana and Prometheus does not have to be installed on your core and relays. Only the package prometheus-node-exporter is required if you would like to build a central Grafana dashboard for the pool, freeing up resources.
 {% endhint %}
 
 ```bash
 sudo apt-get install -y prometheus prometheus-node-exporter 
-```
-
-Add Grafana's gpg key to Ubuntu.
-
-```bash
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-```
-
-Add latest stable repo to apt sources.
-
-```bash
-echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
-```
-
-Update your package lists & install Grafana.
-
-```bash
-sudo apt update
-sudo apt install grafana
 ```
 
 ### Configure Prometheus
@@ -526,4 +474,114 @@ scrape_configs:
           alias: 'N1'
           type: 'node'
 ```
+
+Save & exit.
+
+Edit mainnet-config.json so cardano-node exports traces on all interfaces.
+
+```bash
+cd $NODE_FILES
+sed -i ${NODE_CONFIG}-config.json -e "s/127.0.0.1/0.0.0.0/g"  
+```
+
+### Install Grafana
+
+{% embed url="https://github.com/grafana/grafana" %}
+
+Add Grafana's gpg key to Ubuntu.
+
+```bash
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+```
+
+Add latest stable repo to apt sources.
+
+```bash
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+
+Update your package lists & install Grafana.
+
+```bash
+sudo apt update
+sudo apt install grafana
+```
+
+Change the port Grafana listens on so it does not clash with cardano-node.
+
+```bash
+sudo sed -i /etc/grafana/grafana.ini \
+-e "s/;http_port/http_port/" \
+-e "s/3000/5000/"
+```
+
+### cardano-monitor bash function
+
+Open .bashrc.
+
+```bash
+cd $HOME
+nano .bashrc
+```
+
+Down at the bottom add.
+
+```bash
+cardano-monitor() {
+    #do things with parameters like $1 such as
+    sudo systemctl "$1" prometheus.service
+    sudo systemctl "$1" prometheus-node-exporter.service
+    sudo systemctl "$1" grafana-server.service
+}
+```
+
+Save, exit & source.
+
+```bash
+source .bashrc
+```
+
+Here we tied all three services under one function. Enable Prometheus.service, prometheus-node-exporter.service & grafana-server.service to run on boot and start the services.
+
+```bash
+cardano-monitor enable
+cardano-monitor start
+```
+
+{% hint style="warning" %}
+At this point you may want to start cardano-service and get synced up before we continue to configure Grafana. Skip ahead to [syncing the chain section](https://app.gitbook.com/@wcatz/s/pi-pool-guide/~/drafts/-MYFtFDZp-rTlybgAO71/pi-node/environment-setup/@drafts#syncing-the-chain). Choose whether you want to wait 30 hours or download my latest chain snapshot. Return here once gLiveView.sh shows you are at the tip of the chain.
+{% endhint %}
+
+### Configure Grafana
+
+## Congratulations you are now ready to start cardano-node 🥳 
+
+### ⛓ Syncing the chain ⛓ 
+
+You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
+
+## Download snapshot
+
+{% hint style="danger" %}
+Do not attempt this on an 8GB sd card. Not enough space! Create your image file and flash it to your ssd.
+{% endhint %}
+
+I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
+
+```bash
+cardano-service enable
+cardano-service start
+cardano-service status
+```
+
+Make sure your node is not running & delete the db folder if it exists.
+
+```bash
+cardano-service stop
+cd $NODE_HOME
+rm -r db/
+wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
+```
+
+
 
