@@ -69,11 +69,14 @@ mkdir $HOME/tmp
 cd $HOME/tmp
 wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/job/Tools/master/aarch64-unknown-linux-musl-cardano-node-musl.tarball/latest-finished/download
 unzip *.zip
-mkdir $HOME/.local/bin
 mv cardano-node/* $HOME/.local/bin
 rm -r cardano-node
 cd $HOME
 ```
+
+{% hint style="warning" %}
+If binaries already exist you will have to confirm overwriting the old ones.
+{% endhint %}
 
 Confirm binaries are in ada $PATH.
 
