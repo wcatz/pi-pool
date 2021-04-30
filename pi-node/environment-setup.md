@@ -19,7 +19,7 @@ Install necessities.
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
          jq make automake unzip net-tools nginx pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
-         zlib1g-dev make g++ libncursesw5 libtool autoconf -y
+         zlib1g-dev g++ libncursesw5 libtool autoconf -y
 ```
 
 Install nodejs & cardanoclijs
