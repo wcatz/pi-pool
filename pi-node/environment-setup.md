@@ -6,60 +6,39 @@ description: Install packages needed to run cardano-node and configure our envir
 
 ## Install packages
 
-Enable automatic updates.
+Enable automatic security updates.
 
 ```bash
-sudo apt update && sudo apt install unattended-upgrades
 sudo dpkg-reconfigure -plow unattended-upgrades
 ```
 
-Install necessities.
+Install the packages we will need.
 
 ```bash
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
-         jq make automake unzip net-tools nginx pkg-config \
+         jq make automake unzip net-tools nginx ssl-cert pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
          zlib1g-dev g++ libncursesw5 libtool autoconf -y
 ```
 
-Install nodejs & cardanoclijs
-
-{% embed url="https://github.com/Berry-Pool/cardanocli-js" %}
+Install NodeJS.
 
 ```bash
 sudo snap install node --classic
 ```
 
-```bash
-npm install cardanocli-js
-```
-
 Install Certbot.
 
-{% embed url="https://certbot.eff.org/lets-encrypt/snap-nginx" %}
+{% embed url="https://certbot.eff.org/lets-encrypt/snap-nginx" caption="" %}
 
 ```bash
 sudo snap install --classic certbot
 ```
 
-Dynamically link binary into our path.
+Dynamically link Certbot binary into our path.
 
 ```bash
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
-```
-
-Install node process manager globally.
-
-```bash
- sudo npm install pm2 -g
-```
-
-House cleaning. 🧹 
-
-```bash
-sudo apt clean
-sudo apt autoremove
-sudo apt autoclean
 ```
 
 ## Environment
@@ -75,20 +54,47 @@ mkdir $HOME/git
 mkdir $HOME/tmp
 ```
 
-### Create bash variables & add ~/.local/bin to our $PATH 🏃♀ 
+### Create bash variables & add ~/.local/bin to our $PATH 🏃
 
 {% hint style="info" %}
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
 {% endhint %}
 
+Create a .pienv file and choose which network you want to connect to.
+
+```bash
+nano $HOME/.pienv
+```
+
+{% hint style="warning" %}
+Changes to this file require reloading .bashrc or logging out then back in.
+{% endhint %}
+
+```bash
+# testnet or mainnet
+NODE_CONFIG=mainnet
+```
+
+Save and exit.
+
 ```bash
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
-echo export NODE_HOME=$HOME/pi_pool >> $HOME/.bashrc
-echo export NODE_FILES=$HOME/pi_pool/files >> $HOME/.bashrc
-echo export NODE_CONFIG=mainnet>> $HOME/.bashrc
+source $HOME/.pienv
+echo export NODE_HOME=$HOME/pi-pool >> $HOME/.bashrc
+echo export NODE_FILES=$HOME/pi-pool/files >> $HOME/.bashrc
 echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
-echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
+echo export CARDANO_NODE_SOCKET_PATH="$HOME/pi-pool/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
+```
+
+### Retrieve node files
+
+```bash
+cd $NODE_FILES
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-shelley-genesis.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
 ```
 
 ### Retrieve aarch64 binaries
@@ -99,10 +105,10 @@ The **unofficial** cardano-node & cardano-cli binaries available to us are being
 
 ```bash
 cd $HOME/tmp
-wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/job/Tools/master/aarch64-unknown-linux-musl-cardano-node-musl.tarball/latest-finished/download
+wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/build/1758/download/1/aarch64-unknown-linux-musl-cardano-node-1.27.0.zip
 unzip *.zip
 mv cardano-node/* $HOME/.local/bin
-rm -r cardano-node
+rm -r cardano*
 cd $HOME
 ```
 
@@ -150,20 +156,20 @@ cardano-node run +RTS -N4 -RTS \
 Allow execution of our new startup script.
 
 ```bash
-sudo chmod +x $HOME/.local/bin/cardano-service
+chmod +x $HOME/.local/bin/cardano-service
 ```
 
 Open /etc/systemd/system/cardano-node.service
 
 ```bash
-sudo nano /etc/systemd/system/cardano-node.service 
+sudo nano /etc/systemd/system/cardano-node.service
 ```
 
 Paste the following, save & exit.
 
 ```bash
 # The Cardano Node Service (part of systemd)
-# file: /etc/systemd/system/cardano-node.service 
+# file: /etc/systemd/system/cardano-node.service
 
 [Unit]
 Description     = Cardano node service
@@ -181,6 +187,7 @@ TimeoutStopSec=3
 LimitNOFILE=32768
 Restart=always
 RestartSec=5
+EnvironmentFile=-/home/ada/.pienv
 
 [Install]
 WantedBy= multi-user.target
@@ -211,13 +218,13 @@ Save & exit.
 source $HOME/.bashrc
 ```
 
-What we just did there was add a function to control our cardano-service without having to type out 
+What we just did there was add a function to control our cardano-service without having to type out
 
-> > sudo systemctl enable cardano-node.service 
+> > sudo systemctl enable cardano-node.service
 > >
-> > sudo systemctl start cardano-node.service 
+> > sudo systemctl start cardano-node.service
 > >
-> > sudo systemctl stop cardano-node.service 
+> > sudo systemctl stop cardano-node.service
 > >
 > > sudo systemctl status cardano-node.service
 
@@ -228,11 +235,61 @@ Now we just have to:
 * cardano-service stop       \(stops cardano-node.service\)
 * cardano-service status    \(shows the status of cardano-node.service\)
 
+## ⛓ Syncing the chain ⛓
+
+You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
+
+### Download snapshot
+
+{% hint style="danger" %}
+Do not attempt this on an 8GB sd card. Not enough space! [Create your image file](https://app.gitbook.com/@wcatz/s/pi-pool-guide/create-.img-file) and flash it to your ssd.
+{% endhint %}
+
+I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you want to sync the chain on your own simply:
+
+```bash
+cardano-service enable
+cardano-service start
+cardano-service status
+```
+
+Otherwise be sure your node is **not** running & delete the db folder if it exists and download db/.
+
+```bash
+cardano-service stop
+cd $NODE_HOME
+rm -r db/
+```
+
+{% hint style="danger" %}
+Download either the mainnet db folder or testnet. Not Both!!
+{% endhint %}
+
+For mainnet chain use.
+
+```bash
+wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
+```
+
+For testnet.
+
+```bash
+wget -r -np -nH -R "index.html*" -e robots=off https://test-db.adamantium.online/db/
+```
+
+Once wget completes enable & start cardano-node.
+
+```bash
+cardano-service enable
+cardano-service start
+cardano-service status
+```
+
 ## gLiveView.sh
 
 Guild operators scripts has a couple useful tools for operating a pool. We do not want the project as a whole, though there are a couple scripts we are going to use.
 
-{% embed url="https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts" %}
+{% embed url="https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts" caption="" %}
 
 ```bash
 cd $NODE_HOME/scripts
@@ -248,10 +305,10 @@ You can change the port cardano-node runs on in /home/ada/.local/bin/cardano-ser
 
 ```bash
 sed -i env \
+    -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\home\/ada\/pi-pool\"/g" \
     -e "s/"6000"/"3003"/g" \
     -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\/mainnet-config.json\"/g" \
     -e "s/\#SOCKET=\"\${CNODE_HOME}\/sockets\/node0.socket\"/SOCKET=\"\${NODE_HOME}\/db\/socket\"/g"
-    
 ```
 
 Allow execution of gLiveView.sh.
@@ -259,8 +316,6 @@ Allow execution of gLiveView.sh.
 ```bash
 chmod +x gLiveView.sh
 ```
-
-We will have a look at gLiveView.sh once we are ready to start cardano-node. But first some more configuring..
 
 ## topologyUpdater.sh
 
@@ -286,25 +341,25 @@ The port number here must match the port cardano-node is running on. If you are 
 ```bash
 #!/bin/bash
 # shellcheck disable=SC2086,SC2034
- 
+
 USERNAME=ada
 CNODE_PORT=3003 # must match your relay node port as set in the startup command
 CNODE_HOSTNAME="CHANGE ME"  # optional. must resolve to the IP you are requesting from
 CNODE_BIN="/home/ada/.local/bin"
-CNODE_HOME=/home/ada/pi-pool
-CNODE_LOG_DIR="${CNODE_HOME}/logs"
+CNODE_HOME="/home/ada/pi-pool"
+LOG_DIR="${CNODE_HOME}/logs"
 GENESIS_JSON="${CNODE_HOME}/files/mainnet-shelley-genesis.json"
 NETWORKID=$(jq -r .networkId $GENESIS_JSON)
 CNODE_VALENCY=1   # optional for multi-IP hostnames
 NWMAGIC=$(jq -r .networkMagic < $GENESIS_JSON)
 [[ "${NETWORKID}" = "Mainnet" ]] && HASH_IDENTIFIER="--mainnet" || HASH_IDENTIFIER="--testnet-magic ${NWMAGIC}"
 [[ "${NWMAGIC}" = "1097911063" ]] && NETWORK_IDENTIFIER="--mainnet" || NETWORK_IDENTIFIER="--testnet-magic ${NWMAGIC}"
- 
+
 export PATH="${CNODE_BIN}:${PATH}"
 export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/db/socket"
- 
+
 blockNo=$(/home/ada/.local/bin/cardano-cli query tip ${NETWORK_IDENTIFIER} | jq -r .block )
- 
+
 # Note:
 # if you run your node in IPv4/IPv6 dual stack network configuration and want announced the
 # IPv4 address only please add the -4 parameter to the curl command below  (curl -4 -s ...)
@@ -314,11 +369,11 @@ else
   T_HOSTNAME=''
 fi
 
-if [ ! -d ${CNODE_LOG_DIR} ]; then
-  mkdir -p ${CNODE_LOG_DIR};
+if [ ! -d ${LOG_DIR} ]; then
+  mkdir -p ${LOG_DIR};
 fi
- 
-curl -s -4 "https://api.clio.one/htopology/v1/?port=${CNODE_PORT}&blockNo=${blockNo}&valency=${CNODE_VALENCY}&magic=${NWMAGIC}${T_HOSTN>
+
+curl -s -f -4 "https://api.clio.one/htopology/v1/?port=${CNODE_PORT}&blockNo=${blockNo}&valency=${CNODE_VALENCY}&magic=${NWMAGIC}${T_HOSTNAME}" | tee -a "${LOG_DIR}"/topologyUpdater_lastresult.json
 ```
 
 Save, exit and make it executable.
@@ -327,17 +382,11 @@ Save, exit and make it executable.
 chmod +x topologyUpdater.sh
 ```
 
-Now you can run the script once to ensure it is working. 
+{% hint style="warning" %}
+You will not be able to successfully execute ./topologyUpdater.sh until you are fully synced up to the tip of the chain.
+{% endhint %}
 
-```bash
-./topologyUpdater.sh
-```
-
-Successful execution will result in a message similar to.. 
-
-> `{ "resultcode": "201", "datetime":"2021-03-29 01:23:45", "clientIp": "1.2.3.4", "iptype": 4, "msg": "nice to meet you" }`
-
-Now that it's working we can create a cron job that will run the script every hour.
+Create a cron job that will run the script every hour.
 
 ```bash
 crontab -e
@@ -365,7 +414,7 @@ nano relay-topology_pull.sh
 #!/bin/bash
 BLOCKPRODUCING_IP=<BLOCK PRODUCERS PRIVATE IP>
 BLOCKPRODUCING_PORT=3000
-curl -4 -s -o /home/ada/pi-pool/files/${NODE_CONFIG}-topology.json "https://api.clio.one/htopology/v1/fetch/?max=15&customPeers=${BLOCKPRODUCING_IP}:${BLOCKPRODUCING_PORT}:1|relays-new.cardano-mainnet.iohk.io:3001:2"
+curl -4 -s -o /home/ada/pi-pool/files/mainnet-topology.json "https://api.clio.one/htopology/v1/fetch/?max=15&customPeers=${BLOCKPRODUCING_IP}:${BLOCKPRODUCING_PORT}:1|relays-new.cardano-mainnet.iohk.io:3001:2"
 ```
 
 Save, exit and make it executable.
@@ -386,7 +435,7 @@ cd $NODE_HOME/scripts
 ```
 
 {% hint style="info" %}
-relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10. 
+relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10.
 {% endhint %}
 
 ```bash
@@ -407,14 +456,16 @@ Status should show as enabled & running.
 
 Once your node syncs past epoch 208\(shelley era\) you can use gLiveView.sh to monitor.
 
+{% hint style="danger" %}
+It can take up to an hour for cardano-node to sync to the tip of the chain. Use ./gliveView.sh, htop and log outputs to view process. Be patient it will come up.
+{% endhint %}
+
 ```bash
 cd $NODE_HOME/scripts
 ./gLiveView.sh
 ```
 
-![Should look something like this once your synced to the tip of the chain.](../.gitbook/assets/pi-node-glive.png)
-
-
+![](../../../.gitbook/assets/pi-node-glive.png)
 
 ## Prometheus, Node Exporter & Grafana
 
@@ -424,9 +475,9 @@ Prometheus connects to cardano-nodes backend and serves metrics over http. Grafa
 You can connect a Telegram bot to Grafana which can alert you of problems with the server. Much easier than trying to configure email alerts.
 {% endhint %}
 
-{% embed url="https://github.com/prometheus" %}
+{% embed url="https://github.com/prometheus" caption="" %}
 
-![](../.gitbook/assets/pi-pool-grafana.png)
+![](../../../.gitbook/assets/pi-pool-grafana.png)
 
 ### Install Prometheus & Node Exporter.
 
@@ -435,7 +486,7 @@ Prometheus can scrape the http endpoints of other servers running node exporter.
 {% endhint %}
 
 ```bash
-sudo apt-get install -y prometheus prometheus-node-exporter 
+sudo apt-get install -y prometheus prometheus-node-exporter
 ```
 
 ### Configure Prometheus
@@ -454,7 +505,7 @@ Indentation must be correct YAML format or Prometheus will fail to start.
 
 ```yaml
 global:
-  scrape_interval:     5s # By default, scrape targets every 15 seconds.
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
@@ -465,18 +516,34 @@ global:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label job=<job_name> to any timeseries scraped from this config.
-  - job_name: 'cardano-node'
-
+  - job_name: 'Prometheus' # To scrape data from the cardano node
+    scrape_interval: 5s
     static_configs:
+#      - targets: ['<CORE PRIVATE IP>:12798']
+#        labels:
+#          alias: 'C1'
+#          type:  'cardano-node'
+#      - targets: ['<RELAY PRIVATE IP>:12798']
+#        labels:
+#          alias: 'R1'
+#          type:  'cardano-node'
       - targets: ['localhost:12798']
         labels:
           alias: 'N1'
           type:  'cardano-node'
 
+#      - targets: ['<CORE PRIVATE IP>:9100']
+#        labels:
+#          alias: 'C1'
+#          type:  'node'
+#      - targets: ['<RELAY PRIVATE IP>:9100']
+#        labels:
+#          alias: 'R1'
+#          type:  'node'
       - targets: ['localhost:9100']
         labels:
           alias: 'N1'
-          type: 'node'
+          type:  'node'
 ```
 
 Save & exit.
@@ -485,12 +552,12 @@ Edit mainnet-config.json so cardano-node exports traces on all interfaces.
 
 ```bash
 cd $NODE_FILES
-sed -i ${NODE_CONFIG}-config.json -e "s/127.0.0.1/0.0.0.0/g"  
+sed -i ${NODE_CONFIG}-config.json -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
 ### Install Grafana
 
-{% embed url="https://github.com/grafana/grafana" %}
+{% embed url="https://github.com/grafana/grafana" caption="" %}
 
 Add Grafana's gpg key to Ubuntu.
 
@@ -558,58 +625,97 @@ At this point you may want to start cardano-service and get synced up before we 
 
 ### Configure Grafana
 
-On your local machine open your browser and got to http://&lt;Pi-Node's private ip&gt;:5000
+On your local machine open your browser and got to \[[http://&lt;Pi-Node's\]\(http://](http://<Pi-Node's]%28http://)&lt;Pi-Node's\) private ip&gt;:5000
 
 Log in and set a new password. Default username and password is **admin:admin**.
 
 #### Configure data source
 
-In the left hand vertical menu go to **Configure** &gt; **Datasources** and click to **Add data source**. Choose Prometheus. Everything can be left default. You can change the name to Cardano Node like I have done or leave it Prometheus. At the bottom save & test. You should get the green "Data source is working".
+In the left hand vertical menu go to **Configure** &gt; **Datasources** and click to **Add data source**. Choose Prometheus. Enter **http://localhost:9090** where it is grayed out, everything can be left default. At the bottom save & test. You should get the green "Data source is working" if cardano-monitor has been started. If for some reason those services failed to start issue **cardano-service restart**.
 
-#### Import dashboard
+#### Import dashboards
 
-Save the dashboard json file hosted on my server to your local machine.
+Save the dashboard json files to your local machine.
 
-{% embed url="https://db.adamantium.online/pi-pool-dash.json" %}
+{% embed url="https://github.com/armada-alliance/dashboards" %}
 
 In the left hand vertical menu go to **Dashboards** &gt; **Manage** and click on **Import**. Select the file you just downloaded/created and save. Head back to **Dashboards** &gt; **Manage** and click on your new dashboard.
 
-![](../.gitbook/assets/pi-pool-grafana.png)
+![](../../../.gitbook/assets/pi-pool-grafana.png)
 
-## ⛓ Syncing the chain ⛓ 
+### Configure poolDataLive
 
-You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 30 hours and the db folder is about 8.5GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time.
+Here you can use the poolData api to bring your pools data into Grafana.
 
-### Download snapshot
+{% embed url="https://api.pooldata.live/dashboard" %}
 
-{% hint style="danger" %}
-Do not attempt this on an 8GB sd card. Not enough space! [Create your image file](https://app.gitbook.com/@wcatz/s/pi-pool-guide/create-.img-file) and flash it to your ssd.
-{% endhint %}
+Follow the instructions to install the Grafana plugin, configure your datasource and import the dashboard.
 
-I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you wan't to sync the chain on your own simply:
+Follow log output to journal.
 
 ```bash
-cardano-service enable
-cardano-service start
-cardano-service status
+journalctl --unit=cardano-node --follow
 ```
 
-Make sure your node is **not** running & delete the db folder if it exists.
+Follow log output to stdout.
 
 ```bash
-cardano-service stop
-cd $NODE_HOME
-rm -r db/
-wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
+sudo tail -f /var/log/syslog
 ```
 
-Once wget completes enable & start cardano-node.
+## Grafana, Nginx proxy\_pass & snakeoil
+
+Let's put Grafana behind Nginx with self signed\(snakeoil\) certificate. The certificate was generated when we installed the ssl-cert package.
+
+You will get a warning from your browser. This is because ca-certificates cannot follow a trust chain to a trusted \(centralized\) source. The connection is however encrypted and will protect your passwords flying around in plain text.
 
 ```bash
-cardano-service enable
-cardano-service start
-cardano-service status
+sudo nano /etc/nginx/sites-available/default
 ```
 
-## Grafana, Nginx proxy\_pass & ssl
+Replace contents of the file with below.
+
+```bash
+# Default server configuration
+#
+server {
+        listen 80 default_server;
+        return 301 https://$host$request_uri;
+}
+
+server {
+        # SSL configuration
+        #
+        listen 443 ssl default_server;
+        #listen [::]:443 ssl default_server;
+        #
+        # Note: You should disable gzip for SSL traffic.
+        # See: https://bugs.debian.org/773332
+        #
+        # Read up on ssl_ciphers to ensure a secure configuration.
+        # See: https://bugs.debian.org/765782
+        #
+        # Self signed certs generated by the ssl-cert package
+        # Don't use them in a production server!
+        #
+        include snippets/snakeoil.conf;
+
+        add_header X-Proxy-Cache $upstream_cache_status;
+        location / {
+          proxy_pass http://127.0.0.1:5000;
+          proxy_redirect      off;
+          include proxy_params;
+        }
+}
+```
+
+Check that Nginx is happy with our changes and restart it.
+
+```bash
+sudo nginx -t
+## if ok do
+sudo service nginx restart
+```
+
+You can now visit your pi-nodes ip address without any port specification, the connection will be upgraded to SSL/TLS and you will get a scary message\(not really scary at all\). Continue through to your dashboard.
 

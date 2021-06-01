@@ -6,13 +6,14 @@ description: 'optimize hardware, optimize Ubuntu'
 
 ## Configure Hardware
 
-Lets save some power, raise the governor on the cpu a bit and set gpu ram as low as we can.
+Let's save some power, raise the governor on the CPU a bit, and set GPU ram as low as we can.
 
 {% hint style="warning" %}
-Here are some links for overclocking and testing your drive speeds. If you have a fan and heat sinks you can safely go to 2000. It's up to you. Just pay attention to over volt recommendations to go with your chosen clock speed.
+Here are some links for overclocking and testing your drive speeds. If you have heat sinks you can safely go to 2000. Just pay attention to over volt recommendations to go with your chosen clock speed.
 
 * [https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md](https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md)
 * [https://www.seeedstudio.com/blog/2020/02/12/how-to-safely-overclock-your-raspberry-pi-4-to-2-147ghz/](https://www.seeedstudio.com/blog/2020/02/12/how-to-safely-overclock-your-raspberry-pi-4-to-2-147ghz/)
+* [https://www.tomshardware.com/how-to/raspberry-pi-4-23-ghz-overclock](https://www.tomshardware.com/how-to/raspberry-pi-4-23-ghz-overclock)
 * [https://dopedesi.com/2020/11/24/upgrade-your-raspberry-pi-4-with-a-nvme-boot-drive-by-alex-ellis-nov-2020/](https://dopedesi.com/2020/11/24/upgrade-your-raspberry-pi-4-with-a-nvme-boot-drive-by-alex-ellis-nov-2020/)
 * [Legendary Technology: New Raspberry Pi 4 Bootloader USB](https://jamesachambers.com/new-raspberry-pi-4-bootloader-usb-network-boot-guide/)
 
@@ -35,18 +36,17 @@ sudo hdparm -Tt /dev/sda
 
 ### Overclock, memory & radios
 
-Edit  /boot/firmware/config.txt. Just paste Pi Pool additions in at the bottom.
+Edit /boot/firmware/config.txt. Just paste Pi Pool additions in at the bottom.
 
 ```bash
 sudo nano /boot/firmware/config.txt
 ```
 
-```
+```text
 [pi4]
 max_framebuffers=2
 
 [all]
-arm_64bit=1
 kernel=vmlinuz
 cmdline=cmdline.txt
 initramfs initrd.img followkernel
@@ -72,13 +72,31 @@ disable_overscan=1
 # on the IO board (assuming your CM4 is plugged into such a board)
 #dtoverlay=dwc2,dr_mode=host
 
+# Config settings specific to arm64
+arm_64bit=1
+dtoverlay=dwc2
+
 ## Pi Pool ##
-over_voltage=2
-arm_freq=1750
+over_voltage=6
+arm_freq=2000
 gpu_mem=16
 disable-wifi
 disable-bt
 ```
+
+Enable memory accounting \(cgroups\).
+
+```text
+sudo nano /boot/firmware/cmdline.txt
+```
+
+Replace contents with below.
+
+```text
+cgroup_enable=memory cgroup_memory=1 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc quiet splash
+```
+
+Save and reboot.
 
 ```text
 sudo reboot
@@ -103,7 +121,7 @@ sudo nano /etc/fstab
 Add this line at the bottom, save & exit.
 
 ```text
-tmpfs	/run/shm	tmpfs	ro,noexec,nosuid	0 0
+tmpfs    /run/shm    tmpfs    ro,noexec,nosuid    0 0
 ```
 
 ### Increase open file limit
@@ -130,7 +148,7 @@ Add the following to the bottom of /etc/sysctl.conf. Save and exit.
 {% endhint %}
 
 {% hint style="warning" %}
-I am disabling IPv6 and IPv4 forwarding. You may want these. I have seen claims that IPv6 is slower and get's in the way. &lt;find this later&gt;
+I am disabling IPv6 and IPv4 forwarding. You may want these. I have seen claims that IPv6 is slower and gets in the way. &lt;find this later&gt;
 {% endhint %}
 
 ```text
@@ -138,12 +156,11 @@ sudo nano /etc/sysctl.conf
 ```
 
 ```text
-
 ## Pi Pool ##
 
 # swap less                      
-vm.swappiness=10
-vm.vfs_cache_pressure=50
+#vm.swappiness=10
+#vm.vfs_cache_pressure=50
 
 fs.file-max = 10000000
 fs.nr_open = 10000000
@@ -208,7 +225,7 @@ exit 0
 [**http://bookofzeus.com/harden-ubuntu/server-setup/disable-irqbalance/**](http://bookofzeus.com/harden-ubuntu/server-setup/disable-irqbalance/)
 {% endhint %}
 
-You should turn off IRQ Balance to make sure you do not get hardware interrupts in your threads. Turning off IRQ Balance, will optimize the balance between power savings and performance through distribution of hardware interrupts across multiple processors.
+You should turn off IRQ Balance to make sure you do not get hardware interrupts in your threads. Turning off IRQ Balance will optimize the balance between power savings and performance through the distribution of hardware interrupts across multiple processors.
 
 Open /etc/default/irqbalance and add to the bottom. Save, exit and reboot.
 
@@ -281,7 +298,7 @@ sudo service chrony restart
 
 Swapping to disk is slow, swapping to compressed ram space is faster and gives us some overhead before out of memory \(oom\).
 
-{% embed url="https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/" %}
+{% embed url="https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/" caption="" %}
 
 ```text
 sudo apt install zram-config

@@ -10,7 +10,7 @@ Before we start generating keys with a headless server we should create a safe a
 [https://github.com/nhorman/rng-tools](https://github.com/nhorman/rng-tools)
 {% endhint %}
 
-> But consider the fate of a standalone, headless server \(or a micro controller for that matter\) with no human typing or mousing around, and no spinning iron drive providing mechanical irregularity. Where does _it_ get entropy after it starts up? What if an attacker, or bad luck, forces periodic reboots? This is a [real problem](http://www.theregister.co.uk/2015/12/02/raspberry_pi_weak_ssh_keys/).
+> But consider the fate of a standalone, headless server \(or a microcontroller for that matter\) with no human typing or mousing around, and no spinning iron drive providing mechanical irregularity. Where does _it_ get entropy after it starts up? What if an attacker, or bad luck, forces periodic reboots? This is a [real problem](http://www.theregister.co.uk/2015/12/02/raspberry_pi_weak_ssh_keys/).
 
 ```bash
 ## install rng-tools on both core & cold
@@ -29,7 +29,7 @@ The block-producer node requires only these 3 files as defined in the [Shelley l
 Generate a KES keypair.
 
 {% hint style="info" %}
-KES \(key evolving signature\) keys are created to secure your stake pool against hackers who might compromise your keys. 
+KES \(key evolving signature\) keys are created to secure your stake pool against hackers who might compromise your keys.
 
 **On mainnet, you will need to regenerate the KES key every 90 days.**
 {% endhint %}
@@ -108,7 +108,7 @@ echo startKesPeriod: ${startKesPeriod}
 {% endtab %}
 {% endtabs %}
 
-Move **kes.vkey** to your **cold environment**. 
+Move **kes.vkey** to your **cold environment**.
 
 {% hint style="warning" %}
 Replace &lt;startKesPeriod&gt; below to match.
