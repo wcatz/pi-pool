@@ -27,13 +27,13 @@ Plug the Pi into a monitor, insert the sd card and power up. Once you see a gree
 **Choose OS -&gt; Misc utility images -&gt; Raspberry Pi 4 EEPROM boot recovery** [https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md](https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md)
 {% endhint %}
 
-![](../../../.gitbook/assets/otgpoltut.png)
+![](https://github.com/wcatz/pi-pool/tree/7f765c0a2a01dae79d14feaa1cb2d3400ee7e08a/.gitbook/assets/otgpoltut.png)
 
 {% tabs %}
 {% tab title="Pre configured Pi-Node.img.gz" %}
 ### Obtain Pi-Pool .img.gz file
 
-| [Pi-Node](https://db.adamantium.online/Pi-Node.img.gz)  |
+| [Pi-Node](https://db.adamantium.online/Pi-Node.img.gz) |
 | :--- |
 
 
@@ -45,7 +45,7 @@ Locate the .img.gz file you downloaded & wish to flash.
 
 Locate your target drive & write it to disk.
 
-![](../../../.gitbook/assets/image-2-.png)
+![](https://github.com/wcatz/pi-pool/tree/7f765c0a2a01dae79d14feaa1cb2d3400ee7e08a/.gitbook/assets/image-2-.png)
 {% endtab %}
 
 {% tab title="Fresh Ubuntu 21.04 installation" %}
@@ -57,7 +57,7 @@ Locate your target drive & write it to disk.
 
 Locate your target drive & write it to disk.
 
-![](../../../.gitbook/assets/21.04-rpi-imager.png)
+![](https://github.com/wcatz/pi-pool/tree/7f765c0a2a01dae79d14feaa1cb2d3400ee7e08a/.gitbook/assets/21.04-rpi-imager.png)
 {% endtab %}
 {% endtabs %}
 

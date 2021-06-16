@@ -265,7 +265,7 @@ More incoming connections is generally a good thing, it increases the odds that 
 
 ## Prometheus
 
-Last thing we should do is change the  name Prometheus is serving to Grafana.
+Last thing we should do is change the name Prometheus is serving to Grafana.
 
 ```bash
 sudo nano /etc/prometheus/prometheus.yml

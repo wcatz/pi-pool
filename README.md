@@ -8,7 +8,7 @@ description: >-
 
 The [Pi-Node.img.gz](https://db.adamantium.online/Pi-Node.img.gz) is a pre configured Cardano node that can be used for minting NFT's, submitting transactions and can be further configured into a relay or core node for stake pool creation. It is configured with everything you need to quickly bootstrap a synced node with Nginx proxypass of Grafana for TLS encryption with a self signed certificate, working topology updater and gLiveView.
 
-![](../../.gitbook/assets/photo_2021-03-09-13.40.29.jpeg)
+![](.gitbook/assets/star-forge.jpg)
 
 {% hint style="danger" %}
 It is strongly recommended to work through the [Stake Pool School](https://cardano-foundation.gitbook.io/stake-pool-course/) course presented by the Cardano Foundation.

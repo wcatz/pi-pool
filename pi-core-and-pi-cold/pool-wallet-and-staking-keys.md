@@ -19,12 +19,12 @@ It is recommended to download the cardano-wallet binary, check it's sha256 hash 
 ## Generate
 
 {% hint style="danger" %}
+
 🔥 **Critical Operational Security Advice:** `payment` and `stake` keys must be generated and used to build transactions in cold environment. In other words, your **air-gapped offline Cold machine**. The only steps performed online in a hot environment are those steps that require live data. Namely the follow type of steps:
 
--   querying the current slot tip
--   querying the balance of an address
--   submitting a transaction
-    {% endhint %}
+* querying the current slot tip
+* querying the balance of an address
+* submitting a transaction
 
 Create a 15-word or 24-word length Shelley compatible mnemonic with [Daedalus](https://daedaluswallet.io/) or [Yoroi](https://yoroi-wallet.com) on a offline machine preferred.
 
@@ -36,7 +36,7 @@ If you are not using Linux on your local machine you can write Ubuntu to a usb s
 
 Download cardano-wallet to your local machine.
 
-<https://github.com/input-output-hk/cardano-wallet/releases>
+[https://github.com/input-output-hk/cardano-wallet/releases](https://github.com/input-output-hk/cardano-wallet/releases)
 
 {% hint style="info" %}
 Credits to [ilap](https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894) & [Coin Cashew](https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node#10-setup-payment-and-stake-keys) for creating this process.
@@ -153,5 +153,6 @@ Extract your keys. Update the command with your mnemonic phrase.
 ```
 
 {% hint style="danger" %}
-**Important**: The **base.addr** and the **base.addr_candidate** must be the same. Review the screen output.
+**Important**: The **base.addr** and the **base.addr\_candidate** must be the same. Review the screen output.
 {% endhint %}
+

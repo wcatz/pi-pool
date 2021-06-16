@@ -103,7 +103,7 @@ cardano-cli node issue-op-cert \
 
 Copy **node.cert** to your Core machine.
 
- Generate a VRF key pair.
+Generate a VRF key pair.
 
 {% tabs %}
 {% tab title="Core" %}
@@ -175,13 +175,13 @@ nano $NODE_FILES/mainnet-topology.json
 {% endtab %}
 {% endtabs %}
 
-Use your LAN IPv4 for addr field if you are not using domain DNS. Be sure to have proper records set with your registrar or DNS service. Below are some examples. 
+Use your LAN IPv4 for addr field if you are not using domain DNS. Be sure to have proper records set with your registrar or DNS service. Below are some examples.
 
 Valency greater than one is only used with DNS round robin srv records.
 
 {% tabs %}
 {% tab title="1 Relay DNS" %}
-```
+```text
 {
   "Producers": [
     {
@@ -214,7 +214,7 @@ Valency greater than one is only used with DNS round robin srv records.
 {% endtab %}
 
 {% tab title="1 Relay IPv4" %}
-```
+```text
 {
   "Producers": [
     {
@@ -228,7 +228,7 @@ Valency greater than one is only used with DNS round robin srv records.
 {% endtab %}
 
 {% tab title="2 Relays IPv4" %}
-```
+```text
 {
   "Producers": [
     {
@@ -538,7 +538,7 @@ cardano-cli transaction submit \
 
 ## Register the pool 🏊
 
-Create a **poolMetaData.json** file. It will contain important information about your pool. You will need to host this file somewhere online forevermore. It must be online and you cannot edit it without resubmitting/updating your pool.cert. In the next couple steps we will hash 
+Create a **poolMetaData.json** file. It will contain important information about your pool. You will need to host this file somewhere online forevermore. It must be online and you cannot edit it without resubmitting/updating your pool.cert. In the next couple steps we will hash
 
 {% hint style="warning" %}
 metadata-url must be less than 64 characters.
@@ -546,7 +546,7 @@ metadata-url must be less than 64 characters.
 
 {% embed url="https://pages.github.com/" caption="Hosting your poolMetaData.json on github is popular choice" %}
 
- I say host it on your Pi with NGINX.
+I say host it on your Pi with NGINX.
 
 {% tabs %}
 {% tab title="Core" %}
@@ -623,7 +623,7 @@ Use the format below to register single or multiple relays.
 {% endtab %}
 
 {% tab title="DNS Relay\(2\)" %}
-```
+```text
 --single-host-pool-relay <r1.example.com> \
 --pool-relay-port <R1 NODE PORT> \
 --single-host-pool-relay <r2.example.com> \
@@ -632,7 +632,7 @@ Use the format below to register single or multiple relays.
 {% endtab %}
 
 {% tab title="IPv4 Relay\(2\)" %}
-```
+```text
 --pool-relay-ipv4 <R1 NODE PUBLIC IP> \
 --pool-relay-port <R1 NODE PORT> \
 --pool-relay-ipv4 <R2 NODE PUBLIC IP> \
@@ -845,23 +845,23 @@ cardano-cli transaction submit \
 
 pool.vet is a website for pool operators to check the validity of their stake pools on chain data. You can check this site for problems and clues as to how to fix them.
 
-{% embed url="https://pool.vet/" %}
+{% embed url="https://pool.vet/" caption="" %}
 
 ### adapools.org
 
 You should create an account and claim your pool here.
 
-{% embed url="https://adapools.org/" %}
+{% embed url="https://adapools.org/" caption="" %}
 
 ### pooltool.io
 
 You should create an account and claim your pool here.
 
-{% embed url="https://pooltool.io/" %}
+{% embed url="https://pooltool.io/" caption="" %}
 
 ## Backups
 
 Get a couple small usb sticks and backup all your files and folders\(except the db/ folder\). Backup your online Core first then the Cold offline files and folders. **Do it now**, not worth the risk! **Do not plug the USB stick into anything online after Cold files are on it!**
 
-![https://twitter.com/insaladaPool/status/1380087586509709312?s=19](../../.gitbook/assets/insalada.png)
+![https://twitter.com/insaladaPool/status/1380087586509709312?s=19](https://github.com/wcatz/pi-pool/tree/7f765c0a2a01dae79d14feaa1cb2d3400ee7e08a/.gitbook/assets/insalada.png)
 
