@@ -7,8 +7,8 @@
   * [User Setup](pi-node/user-setup.md)
   * [Server Setup](pi-node/server-setup.md)
   * [Environment Setup](pi-node/environment-setup.md)
-* [Create .img file](create-.img-file.md)
 * [Pi-Relay](pi-relay.md)
 * [Pi-Core/Cold](pi-core-and-pi-cold-1.md)
 * [Alpine Notes](alpine-notes.md)
+* [Create .img file](create-.img-file.md)
 
