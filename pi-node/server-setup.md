@@ -84,18 +84,6 @@ disable-wifi
 disable-bt
 ```
 
-Enable memory accounting \(cgroups\).
-
-```text
-sudo nano /boot/firmware/cmdline.txt
-```
-
-Replace contents with below.
-
-```text
-cgroup_enable=memory cgroup_memory=1 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc quiet splash
-```
-
 Save and reboot.
 
 ```text
