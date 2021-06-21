@@ -18,7 +18,7 @@ Download Alpine to local machine.
 
 {% embed url="https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/aarch64/alpine-rpi-3.14.0-aarch64.tar.gz" %}
 
-Extract the contents into the mounted fat16 partition. Do this as root
+Extract the contents into the mounted fat16 partition.
 
 
 
@@ -32,7 +32,7 @@ Copy headless.apkovl.tar.gz onto the fat16 partition.
 
 Create a file named usercfg.txt on the fat16 partition add the following.
 
-```text
+```bash
 ## Pi Pool ##
 over_voltage=6
 arm_freq=2000
@@ -44,36 +44,180 @@ enable_uart=1
 
 ### Boot into Alpine
 
-Set a password for root account\(lovelace\).
+Set a password for root account.
 
-```text
+```bash
 passwd
 ```
 
+{% embed url="https://wiki.alpinelinux.org/wiki/Alpine\_newbie\_apk\_packages" %}
+
+
+
 Remove the local script service from the default run-level and delete the headless setup script.
 
-```text
-rm /etc/local.d/headless.start
+```bash
+rm -r /etc/local.d
 rc-update del local default
 ```
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
+Run Alpine's automatic system configuration suite individually.
 
-```text
-: > .ash_history
+```bash
+setup-ntp #chrony
+setup-keymap #none
+setup-hostname #alpine
+setup-timezone #UTC
+setup-apkrepos #r
+setup-lbu #none
+setup-apkcache #none
 ```
 
-Run Alpine's automatic system configuration suite.
+Add user and add them to the wheel group
 
-```text
-setup-ntp
-setup-keymap
-setup-hostname
-setup-timezone
-setup-apkrepos
-setup-lbu
-setup-apkcache
-setup-disks
+```bash
+adduser ada
+apk add sudo nano htop
+nano /etc/sudoers # uncomment %wheel ALL=(ALL) ALL
+addgroup ada wheel
+```
+
+Edit /etc/ssh/sshd\_config
+
+```bash
+#    $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
+
+# This is the sshd server system-wide configuration file.  See
+# sshd_config(5) for more information.
+
+# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+# The strategy used for options in the default sshd_config shipped with
+# OpenSSH is to specify options with their default value where
+# possible, but leave them commented.  Uncommented options override the
+# default value.
+
+#Include /etc/ssh/sshd_config.d/*.conf
+
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+
+#HostKey /etc/ssh/ssh_host_rsa_key
+#HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Ciphers and keying
+#RekeyLimit default none
+
+# Logging
+#SyslogFacility AUTH
+#LogLevel INFO
+
+# Authentication:
+
+#LoginGraceTime 2m
+PermitRootLogin no
+#StrictModes yes
+#MaxAuthTries 2
+#MaxSessions 10
+
+#PubkeyAuthentication yes
+
+# Expect .ssh/authorized_keys2 to be disregarded by default in future.
+#AuthorizedKeysFile    .ssh/authorized_keys .ssh/authorized_keys2
+
+#AuthorizedPrincipalsFile none
+
+#AuthorizedKeysCommand none
+#AuthorizedKeysCommandUser nobody
+
+# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+#HostbasedAuthentication no
+# Change to yes if you don't trust ~/.ssh/known_hosts for
+# HostbasedAuthentication
+#IgnoreUserKnownHosts no
+# Don't read the user's ~/.rhosts and ~/.shosts files
+#IgnoreRhosts yes
+
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication yes
+#PermitEmptyPasswords no
+
+# Change to yes to enable challenge-response passwords (beware issues with
+# some PAM modules and threads)
+ChallengeResponseAuthentication no
+
+# Kerberos options
+#KerberosAuthentication no
+#KerberosOrLocalPasswd yes
+#KerberosTicketCleanup yes
+#KerberosGetAFSToken no
+
+# GSSAPI options
+#GSSAPIAuthentication no
+#GSSAPICleanupCredentials yes
+#GSSAPIStrictAcceptorCheck yes
+#GSSAPIKeyExchange no
+
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication and
+# PasswordAuthentication.  Depending on your PAM configuration,
+# PAM authentication via ChallengeResponseAuthentication may bypass
+# the setting of "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without
+# PAM authentication, then enable this but set PasswordAuthentication
+# and ChallengeResponseAuthentication to 'no'.
+UsePAM yes
+
+AllowAgentForwarding no
+AllowTcpForwarding no
+#GatewayPorts no
+X11Forwarding no
+#X11DisplayOffset 10
+#X11UseLocalhost yes
+#PermitTTY yes
+#PrintMotd yes
+#PrintLastLog yes
+#TCPKeepAlive yes
+#PermitUserEnvironment no
+#Compression delayed
+#ClientAliveInterval 0
+#ClientAliveCountMax 3
+#UseDNS no
+#PidFile /var/run/sshd.pid
+#MaxStartups 10:30:100
+#PermitTunnel no
+#ChrootDirectory none
+#VersionAddendum none
+
+# no default banner path
+#Banner none
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# override default of no subsystems
+Subsystem sftp    /usr/lib/openssh/sftp-server
+
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#    X11Forwarding no
+#    AllowTcpForwarding no
+#    PermitTTY no
+#    ForceCommand cvs server
+
+```
+
+```bash
+setup-lbu #sda1
+lbu commit -d
+```
+
+```bash
+setup-disk
 ```
 
 > No disks available. Try boot media /media/usb? \(y/n\) \[n\] y
@@ -99,7 +243,19 @@ setup-disks
 >
 >   WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
 
-```text
+```bash
+setup-lbu #none
+setup-apkcache #none
+```
+
+```bash
+lbu commit -d
+reboot
+```
+
+{% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
+
+```bash
 apk add htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
 apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
 apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
@@ -110,7 +266,7 @@ Enable additional repositories for apk.
 
 #### Speed up boot time create entropy.
 
-```text
+```bash
 apk update
 apk add haveged rng-tools
 rc-update add haveged boot
@@ -135,7 +291,7 @@ During the booting time, you might notice errors related to the hardware clock. 
 
 rc-update add swclock boot \# enable the software clock.
 
-```text
+```bash
 rc-update add swclock boot    # enable the software clock
 rc-update del hwclock boot    # disable the hardware clock
 ```
@@ -144,7 +300,7 @@ rc-update del hwclock boot    # disable the hardware clock
 
 {% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
 
-```text
+```bash
 load_on_start="yes"
 
 unload_on_stop="yes"
@@ -162,7 +318,7 @@ flag1="ext4"
 size1="2048"
 ```
 
-```text
+```bash
 rc-config add zram-init boot
 /etc/init.d/zram-init start
 ```
@@ -173,7 +329,7 @@ rc-config add zram-init boot
 
 links
 
-```text
+```bash
 - http://www.skarnet.org/software/s6/index.html
 - http://www.skarnet.org/software/s6/servicedir.html
 - https://github.com/skarnet/s6-rc/tree/master/examples/source
