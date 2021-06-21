@@ -52,8 +52,6 @@ passwd
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Alpine\_newbie\_apk\_packages" %}
 
-
-
 Remove the local script service from the default run-level and delete the headless setup script.
 
 ```bash
