@@ -75,6 +75,10 @@ setup-apkcache #none
 
 Add user and add them to the wheel group
 
+{% hint style="danger" %}
+fix adduser to create home folder
+{% endhint %}
+
 ```bash
 adduser ada
 apk add sudo nano htop
