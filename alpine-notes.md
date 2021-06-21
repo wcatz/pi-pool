@@ -44,22 +44,84 @@ enable_uart=1
 
 ### Boot into Alpine
 
+Set a password for root account\(lovelace\).
+
+```text
+passwd
+```
+
+Remove the local script service from the default run-level and delete the headless setup script.
+
+```text
+rm /etc/local.d/headless.start
+rc-update del local default
+```
+
+{% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
+
+```text
+: > .ash_history
+```
+
+Run Alpine's automatic system configuration suite.
+
 ```text
 setup-ntp
 setup-keymap
 setup-hostname
 setup-timezone
 setup-apkrepos
+setup-lbu
+setup-apkcache
+setup-disks
 ```
 
-#### Speed up boot time.
+> No disks available. Try boot media /media/usb? \(y/n\) \[n\] y
+
+> * WARNING: you are stopping a sysinit service
+> * Unmounting /.modloop ...                                                                                                                                                                                         \[ ok \]
+>
+>   Available disks are:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] sda
+>
+>   The following disk is selected:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] sys
+>
+>   WARNING: The following disk\(s\) will be erased:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
 
 ```text
- apk update 
- apk add haveged
- rc-update add haveged boot
- service haveged start
+apk add htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
+apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
+apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
+export PAGER=less
 ```
+
+Enable additional repositories for apk.
+
+#### Speed up boot time create entropy.
+
+```text
+apk update
+apk add haveged rng-tools
+rc-update add haveged boot
+rc-update add urandom boot
+rc-update add rngd boot
+
+```
+
+{% hint style="warning" %}
+CPU scaling is handled by Sayshar\[SRN} repo to come later. Use as reference only.
+{% endhint %}
 
 {% embed url="https://wiki.alpinelinux.org/wiki/CPU\_frequency\_scaling" %}
 
