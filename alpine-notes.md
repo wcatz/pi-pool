@@ -74,5 +74,10 @@ flag1="ext4"
 size1="2048"
 ```
 
+```text
+rc-config add zram-init boot
+/etc/init.d/zram-init start
+```
+
 
 
