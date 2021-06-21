@@ -79,5 +79,16 @@ rc-config add zram-init boot
 /etc/init.d/zram-init start
 ```
 
+### s6
 
+{% embed url="https://paulgorman.org/technical/linux-alpine.txt.html" %}
+
+links
+
+```text
+- http://www.skarnet.org/software/s6/index.html
+- http://www.skarnet.org/software/s6/servicedir.html
+- https://github.com/skarnet/s6-rc/tree/master/examples/source
+- http://jaytaylor.com/notes/node/1484870107000.html
+```
 
