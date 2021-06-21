@@ -10,11 +10,37 @@ description: cardano-node on Alpine Linux
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Classic\_install\_or\_sys\_mode\_on\_Raspberry\_Pi" %}
 
+Create 2 partitions with gparted. fat16 = 250MB and ext4 rest of the drive space.
+
+Mount the fat16 partition on your local machine.
+
+Download Alpine to local machine.
+
 {% embed url="https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/aarch64/alpine-rpi-3.14.0-aarch64.tar.gz" %}
+
+Extract the contents into the mounted fat16 partition. Do this as root
+
+
 
 ### Download headless boot overlay
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Raspberry\_Pi\_-\_Headless\_Installation" %}
+
+{% embed url="http://www.sodface.com/repo/headless.apkovl.tar.gz" %}
+
+Copy headless.apkovl.tar.gz onto the fat16 partition.
+
+Create a file named usercfg.txt on the fat16 partition add the following.
+
+```text
+## Pi Pool ##
+over_voltage=6
+arm_freq=2000
+gpu_mem=32
+disable-wifi
+disable-bt
+enable_uart=1
+```
 
 ### Boot into Alpine
 
