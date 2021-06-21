@@ -56,5 +56,23 @@ rc-update del hwclock boot    # disable the hardware clock
 
 {% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
 
+```text
+load_on_start="yes"
+
+unload_on_stop="yes"
+ 
+num_devices="2"
+
+type0="swap"
+flag0=
+size0="2048"
+maxs0=2
+algo0=lz4
+
+type1="/tmp"
+flag1="ext4"
+size1="2048"
+```
+
 
 
