@@ -6,29 +6,17 @@ description: cardano-node on Alpine Linux
 
 ## Installing Alpine on Pi4
 
+{% embed url="https://wiki.alpinelinux.org/wiki/Install\_to\_disk" %}
+
 ### Download Alpine
-
-{% embed url="https://wiki.alpinelinux.org/wiki/Classic\_install\_or\_sys\_mode\_on\_Raspberry\_Pi" %}
-
-Create 2 partitions with gparted. fat16 = 250MB and ext4 rest of the drive space.
-
-Mount the fat16 partition on your local machine.
 
 Download Alpine to local machine.
 
 {% embed url="https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/aarch64/alpine-rpi-3.14.0-aarch64.tar.gz" %}
 
-Extract the contents into the mounted fat16 partition.
+Create a fat32 partition on your target drive and mount it.
 
-
-
-### Download headless boot overlay
-
-{% embed url="https://wiki.alpinelinux.org/wiki/Raspberry\_Pi\_-\_Headless\_Installation" %}
-
-{% embed url="http://www.sodface.com/repo/headless.apkovl.tar.gz" %}
-
-Copy headless.apkovl.tar.gz onto the fat16 partition.
+Extract the contents into the mounted fat32 partition.
 
 Create a file named usercfg.txt on the fat16 partition add the following.
 
@@ -52,36 +40,59 @@ passwd
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Alpine\_newbie\_apk\_packages" %}
 
-Remove the local script service from the default run-level and delete the headless setup script.
+Run Alpine's automatic system configuration tool.
 
 ```bash
-rm -r /etc/local.d
-rc-update del local default
+setup-alpine
 ```
 
-Run Alpine's automatic system configuration suite individually.
+> No disks available. Try boot media /media/usb? \(y/n\) \[n\] y
 
-```bash
-setup-ntp #chrony
-setup-keymap #none
-setup-hostname #alpine
-setup-timezone #UTC
-setup-apkrepos #r
-setup-lbu #none
-setup-apkcache #none
-```
+> * WARNING: you are stopping a sysinit service
+> * Unmounting /.modloop ...                                                                                                                                                                                         \[ ok \]
+>
+>   Available disks are:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] sda
+>
+>   The following disk is selected:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] sys
+>
+>   WARNING: The following disk\(s\) will be erased:
+>
+>   sda    \(32.0 GB ASMT     2115            \)
+>
+>   WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
 
-Add user and add them to the wheel group
-
-{% hint style="danger" %}
-fix adduser to create home folder
-{% endhint %}
+Add user ada and add it to the wheel group.
 
 ```bash
 adduser ada
 apk add sudo nano htop
 nano /etc/sudoers # uncomment %wheel ALL=(ALL) ALL
 addgroup ada wheel
+```
+
+Enable additional repositories for apk.
+
+```bash
+nano /etc/apk/repositories
+```
+
+```bash
+ GNU nano 5.7                                                                                      /etc/apk/repositories                                                                                                 
+#/media/usb/apks
+http://dl-2.alpinelinux.org/alpine/v3.14/main
+#http://dl-2.alpinelinux.org/alpine/v3.14/community
+http://dl-2.alpinelinux.org/alpine/edge/main
+http://dl-2.alpinelinux.org/alpine/edge/community
+#http://dl-2.alpinelinux.org/alpine/edge/testing
+
 ```
 
 Edit /etc/ssh/sshd\_config
@@ -214,45 +225,11 @@ Subsystem sftp    /usr/lib/openssh/sftp-server
 ```
 
 ```bash
-setup-lbu #sda1
-lbu commit -d
+
 ```
 
 ```bash
-setup-disk
-```
 
-> No disks available. Try boot media /media/usb? \(y/n\) \[n\] y
-
-> * WARNING: you are stopping a sysinit service
-> * Unmounting /.modloop ...                                                                                                                                                                                         \[ ok \]
->
->   Available disks are:
->
->   sda    \(32.0 GB ASMT     2115            \)
->
->   Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] sda
->
->   The following disk is selected:
->
->   sda    \(32.0 GB ASMT     2115            \)
->
->   How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] sys
->
->   WARNING: The following disk\(s\) will be erased:
->
->   sda    \(32.0 GB ASMT     2115            \)
->
->   WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
-
-```bash
-setup-lbu #none
-setup-apkcache #none
-```
-
-```bash
-lbu commit -d
-reboot
 ```
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
@@ -263,8 +240,6 @@ apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
 apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
 export PAGER=less
 ```
-
-Enable additional repositories for apk.
 
 #### Speed up boot time create entropy.
 
@@ -291,16 +266,21 @@ CPU scaling is handled by Sayshar\[SRN} repo to come later. Use as reference onl
 
 During the booting time, you might notice errors related to the hardware clock. The Raspberry Pi does not have a hardware clock and therefore you need to disable the hwclock daemon and enable swclock:
 
-rc-update add swclock boot \# enable the software clock.
-
-```bash
-rc-update add swclock boot    # enable the software clock
-rc-update del hwclock boot    # disable the hardware clock
-```
-
 ### Zram-init
 
 {% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
+
+```bash
+apk add zram-init
+```
+
+```bash
+mv /etc/conf.d/zram-init /etc/conf.d/zram-init.bak
+```
+
+```bash
+nano /etc/conf.d/zram-init
+```
 
 ```bash
 load_on_start="yes"
@@ -321,7 +301,7 @@ size1="2048"
 ```
 
 ```bash
-rc-config add zram-init boot
+rc-update add zram-init boot
 /etc/init.d/zram-init start
 ```
 
@@ -336,5 +316,9 @@ links
 - http://www.skarnet.org/software/s6/servicedir.html
 - https://github.com/skarnet/s6-rc/tree/master/examples/source
 - http://jaytaylor.com/notes/node/1484870107000.html
+```
+
+```bash
+
 ```
 
