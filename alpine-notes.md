@@ -557,11 +557,17 @@ sudo rc-service node-exporter start
 ### Install/configure Grafana
 
 ```bash
-
+sudo apk add grafana
 ```
 
 ```bash
+sudo nano /etc/grafana.ini
+```
 
+> Change http port to 5000 so it doesn't clash with cardano-node and remove the ;
+
+```bash
+sudo nano /etc/init.d/grafana
 ```
 
 ```bash
