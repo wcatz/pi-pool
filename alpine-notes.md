@@ -237,6 +237,10 @@ Now when using ssh to enter the server use the -t switch for a bash shell. Other
 ssh ada@<private server ip> -t bash
 ```
 
+{% hint style="info" %}
+Slap Ubuntu's .bashrc file in the home directory
+{% endhint %}
+
 {% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
 
 #### Speed up boot time create entropy.
@@ -362,6 +366,13 @@ stop() {
         -s 2
         eend $?
 }
+```
+
+Add to boot & start command.
+
+```bash
+sudo rc-update add cardano-node
+sudo rc-service cardano-node start # or stop
 ```
 
 ### Install/configure Prometheus
