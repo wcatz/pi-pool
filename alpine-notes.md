@@ -18,7 +18,7 @@ Create a fat32 partition on your target drive and mount it.
 
 Extract the contents into the mounted fat32 partition.
 
-Create a file named usercfg.txt on the fat16 partition add the following.
+Create a file named **usercfg.txt** on the fat32 partition, add the following.
 
 ```bash
 ## Pi Pool ##
@@ -73,7 +73,7 @@ Add user ada and add it to the wheel group.
 
 ```bash
 adduser ada
-apk add sudo nano htop
+apk add sudo nano
 nano /etc/sudoers # uncomment %wheel ALL=(ALL) ALL
 addgroup ada wheel
 ```
