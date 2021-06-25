@@ -491,10 +491,120 @@ sudo rc-service prometheus start
 ### Install/configure Node Exporter
 
 ```bash
+wget -O ~/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v1.1.2/node_exporter-1.1.2.linux-arm64.tar.gz
+```
 
+```bash
+tar -xzvf node_exporter.tar.gz
+sudo mv node_exporter-*.linux-arm64 /etc/node_exporter
+```
+
+#### Init file.
+
+```bash
+sudo nano /etc/init.d/node-exporter
+```
+
+```bash
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Node exporter service"
+
+depend() {
+	after network-online
+}
+
+start() {
+
+#source /home/ada/cnode_env
+
+        ebegin "Starting $RC_SVCNAME"
+        start-stop-daemon --background --start --exec /etc/node_exporter/node_exporter \
+        --make-pidfile --pidfile /var/run/node-exporter.pid \
+        -- --web.listen-address="0.0.0.0:9100"
+        eend $?
+
+}
+
+start_post() {
+rcstatus=blank
+	while [ -f /var/run/node-exporter.pid ]
+	do
+		sleep 10
+		rcstatus=`rc-service $RC_SVCNAME status | awk '{print $NF}'`
+		if [ -z $rcstatus ]; then
+	                rc-service -c $RC_SVCNAME restart
+			break
+		fi
+	done &
+}
+
+stop() {
+	ebegin "Stopping $RC_SVCNAME"
+        start-stop-daemon --stop --exec /etc/node_exporter/node_exporter \
+        --pidfile /var/run/node-exporter.pid \
+        -s 2
+        eend $?
+}
+```
+
+```bash
+sudo rc-update add node-exporter
+sudo rc-service node-exporter start
 ```
 
 ### Install/configure Grafana
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Grafana service"
+
+depend() {
+	after network-online
+}
+
+start() {
+
+        ebegin "Starting $RC_SVCNAME"
+        start-stop-daemon --background --start --exec /usr/sbin/grafana-server \
+        --make-pidfile --pidfile /var/run/grafana.pid \
+        -- --config.file="/etc/grafana.ini"
+        eend $?
+
+}
+
+start_post() {
+rcstatus=blank
+        while [ -f /var/run/grafana.pid ]
+        do
+                sleep 10
+                rcstatus=`rc-service $RC_SVCNAME status | awk '{print $NF}'`
+                if [ -z $rcstatus ]; then
+                        rc-service -c $RC_SVCNAME restart
+                        break
+                fi
+        done &
+}
+
+stop() {
+	ebegin "Stopping $RC_SVCNAME"
+        start-stop-daemon --stop --exec /usr/sbin/grafana-server \
+        --pidfile /var/run/grafana.pid \
+        -s 2
+        eend $?
+}
+```
 
 ```bash
 
