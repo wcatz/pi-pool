@@ -613,6 +613,7 @@ stop() {
 ```
 
 ```bash
-
+sudo rc-update add grafana
+sudo rc-service grafana start
 ```
 
