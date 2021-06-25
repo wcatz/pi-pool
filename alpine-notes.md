@@ -250,15 +250,31 @@ rc-update add rngd boot
 
 ```
 
-{% hint style="warning" %}
-CPU scaling is handled by Sayshar\[SRN} repo to come later. Use as reference only.
-{% endhint %}
+### CPU frequency scaling
 
 {% embed url="https://wiki.alpinelinux.org/wiki/CPU\_frequency\_scaling" %}
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Change\_default\_shell" %}
+```bash
+sudo nano /etc/local.d/cpufreq.start
+```
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Writing\_Init\_Scripts" %}
+```bash
+#!/bin/sh
+
+# Set the governor to ondemand for all processors
+for cpu in /sys/devices/system/cpu/cpufreq/policy*; do
+  echo ondemand > ${cpu}/scaling_governor              
+done
+
+# Reduce the boost threshold to 80%
+echo 80 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
+```
+
+Make it executable.
+
+```bash
+sudo chmod +x /etc/local.d/cpufreq.start
+```
 
 #### Clock-related error messages
 
@@ -305,9 +321,13 @@ rc-update add zram-init boot
 
 ### Cardano-node init file
 
+{% embed url="https://wiki.alpinelinux.org/wiki/Writing\_Init\_Scripts" %}
+
 ```bash
 sudo nano /etc/init.d/cardano-node
 ```
+
+Configure init to start it after startup.
 
 ```bash
 #!/sbin/openrc-run
@@ -322,7 +342,7 @@ depend() {
 #source /home/ada/cnode_env
 start() {
 
-        ebegin "Starting $RC_SVCNAME Relay Mode"
+        ebegin "Starting $RC_SVCNAME"
         start-stop-daemon --background --start --exec /home/ada/.local/bin/cardano-node run \
         --make-pidfile --pidfile /var/run/cardano-node.pid \
         -- --topology /home/ada/pi-pool/files\mainnet-topology.json \
@@ -350,6 +370,111 @@ stop() {
 wget -O ~/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v2.27.1/prometheus-2.27.1.linux-arm64.tar.gz
 tar -xzvf prometheus.tar.gz
 mv prometheus-* /etc/prometheus
+```
+
+Configuration file.
+
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
+
+```bash
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label job=<job_name> to any timeseries scraped from this config.
+  - job_name: 'Prometheus' # To scrape data from the cardano node
+    scrape_interval: 5s
+    static_configs:
+#      - targets: ['<CORE PRIVATE IP>:12798']
+#        labels:
+#          alias: 'C1'
+#          type:  'cardano-node'
+#      - targets: ['<RELAY PRIVATE IP>:12798']
+#        labels:
+#          alias: 'R1'
+#          type:  'cardano-node'
+      - targets: ['localhost:12798']
+        labels:
+          alias: 'N1'
+          type:  'cardano-node'
+
+#      - targets: ['<CORE PRIVATE IP>:9100']
+#        labels:
+#          alias: 'C1'
+#          type:  'node'
+#      - targets: ['<RELAY PRIVATE IP>:9100']
+#        labels:
+#          alias: 'R1'
+#          type:  'node'
+      - targets: ['localhost:9100']
+        labels:
+          alias: 'N1'
+          type:  'node'
+```
+
+#### Init file.
+
+```bash
+sudo nano /etc/init.d/prometheus
+```
+
+```bash
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Prometheus service"
+
+depend() {
+	after network-online
+}
+
+start() {
+
+#source /home/ada/cnode_env
+
+        ebegin "Starting $RC_SVCNAME"
+        start-stop-daemon --background --start --exec /etc/prometheus/prometheus \
+        --make-pidfile --pidfile /var/run/prometheus.pid \
+        -- --config.file="/etc/prometheus/prometheus.yml" \
+        --web.listen-address="0.0.0.0:9090"
+        eend $?
+
+}
+
+start_post() {
+rcstatus=blank
+        while [ -f /var/run/prometheus.pid ]
+        do
+                sleep 10
+                rcstatus=`rc-service $RC_SVCNAME status | awk '{print $NF}'`
+                if [ -z $rcstatus ]; then
+                        rc-service -c $RC_SVCNAME restart
+                        break
+                fi
+        done &
+}
+
+stop() {
+	ebegin "Stopping $RC_SVCNAME"
+        start-stop-daemon --stop --exec /etc/prometheus/prometheus \
+        --pidfile /var/run/prometheus.pid \
+        -s 2
+        eend $?
+}
+```
+
+```bash
+sudo rc-update add prometheus
+sudo rc-service prometheus start
 ```
 
 ### Install/configure Node Exporter
