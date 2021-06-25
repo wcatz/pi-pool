@@ -373,6 +373,7 @@ Add to boot & start command.
 ```bash
 sudo rc-update add cardano-node
 sudo rc-service cardano-node start # or stop
+rc-status cardano-node
 ```
 
 ### Install/configure Prometheus
@@ -486,6 +487,7 @@ stop() {
 ```bash
 sudo rc-update add prometheus
 sudo rc-service prometheus start
+rc-status prometheus
 ```
 
 ### Install/configure Node Exporter
@@ -552,6 +554,7 @@ stop() {
 ```bash
 sudo rc-update add node-exporter
 sudo rc-service node-exporter start
+rc-status node-exporter
 ```
 
 ### Install/configure Grafana
@@ -615,5 +618,6 @@ stop() {
 ```bash
 sudo rc-update add grafana
 sudo rc-service grafana start
+rc-status grafana
 ```
 
