@@ -225,7 +225,16 @@ Subsystem sftp    /usr/lib/openssh/sftp-server
 ```
 
 ```bash
+apk add wget htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
+apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
+apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
+export PAGER=less
+```
 
+Now when using ssh to enter the server use the -t switch for a bash shell. Otherwise you will login to Busybox's ash shell.
+
+```bash
+ssh ada@<private server ip> -t bash
 ```
 
 ```bash
@@ -233,13 +242,6 @@ Subsystem sftp    /usr/lib/openssh/sftp-server
 ```
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
-
-```bash
-apk add htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
-apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
-apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
-export PAGER=less
-```
 
 #### Speed up boot time create entropy.
 
@@ -305,18 +307,48 @@ rc-update add zram-init boot
 /etc/init.d/zram-init start
 ```
 
-### s6
-
-{% embed url="https://paulgorman.org/technical/linux-alpine.txt.html" %}
-
-links
+### Cardano-node init file
 
 ```bash
-- http://www.skarnet.org/software/s6/index.html
-- http://www.skarnet.org/software/s6/servicedir.html
-- https://github.com/skarnet/s6-rc/tree/master/examples/source
-- http://jaytaylor.com/notes/node/1484870107000.html
+sudo nano /etc/init.d/cardano-node
 ```
+
+```bash
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Cardano node service"
+
+depend() {
+        after network-online
+}
+
+#source /home/ada/cnode_env
+start() {
+
+        ebegin "Starting $RC_SVCNAME Relay Mode"
+        start-stop-daemon --background --start --exec /home/ada/.local/bin/cardano-node run \
+        --make-pidfile --pidfile /var/run/cardano-node.pid \
+        -- --topology /home/ada/pi-pool/files\mainnet-topology.json \
+           --database-path /home/ada/pi-pool/db \
+           --socket-path /home/ada/pi-pool/db/socket \
+           --host-addr 0.0.0.0 \
+           --port 3003 \
+           --config /home/ada/pi-pool/files/mainnet-config.json
+        eend $?
+
+}
+
+stop() {
+        ebegin "Stopping $RC_SVCNAME"
+        start-stop-daemon --stop --exec /home/ada/.local/bin/cardano-node run \
+        --pidfile /var/run/cardano-node.pid \
+        -s 2
+        eend $?
+}
+```
+
+### Prometheus init file
 
 ```bash
 
