@@ -237,10 +237,6 @@ Now when using ssh to enter the server use the -t switch for a bash shell. Other
 ssh ada@<private server ip> -t bash
 ```
 
-```bash
-
-```
-
 {% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
 
 #### Speed up boot time create entropy.
@@ -348,7 +344,21 @@ stop() {
 }
 ```
 
-### Prometheus init file
+### Install/configure Prometheus
+
+```bash
+wget -O ~/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v2.27.1/prometheus-2.27.1.linux-arm64.tar.gz
+tar -xzvf prometheus.tar.gz
+mv prometheus-* /etc/prometheus
+```
+
+### Install/configure Node Exporter
+
+```bash
+
+```
+
+### Install/configure Grafana
 
 ```bash
 
