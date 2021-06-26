@@ -319,7 +319,7 @@ size1="2048"
 ```
 
 ```bash
-rc-update add zram-init boot
+sudo rc-update add zram-init boot
 /etc/init.d/zram-init start
 ```
 
@@ -349,7 +349,7 @@ start() {
         ebegin "Starting $RC_SVCNAME"
         start-stop-daemon --background --start --exec /home/ada/.local/bin/cardano-node run \
         --make-pidfile --pidfile /var/run/cardano-node.pid \
-        -- --topology /home/ada/pi-pool/files\mainnet-topology.json \
+        -- --topology /home/ada/pi-pool/files/mainnet-topology.json \
            --database-path /home/ada/pi-pool/db \
            --socket-path /home/ada/pi-pool/db/socket \
            --host-addr 0.0.0.0 \
@@ -378,6 +378,10 @@ stop() {
         -s 2
         eend $?
 }
+```
+
+```bash
+sudo chmod +x /etc/init.d/cardano-node
 ```
 
 Add to boot & start command.
@@ -632,5 +636,11 @@ stop() {
 sudo rc-update add grafana
 sudo rc-service grafana start
 rc-status grafana
+```
+
+### Download db/ folder
+
+```bash
+wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 ```
 
