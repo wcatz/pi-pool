@@ -356,7 +356,19 @@ start() {
            --port 3003 \
            --config /home/ada/pi-pool/files/mainnet-config.json
         eend $?
+}
 
+start_post() {
+rcstatus=blank
+        while [ -f /var/run/cardano-node.pid ]
+        do
+                sleep 10
+                rcstatus=`rc-service $RC_SVCNAME status | awk '{print $NF}'`
+                if [ -z $rcstatus ]; then
+                        rc-service -c $RC_SVCNAME restart
+                        break
+                fi
+        done &
 }
 
 stop() {
