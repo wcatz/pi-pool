@@ -579,7 +579,7 @@ sudo apk add grafana
 sudo nano /etc/grafana.ini
 ```
 
-> Change http port to 5000 so it doesn't clash with cardano-node and remove the ;
+> Change http port from 3000 to 5000 so it doesn't clash with cardano-node and remove the ;
 
 ```bash
 sudo nano /etc/init.d/grafana
