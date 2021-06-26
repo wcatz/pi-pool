@@ -6,8 +6,6 @@ description: cardano-node on Alpine Linux
 
 ## Installing Alpine on Pi4
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Install\_to\_disk" %}
-
 ### Download Alpine
 
 Download Alpine to local machine.
@@ -34,11 +32,17 @@ enable_uart=1
 
 Set a password for root account.
 
+Plug in monitor and keyboard and boot RPi
+
 ```bash
 passwd
 ```
 
 {% embed url="https://wiki.alpinelinux.org/wiki/Alpine\_newbie\_apk\_packages" %}
+
+## Setup Alpine 'sys' install
+
+{% embed url="https://wiki.alpinelinux.org/wiki/Install\_to\_disk" %}
 
 Run Alpine's automatic system configuration tool.
 
@@ -68,6 +72,8 @@ setup-alpine
 >   sda    \(32.0 GB ASMT     2115            \)
 >
 >   WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
+
+## Create user
 
 Add user ada and add it to the wheel group.
 
