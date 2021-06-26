@@ -89,24 +89,11 @@ nano /etc/sudoers # uncomment %wheel ALL=(ALL) ALL
 addgroup ada wheel
 ```
 
-Enable additional repositories for apk.
+## SSH
 
 ```bash
-nano /etc/apk/repositories
+sudo nano /etc/ssh/sshd_config
 ```
-
-```bash
- GNU nano 5.7                                                                                      /etc/apk/repositories                                                                                                 
-#/media/usb/apks
-http://dl-2.alpinelinux.org/alpine/v3.14/main
-#http://dl-2.alpinelinux.org/alpine/v3.14/community
-http://dl-2.alpinelinux.org/alpine/edge/main
-http://dl-2.alpinelinux.org/alpine/edge/community
-#http://dl-2.alpinelinux.org/alpine/edge/testing
-
-```
-
-Edit /etc/ssh/sshd\_config
 
 ```bash
 #    $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
@@ -235,6 +222,25 @@ Subsystem sftp    /usr/lib/openssh/sftp-server
 
 ```
 
+## Enable additional repositories.
+
+```bash
+nano /etc/apk/repositories
+```
+
+```bash
+ GNU nano 5.7                                                                                      /etc/apk/repositories                                                                                                 
+#/media/usb/apks
+http://dl-2.alpinelinux.org/alpine/v3.14/main
+#http://dl-2.alpinelinux.org/alpine/v3.14/community
+http://dl-2.alpinelinux.org/alpine/edge/main
+http://dl-2.alpinelinux.org/alpine/edge/community
+#http://dl-2.alpinelinux.org/alpine/edge/testing
+
+```
+
+## Install packages
+
 ```bash
 apk add wget htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
 apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
@@ -242,7 +248,11 @@ apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
 export PAGER=less
 ```
 
+## Login
+
 Now when using ssh to enter the server use the -t switch for a bash shell. Otherwise you will login to Busybox's ash shell.
+
+## 
 
 ```bash
 ssh ada@<private server ip> -t bash
@@ -265,7 +275,7 @@ rc-update add rngd boot
 
 ```
 
-### CPU frequency scaling
+## CPU frequency scaling
 
 {% embed url="https://wiki.alpinelinux.org/wiki/CPU\_frequency\_scaling" %}
 
@@ -295,7 +305,7 @@ sudo chmod +x /etc/local.d/cpufreq.start
 
 During the booting time, you might notice errors related to the hardware clock. The Raspberry Pi does not have a hardware clock and therefore you need to disable the hwclock daemon and enable swclock:
 
-### Zram-init
+## Zram-init
 
 {% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
 
