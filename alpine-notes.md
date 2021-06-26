@@ -507,6 +507,10 @@ stop() {
 ```
 
 ```bash
+sudo chmod +x /etc/init.d/prometheus
+```
+
+```bash
 sudo rc-update add prometheus
 sudo rc-service prometheus start
 rc-status prometheus
@@ -574,6 +578,10 @@ stop() {
 ```
 
 ```bash
+sudo chmod +x /etc/init.d/node-exporter
+```
+
+```bash
 sudo rc-update add node-exporter
 sudo rc-service node-exporter start
 rc-status node-exporter
@@ -636,6 +644,10 @@ stop() {
         -s 2
         eend $?
 }
+```
+
+```bash
+sudo chmod +x /etc/init.d/grafana
 ```
 
 ```bash
