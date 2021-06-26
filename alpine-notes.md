@@ -580,7 +580,7 @@ name=$RC_SVCNAME
 description="Grafana service"
 
 depend() {
-	after network-online
+        after network-online
 }
 
 start() {
@@ -588,7 +588,8 @@ start() {
         ebegin "Starting $RC_SVCNAME"
         start-stop-daemon --background --start --exec /usr/sbin/grafana-server \
         --make-pidfile --pidfile /var/run/grafana.pid \
-        -- --config.file="/etc/grafana.ini"
+        --  --homepath=/usr/share/grafana \
+            --config=/etc/grafana.ini
         eend $?
 
 }
@@ -607,7 +608,7 @@ rcstatus=blank
 }
 
 stop() {
-	ebegin "Stopping $RC_SVCNAME"
+        ebegin "Stopping $RC_SVCNAME"
         start-stop-daemon --stop --exec /usr/sbin/grafana-server \
         --pidfile /var/run/grafana.pid \
         -s 2
