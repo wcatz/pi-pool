@@ -50,29 +50,33 @@ Run Alpine's automatic system configuration tool.
 setup-alpine
 ```
 
-> No disks available. Try boot media /media/usb? \(y/n\) \[n\] y
+{% hint style="warning" %}
+Go through setup choose chrony, when you get to the section for setup-disks use below quote as reference for a sys install
+{% endhint %}
+
+> No disks available. Try boot media /media/usb? \(y/n\) \[n\] **y**
 
 > WARNING: you are stopping a sysinit service 
 >
 > Unmounting /.modloop ...                                                                                                                                                                                         \[ ok \]
-
-> Available disks are:
 >
+> Available disks are:
+
 > sda    \(32.0 GB ASMT     2115            \)
 >
-> Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] sda
+> Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] **sda**
 >
 > The following disk is selected:
 >
 > sda    \(32.0 GB ASMT     2115            \)
 >
-> How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] sys
+> How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] **sys**
 >
 > WARNING: The following disk\(s\) will be erased:
 >
 > sda    \(32.0 GB ASMT     2115            \)
 >
-> WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] y
+> WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] **y**
 
 ## Create user
 
