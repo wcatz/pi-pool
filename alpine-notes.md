@@ -592,6 +592,8 @@ stop() {
 }
 ```
 
+#### Init file.
+
 ```bash
 sudo chmod +x /etc/init.d/node-exporter
 ```
