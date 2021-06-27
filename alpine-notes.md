@@ -16,18 +16,6 @@ Create a fat32 partition on your target drive and mount it.
 
 Extract the contents into the mounted fat32 partition.
 
-Create a file named **usercfg.txt** on the fat32 partition, add the following.
-
-```bash
-## Pi Pool ##
-over_voltage=6
-arm_freq=2000
-gpu_mem=32
-disable-wifi
-disable-bt
-enable_uart=1
-```
-
 ### Boot into Alpine
 
 Set a password for root account.
@@ -220,6 +208,22 @@ Subsystem sftp    /usr/lib/openssh/sftp-server
 #    PermitTTY no
 #    ForceCommand cvs server
 
+```
+
+Create a file named **usercfg.txt** on the fat32 partition, add the following.
+
+```bash
+sudo nano /boot/usercfg.txt 
+```
+
+```bash
+## Pi Pool ##
+over_voltage=6
+arm_freq=2000
+gpu_mem=32
+disable-wifi
+disable-bt
+enable_uart=1
 ```
 
 ## Enable additional repositories.
