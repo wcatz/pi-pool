@@ -281,7 +281,9 @@ rc-update add rngd boot
 
 ## CPU frequency scaling
 
-{% embed url="https://wiki.alpinelinux.org/wiki/CPU\_frequency\_scaling" %}
+{% hint style="warning" %}
+Look into this more. Disabled for now.
+{% endhint %}
 
 ```bash
 sudo nano /etc/local.d/cpufreq.start
