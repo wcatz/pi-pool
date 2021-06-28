@@ -281,10 +281,18 @@ rc-update add rngd boot
 
 ## Disable acpid
 
-Useless on a pi and crashes.
+Useless on a Pi and crashes.
 
 ```bash
 sudo rc-update del acpid​
+```
+
+## Set Nano as default editor
+
+```bash
+sudo nano /etc/profile​
+export EDITOR=nano #EOF
+source /etc/profile​
 ```
 
 ## CPU frequency scaling
