@@ -248,15 +248,13 @@ http://dl-2.alpinelinux.org/alpine/edge/community
 ```bash
 apk add jq wget htop sed attr dialog dialog-doc bash bash-doc bash-completion grep grep-doc
 apk add util-linux util-linux-doc pciutils usbutils binutils findutils readline
-apk add man man-pages lsof lsof-doc less less-doc nano nano-doc curl curl-doc
+apk add man-pages lsof lsof-doc less less-doc curl curl-doc
 export PAGER=less
 ```
 
 ## Login
 
 Now when using ssh to enter the server use the -t switch for a bash shell. Otherwise you will login to Busybox's ash shell.
-
-## 
 
 ```bash
 ssh ada@<private server ip> -t bash
