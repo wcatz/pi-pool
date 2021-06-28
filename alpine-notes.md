@@ -279,6 +279,14 @@ rc-update add rngd boot
 
 ```
 
+## Disable acpid
+
+Useless on a pi and crashes.
+
+```bash
+sudo rc-update del acpid​
+```
+
 ## CPU frequency scaling
 
 {% hint style="warning" %}
