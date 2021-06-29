@@ -329,6 +329,10 @@ During the booting time, you might notice errors related to the hardware clock. 
 
 {% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
 
+{% embed url="https://unix.stackexchange.com/questions/594817/why-does-zram-occupy-much-more-memory-compared-to-its-compressed-value/596929\#596929​" %}
+
+
+
 ```bash
 apk add zram-init
 ```
@@ -338,7 +342,7 @@ mv /etc/conf.d/zram-init /etc/conf.d/zram-init.bak
 ```
 
 ```bash
-nano /etc/conf.d/zram-init
+nano /etc/conf.d/zram-in
 ```
 
 ```bash
