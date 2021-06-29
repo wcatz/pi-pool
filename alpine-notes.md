@@ -388,7 +388,7 @@ depend() {
 start() {
 
         ebegin "Starting $RC_SVCNAME"
-        start-stop-daemon --background --start --exec /home/ada/.local/bin/cardano-node run \
+        start-stop-daemon --background --start -u ada --exec /home/ada/.local/bin/cardano-node run \
         --make-pidfile --pidfile /var/run/cardano-node.pid \
         -- --topology /home/ada/pi-pool/files/mainnet-topology.json \
            --database-path /home/ada/pi-pool/db \
