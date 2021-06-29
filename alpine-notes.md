@@ -4,7 +4,7 @@ description: cardano-node on Alpine Linux
 
 # Alpine Notes
 
-## Installing Alpine on Pi4
+Installing Alpine on Pi4
 
 ### Download Alpine
 
@@ -347,20 +347,13 @@ nano /etc/conf.d/zram-in
 
 ```bash
 load_on_start="yes"
-
 unload_on_stop="yes"
- 
-num_devices="2"
-
+num_devices="1"
 type0="swap"
 flag0=
-size0="2048"
+size0="10240"
 maxs0=2
-algo0=lz4
-
-type1="/tmp"
-flag1="ext4"
-size1="2048"
+algo0=zstd​
 ```
 
 ```bash
