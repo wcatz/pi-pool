@@ -342,7 +342,7 @@ sudo mv /etc/conf.d/zram-init /etc/conf.d/zram-init.bak
 ```
 
 ```bash
-sudo nano /etc/conf.d/zram-in
+sudo nano /etc/conf.d/zram-init
 ```
 
 ```bash
