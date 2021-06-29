@@ -334,15 +334,15 @@ During the booting time, you might notice errors related to the hardware clock. 
 
 
 ```bash
-apk add zram-init
+sudo apk add zram-init
 ```
 
 ```bash
-mv /etc/conf.d/zram-init /etc/conf.d/zram-init.bak
+sudo mv /etc/conf.d/zram-init /etc/conf.d/zram-init.bak
 ```
 
 ```bash
-nano /etc/conf.d/zram-in
+sudo nano /etc/conf.d/zram-in
 ```
 
 ```bash
@@ -358,7 +358,7 @@ algo0=zstd​
 
 ```bash
 sudo rc-update add zram-init boot
-/etc/init.d/zram-init start
+sudo /etc/init.d/zram-init start
 ```
 
 ### Cardano-node init file
