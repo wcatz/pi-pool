@@ -12,4 +12,5 @@
 * [Alpine Notes](alpine-notes.md)
 * [Create .img file](create-.img-file.md)
 * [M1 Mini Notes](m1-mini-notes.md)
+* [wireguard notes](wireguard-notes.md)
 
