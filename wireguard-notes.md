@@ -178,12 +178,12 @@ You can now update your C1 & R1 topology files so they point 10.0.0.2 & 10.0.0.1
 
 ## UFW
 
-Control traffic through the VPN.
+Control traffic through the VPN. The following allows for Prometheus/Grafana on C1 to scrape metrics from node-exporter on R1.
 
 {% tabs %}
 {% tab title="C1" %}
 ```c
-# allow ssh access on lan
+# allow ssh access on lan behind router
 sudo ufw allow 22
 # deny ssh access from R1 to C1
 sudo ufw deny in on wg0 to any port 22 proto tcp
@@ -207,7 +207,9 @@ sudo ufw allow in on wg0 to any port 9090 proto tcp
 {% endtab %}
 {% endtabs %}
 
-#### Deny ssh access from R1 to C1.
+#### Bring up ufw
+
+When you're sure your not going to lock yourself out and that all the ports for your pool that need to be open are you can bring up the firewall. Don't forget 80 & 443 if you have nginx proxying Grafana.
 
 ```c
 sudo ufw deny in on wg0 to any port 22 proto tcp
