@@ -135,6 +135,8 @@ wg-quick up wg0
 
 ```bash
 sudo wg show
+ip a # should see a wg0 interface
+
 ```
 
 Once both interfaces are up you can try and ping each other.
@@ -159,5 +161,15 @@ Enable the Wireguard service on both machines to automatically start on boot.
 sudo systemctl enable wg-quick@wg0
 ```
 
+{% hint style="danger" %}
+SaveConfig saves the loaded wg0.conf file in runtime and overwrites the file when it stops. Therefore you must stop the wg-quick@wg0 service before editing the configuration file or your changes will be overwritten when you try to restart the service or reboot the server.
 
+Like so
+
+```bash
+sudo systemctl stop wg-quick@wg0
+# edit the configuration file
+sudo systemctl start wg-quick@wg0
+```
+{% endhint %}
 
