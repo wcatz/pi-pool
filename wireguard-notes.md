@@ -14,7 +14,7 @@ Become root
 sudo su
 ```
 
-Enter the Wireguard folder and restrict access to root for any new files created.
+Enter the Wireguard folder and set permission for any new files created to root only.
 
 ```bash
 cd /etc/wireguard
@@ -36,7 +36,7 @@ nano /etc/wireguard/wg0.conf
 Edit key values and endpoint. You will need to generate a keypair on the remote node and copy it's public key here.
 
 {% hint style="info" %}
-As long as one endpoint is reachable Wireguard will connect. This is handy for punching through NAT firewalls.
+As long as one endpoint is reachable Wireguard will connect. This is handy for punching through NAT firewalls preventing you from having to open any core ports.
 {% endhint %}
 
 ```bash
@@ -54,7 +54,7 @@ PersistentKeepalive = 21
 
 ```
 
-wg-quick does all the work for us setting up the interface.
+wg-quick does all the work for us creating the interface.
 
 ```bash
 wg-quick up wg0
