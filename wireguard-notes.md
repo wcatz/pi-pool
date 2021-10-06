@@ -10,7 +10,7 @@ This guide will create a tunnel from a core node behind a firewall to a relay no
 Feel free to use a different port!
 {% endhint %}
 
-### Install Wireguard
+## Install Wireguard
 
 Do this on both machines.
 
@@ -30,6 +30,8 @@ Enter the Wireguard folder and set permissions for any new files created to root
 cd /etc/wireguard
 umask 077
 ```
+
+### Configure
 
 Generate key pairs on each machine.
 
@@ -70,11 +72,6 @@ cat R1-pubkey
 ```
 {% endtab %}
 {% endtabs %}
-
-```bash
-cat C1-privkey
-cat C1-pubkey
-```
 
 {% tabs %}
 {% tab title="C1" %}
@@ -127,7 +124,9 @@ PersistentKeepalive = 21
 {% endtab %}
 {% endtabs %}
 
-Use [wg-quick](https://manpages.debian.org/unstable/wireguard-tools/wg-quick.8.en.html) to create the interface & manage Wireguard as a Systemd service on both machines
+### [wg-quick](https://manpages.debian.org/unstable/wireguard-tools/wg-quick.8.en.html) 
+
+Use wg-quick to create the interface & manage Wireguard as a Systemd service on both machines
 
 ```bash
 wg-quick up wg0
@@ -173,7 +172,44 @@ sudo systemctl start wg-quick@wg0
 ```
 {% endhint %}
 
+### Topology
+
+You can now update your C1 & R1 topology files so they point 10.0.0.2 & 10.0.0.1 respectively through the Wireguard VPN.
+
 ## UFW
 
+Control traffic through the VPN.
 
+{% tabs %}
+{% tab title="C1" %}
+```c
+# allow ssh access on lan
+sudo ufw allow 22
+# deny ssh access from R1 to C1
+sudo ufw deny in on wg0 to any port 22 proto tcp
+# cardano-node port
+sudo ufw allow 3000
+```
+{% endtab %}
+
+{% tab title="R1" %}
+```c
+# allow ssh access
+sudo ufw allow 22
+# wireguard service
+sudo ufw allow 51820/udp
+# cardano-node port
+sudo ufw allow 3001
+# allow prometheus on C1 to scrape exporter metrics on R1
+sudo ufw allow in on wg0 to any port 12798 proto tcp
+sudo ufw allow in on wg0 to any port 9090 proto tcp
+```
+{% endtab %}
+{% endtabs %}
+
+#### Deny ssh access from R1 to C1.
+
+```c
+sudo ufw deny in on wg0 to any port 22 proto tcp
+```
 
