@@ -104,7 +104,7 @@ PrivateKey = <result of cat R1-privkey>
 [Peer]
 PublicKey = <result of cat C1-pubkey>
 AllowedIPs = 10.0.0.1/32
-Endpoint = <C1 nodes public ip or hostname>:51820
+#Endpoint = endpoint is not needed on the listening side
 PersistentKeepalive = 21
 ```
 {% endtab %}
