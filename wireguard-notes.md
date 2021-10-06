@@ -103,13 +103,15 @@ PrivateKey = qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=
 
 [Peer]
 PublicKey = FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=
-AllowedIPs = 10.0.0.12/32
+AllowedIPs = 10.0.0.2/32
 Endpoint = armada-alliance.com:51820
 PersistentKeepalive = 21
 
 ```
 {% endtab %}
 {% endtabs %}
+
+Bring the Wireguard service on both machines
 
 ```bash
 wg-quick up wg0
@@ -119,7 +121,23 @@ wg-quick up wg0
 sudo wg show
 ```
 
-Enable the Wireguard service to automatically restart on boot.
+Once both interfaces are up you can try and ping each other.
+
+{% tabs %}
+{% tab title="C1" %}
+```bash
+ping 10.0.0.2
+```
+{% endtab %}
+
+{% tab title="R1" %}
+```bash
+ ping 10.0.0.1
+```
+{% endtab %}
+{% endtabs %}
+
+Enable the Wireguard service on both machines to automatically start on boot.
 
 ```bash
 sudo systemctl enable wg-quick@wg0
