@@ -132,10 +132,11 @@ Use wg-quick to create the interface & manage Wireguard as a Systemd service on 
 wg-quick up wg0
 ```
 
-```bash
-sudo wg show
-ip a # should see a wg0 interface
+Useful commands.
 
+```bash
+sudo wg show # metrics on the interface
+ip a # should see a wg0 interface
 ```
 
 Once both interfaces are up you can try and ping each other.
@@ -165,6 +166,7 @@ Enable the Wireguard service on both machines to automatically start on boot.
 
 ```bash
 sudo systemctl enable wg-quick@wg0
+sudo systemctl status wg-quick@wg0
 ```
 
 {% hint style="danger" %}
@@ -173,9 +175,14 @@ SaveConfig saves the loaded wg0.conf file in runtime and overwrites the file whe
 Like so
 
 ```bash
-sudo systemctl stop wg-quick@wg0
+# become root
+sudo su
+# stop the service
+systemctl stop wg-quick@wg0
 # edit the configuration file
-sudo systemctl start wg-quick@wg0
+nano /etc/wireguard/wg0.conf
+# start the service
+systemctl start wg-quick@wg0
 ```
 {% endhint %}
 
@@ -185,7 +192,7 @@ You can now update your C1 & R1 topology files so they point 10.0.0.2 & 10.0.0.1
 
 ### Prometheus
 
-Likewise update Prometheus to use the VPN subnet.
+Likewise update IPv4 address' in /etc/prometheus/prometheus.yml to use the VPN.
 
 ## UFW
 
@@ -223,6 +230,8 @@ sudo ufw allow in on wg0 to any port 9090 proto tcp
 When you're sure your not going to lock yourself out and that all the ports for your pool that need to be open are you can bring up the firewall. Don't forget 80 & 443 if you have nginx proxying Grafana.
 
 ```c
-sudo ufw deny in on wg0 to any port 22 proto tcp
+sudo ufw enable
+# view rules
+sudo ufw status numbered
 ```
 
