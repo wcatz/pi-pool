@@ -117,7 +117,7 @@ PrivateKey = qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=
 [Peer]
 PublicKey = FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=
 AllowedIPs = 10.0.0.2/32
-Endpoint = armada-alliance.com:51820
+Endpoint = r1.armada-alliance.com:51820
 PersistentKeepalive = 21
 
 ```
