@@ -55,6 +55,22 @@ nano /etc/wireguard/wg0.conf
 
 Use cat to print out the key values. Public keys are then used in the other machines conf file.
 
+{% tabs %}
+{% tab title="C1" %}
+```bash
+cat C1-privkey
+cat C1-pubkey
+```
+{% endtab %}
+
+{% tab title="R1" %}
+```bash
+cat R1-privkey
+cat R1-pubkey
+```
+{% endtab %}
+{% endtabs %}
+
 ```bash
 cat C1-privkey
 cat C1-pubkey
@@ -111,7 +127,7 @@ PersistentKeepalive = 21
 {% endtab %}
 {% endtabs %}
 
-Bring the Wireguard service on both machines
+Use [wg-quick](https://manpages.debian.org/unstable/wireguard-tools/wg-quick.8.en.html) to create the interface & manage Wireguard as a Systemd service on both machines
 
 ```bash
 wg-quick up wg0
@@ -142,4 +158,6 @@ Enable the Wireguard service on both machines to automatically start on boot.
 ```bash
 sudo systemctl enable wg-quick@wg0
 ```
+
+
 
