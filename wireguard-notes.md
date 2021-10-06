@@ -47,17 +47,18 @@ wg genkey | tee R1-privkey | wg pubkey > R1-pubkey
 {% endtab %}
 {% endtabs %}
 
-Create a Wireguard configuration file.
+Create a Wireguard configuration file on both machines.
 
 ```bash
 nano /etc/wireguard/wg0.conf
 ```
 
-Edit key values and endpoint. You will need to generate a keypair on the remote node and copy it's public key here.
+Use cat to print out the key values. Public keys are then used in the other machines conf file.
 
-{% hint style="info" %}
-As long as one endpoint is reachable Wireguard will connect. This is handy for punching through NAT firewalls & preventing you from having to open any core ports.
-{% endhint %}
+```bash
+cat C1-privkey
+cat C1-pubkey
+```
 
 {% tabs %}
 {% tab title="C1" %}
@@ -66,10 +67,10 @@ As long as one endpoint is reachable Wireguard will connect. This is handy for p
 Address = 10.0.0.1/32
 SaveConfig = true
 ListenPort = 51820
-PrivateKey = <qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=>
+PrivateKey = <result of cat C1-privkey>
 
 [Peer]
-PublicKey = <FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=>
+PublicKey = <result of cat R1-pubkey>
 AllowedIPs = 10.0.0.2/32
 Endpoint = <R1 nodes public ip or hostname>:51820
 PersistentKeepalive = 21
@@ -82,18 +83,33 @@ PersistentKeepalive = 21
 Address = 10.0.0.2/32
 SaveConfig = true
 ListenPort = 51820
-PrivateKey = <qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=>
+PrivateKey = <result of cat R1-privkey>
 
 [Peer]
-PublicKey = <FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=>
+PublicKey = <result of cat C1-pubkey>
 AllowedIPs = 10.0.0.1/32
 Endpoint = <C1 nodes public ip or hostname>:51820
 PersistentKeepalive = 21
 ```
 {% endtab %}
-{% endtabs %}
 
-wg-quick does all the work for us creating the interface.
+{% tab title="Example" %}
+```bash
+[Interface]
+Address = 10.0.0.1/32
+SaveConfig = true
+ListenPort = 51820
+PrivateKey = qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=
+
+[Peer]
+PublicKey = FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=
+AllowedIPs = 10.0.0.12/32
+Endpoint = armada-alliance.com:51820
+PersistentKeepalive = 21
+
+```
+{% endtab %}
+{% endtabs %}
 
 ```bash
 wg-quick up wg0
