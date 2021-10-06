@@ -227,7 +227,7 @@ sudo ufw allow in on wg0 to any port 9090 proto tcp
 
 #### Bring up ufw
 
-When you're sure your not going to lock yourself out and that all the ports for your pool that need to be open are you can bring up the firewall. Don't forget 80 & 443 if you have nginx proxying Grafana.
+When you're sure you are not going to lock yourself out and that all the ports for your pool that need to be open are you can bring up the firewall. Don't forget 80 & 443 if you have nginx proxying Grafana.
 
 ```c
 sudo ufw enable
