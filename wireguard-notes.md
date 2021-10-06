@@ -10,8 +10,6 @@ This guide will create a tunnel from a core node behind a firewall to a relay no
 Feel free to use a different port!
 {% endhint %}
 
-![](.gitbook/assets/intruder.jpg)
-
 ## Install Wireguard
 
 Do this on both machines.
