@@ -149,10 +149,17 @@ ping 10.0.0.2
 
 {% tab title="R1" %}
 ```bash
- ping 10.0.0.1
+ping 10.0.0.1
 ```
 {% endtab %}
 {% endtabs %}
+
+If they are connected bring them down and back up with Systemd
+
+```bash
+wg-quick down wg0
+sudo systemctl start wg-quick@wg0
+```
 
 Enable the Wireguard service on both machines to automatically start on boot.
 
@@ -175,6 +182,10 @@ sudo systemctl start wg-quick@wg0
 ### Topology
 
 You can now update your C1 & R1 topology files so they point 10.0.0.2 & 10.0.0.1 respectively through the Wireguard VPN.
+
+### Prometheus
+
+Likewise update Prometheus to use the VPN subnet.
 
 ## UFW
 
