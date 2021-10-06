@@ -10,24 +10,28 @@ This guide will create a tunnel from a core node behind a firewall to a relay no
 Feel free to use a different port!
 {% endhint %}
 
+### Install Wireguard
+
+Do this on both machines.
+
 ```bash
 sudo apt install wireguard
 ```
 
-Become root
+Become root.
 
 ```bash
 sudo su
 ```
 
-Enter the Wireguard folder and set permission for any new files created to root only.
+Enter the Wireguard folder and set permissions for any new files created to root only.
 
 ```bash
 cd /etc/wireguard
 umask 077
 ```
 
-Generate key pair for the core node.
+Generate key pairs on each machine.
 
 {% tabs %}
 {% tab title="C1" %}
