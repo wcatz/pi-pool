@@ -196,5 +196,55 @@ armada-alliance.com.	524	IN	A	185.199.108.153
 ;; MSG SIZE  rcvd: 80
 ```
 
-This one should be pretty quick. Congrats DNS caching of DNS over TLS. Now we have to configure Ubuntu to use it and prevent DNS leaks.
+This one should be pretty quick. Congrats DNS caching of DNS over TLS is working. Now we have to configure Ubuntu to use it and prevent DNS leaks.
+
+## Configure Netplan & 
+
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+
+```bash
+# This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init's
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp4-overrides:
+        use-dns: no
+      nameservers:
+        addresses: [127.0.0.1]
+      optional: true
+  version: 2
+```
+
+Confirm Netplan UseDNS=false under \[DHCP\]
+
+```bash
+[Match]
+Name=eth0
+
+[Link]
+RequiredForOnline=no
+
+[Network]
+DHCP=ipv4
+LinkLocalAddressing=ipv6
+DNS=127.0.0.1
+
+[DHCP]
+RouteMetric=100
+UseMTU=true
+UseDNS=false
+```
+
+Enable DNSSEC in systemd-resolve
+
+```bash
+sudo nano /run/systemd/network/10-netplan-eth0.network
+```
 
