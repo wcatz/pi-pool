@@ -245,6 +245,55 @@ UseDNS=false
 Enable DNSSEC in systemd-resolve
 
 ```bash
-sudo nano /run/systemd/network/10-netplan-eth0.network
+sudo nano /etc/systemd/resolved.conf
+```
+
+Uncomment and change to yes.
+
+```bash
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See resolved.conf(5) for details
+
+[Resolve]
+# Some examples of DNS servers which may be used for DNS= and FallbackDNS=:
+# Cloudflare: 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
+# Google:     8.8.8.8 8.8.4.4 2001:4860:4860::8888 2001:4860:4860::8844
+# Quad9:      9.9.9.9 2620:fe::fe
+#DNS=127.0.0.1
+#FallbackDNS=
+#Domains=
+DNSSEC=yes
+#DNSOverTLS=yes
+#MulticastDNS=no
+#LLMNR=no
+#Cache=no-negative
+#DNSStubListener=yes
+#DNSStubListenerExtra=
+#ReadEtcHosts=yes
+#ResolveUnicastSingleLabel=no
+```
+
+Restart the service & confirm DNSSEC support.
+
+```bash
+sudo systemctl restart systemd-resolved
+systemd-resolve --status | grep DNSSEC
+```
+
+```bash
+ada@ubuntu:~$ systemd-resolve --status | grep DNSSEC
+     Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
+     Protocols: +DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
 ```
 
