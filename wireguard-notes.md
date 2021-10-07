@@ -12,6 +12,10 @@ Feel free to use a different port!
 
 {% embed url="https://github.com/pirate/wireguard-docs" %}
 
+{% embed url="https://www.linuxbabe.com/ubuntu/ubuntu-stubby-dns-over-tls" %}
+
+{% embed url="https://github.com/getdnsapi/stubby" %}
+
 
 
 ## Install Wireguard
@@ -76,6 +80,14 @@ cat R1-pubkey
 ```
 {% endtab %}
 {% endtabs %}
+
+```c
+PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privkey)
+```
+
+```c
+PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnssec %i yes
+```
 
 {% tabs %}
 {% tab title="C1" %}
