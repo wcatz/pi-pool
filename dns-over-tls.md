@@ -291,9 +291,17 @@ systemd-resolve --status | grep DNSSEC
 ```
 
 ```bash
-ada@ubuntu:~$ systemd-resolve --status | grep DNSSEC
-     Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
-     Protocols: +DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
-     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
+Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
+Protocols: +DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
+Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
 ```
+
+{% embed url="http://dnssec.vs.uni-due.de/" %}
+
+
+
+#### Test validation
+
+* `dig sigok.verteiltesysteme.net @127.0.0.1` \(should return [A record](http://dnssec.vs.uni-due.de/dig-sigok)\)
+* `dig sigfail.verteiltesysteme.net @127.0.0.1` \(should return [SERVFAIL](http://dnssec.vs.uni-due.de/dig-sigfail)\)
 
