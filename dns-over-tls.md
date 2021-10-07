@@ -4,12 +4,14 @@ description: >-
   subsequent requests
 ---
 
-# DNS over TLS
+# DNS over TLS stubby & dnsmasq
 
 ## Install Stubby
 
+getdns-utils has Stubby and a few helper packages.
+
 ```
-sudo apt install stubby
+sudo apt install getdns-utils
 ```
 
 Start the Stubby service, enable at boot and confirm it is running.
@@ -57,12 +59,14 @@ Open the Stubby configuration file.
 sudo nano /etc/stubby/stubby.yml
 ```
 
-Change the listen\_addresses entry to port 5300.
+Change the listen\_addresses entry to port 5300 and turn on dnssec/
 
 ```bash
 listen_addresses:
   - 127.0.0.1@53000
   - 0::1@53000
+dnssec: GETDNS_EXTENSION_TRUE
+appdata_dir: "/var/cache/stubby"
 ```
 
 Save the file and restart Stubby.
@@ -115,6 +119,10 @@ That one took 567ms. We can use Dnsmasq to cache lookups.
 sudo apt install dnsmasq
 ```
 
+{% hint style="warning" %}
+The service will fail starting up until we configure it.
+{% endhint %}
+
 Move the default config file and create a new one.
 
 ```bash
@@ -129,6 +137,14 @@ server=127.0.0.1#53000
 listen-address=127.0.0.1
 interface=lo
 bind-interfaces
+bogus-priv
+domain-needed
+expand-hosts
+quiet-dhcp
+proxy-dnssec
+cache-size=10000
+log-async=10
+no-resolv
 ```
 
 Save the file, restart Dnsmasq and enable it to start on boot.
@@ -136,6 +152,7 @@ Save the file, restart Dnsmasq and enable it to start on boot.
 ```bash
 sudo systemctl restart dnsmasq
 sudo systemctl enable dnsmasq
+sudo systemctl status dnsmasq
 ```
 
 Confirm everything is working.
@@ -215,34 +232,31 @@ network:
     eth0:
       dhcp4: true
       dhcp4-overrides:
-        use-dns: no
+        use-dns: false
+      dhcp6: true
+      dhcp6-overrides:
+        use-dns: false
+      ipv6-privacy: true
       nameservers:
         addresses: [127.0.0.1]
       optional: true
   version: 2
 ```
 
-Confirm Netplan UseDNS=false under \[DHCP\]
-
 ```bash
-[Match]
-Name=eth0
-
-[Link]
-RequiredForOnline=no
-
-[Network]
-DHCP=ipv4
-LinkLocalAddressing=ipv6
-DNS=127.0.0.1
-
-[DHCP]
-RouteMetric=100
-UseMTU=true
-UseDNS=false
+sudo netplan apply
 ```
 
-Enable DNSSEC in systemd-resolve
+```bash
+networkctl status eth0
+```
+
+```bash
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+```
+
+{% embed url="https://github.com/macvk/dnsleaktest" %}
 
 ```bash
 sudo nano /etc/systemd/resolved.conf
@@ -295,8 +309,6 @@ Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
 Protocols: +DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
 Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=yes/supported
 ```
-
-{% embed url="http://dnssec.vs.uni-due.de/" %}
 
 
 
