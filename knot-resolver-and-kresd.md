@@ -191,7 +191,7 @@ Open another terminal and trigger a lookup.
 kdig +dnssec armada-alliance.com
 ```
 
-### Useful commands
+### Sword of Omens
 
 ```bash
 sudo lsof -i -P -n
