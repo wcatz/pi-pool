@@ -84,8 +84,8 @@ cat R1-pubkey
 Address = 10.220.0.1/22
 SaveConfig = true
 ListenPort = 51820
-# PrivateKey = <result of cat C1-privkey>
 PostUp = wg set %i private-key <path to private key>
+##PostUp = resolvectl domain %i "~."; resolvectl dns %i 10.220.0.2; resolvectl dnssec %i yes
 
 [Peer]
 PublicKey = <result of cat R1-pubkey>
