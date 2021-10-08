@@ -96,7 +96,8 @@ PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnss
 Address = 10.220.0.1/22
 SaveConfig = true
 ListenPort = 51820
-PrivateKey = <result of cat C1-privkey>
+# PrivateKey = <result of cat C1-privkey>
+PostUp = wg set %i private-key <path to private key>
 
 [Peer]
 PublicKey = <result of cat R1-pubkey>
@@ -112,7 +113,7 @@ PersistentKeepalive = 21
 Address = 10.220.0.2/22
 SaveConfig = true
 ListenPort = 51820
-PrivateKey = <result of cat R1-privkey>
+PostUp = wg set %i private-key <path to private key>
 
 [Peer]
 PublicKey = <result of cat C1-pubkey>
@@ -128,7 +129,7 @@ PersistentKeepalive = 21
 Address = 10.220.0.1/22
 SaveConfig = true
 ListenPort = 51820
-PrivateKey = qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=
+PostUp = wg set %i private-key /etc/wireguard/C1-privkey
 
 [Peer]
 PublicKey = FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=
@@ -152,6 +153,7 @@ Useful commands.
 ```bash
 sudo wg show # metrics on the interface
 ip a # should see a wg0 interface
+alias wgstrip='wg syncconf wg0 <(wg-quick strip wg0)'
 ```
 
 Once both interfaces are up you can try and ping each other.
