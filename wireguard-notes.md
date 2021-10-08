@@ -5,10 +5,18 @@ From the [WireGuard](https://www.wireguard.com/) project homepage:
 WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances. Initially released for the Linux kernel, it is now cross-platform \(Windows, macOS, BSD, iOS, Android\) and widely deployable.
 
 {% hint style="success" %}
-This guide will create a tunnel from a core node behind a firewall to a relay node with Wireguard listening on the default port 51820. We will then control traffic between the connected interfaces with UFW.
+This guide will create a VPN from a core node behind a firewall to a relay node with Wireguard listening on the default port 51820. We will then control traffic between the connected interfaces with UFW.
 
 Feel free to use a different port!
 {% endhint %}
+
+{% embed url="https://github.com/pirate/wireguard-docs" %}
+
+{% embed url="https://www.linuxbabe.com/ubuntu/ubuntu-stubby-dns-over-tls" %}
+
+{% embed url="https://github.com/getdnsapi/stubby" %}
+
+
 
 ## Install Wireguard
 
@@ -73,18 +81,26 @@ cat R1-pubkey
 {% endtab %}
 {% endtabs %}
 
+```c
+PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privkey)
+```
+
+```c
+PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnssec %i yes
+```
+
 {% tabs %}
 {% tab title="C1" %}
 ```bash
 [Interface]
-Address = 10.0.0.1/32
+Address = 10.220.0.1/22
 SaveConfig = true
 ListenPort = 51820
 PrivateKey = <result of cat C1-privkey>
 
 [Peer]
 PublicKey = <result of cat R1-pubkey>
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.220.0.2/22
 Endpoint = <R1 nodes public ip or hostname>:51820
 PersistentKeepalive = 21
 ```
@@ -93,14 +109,14 @@ PersistentKeepalive = 21
 {% tab title="R1" %}
 ```bash
 [Interface]
-Address = 10.0.0.2/32
+Address = 10.220.0.2/22
 SaveConfig = true
 ListenPort = 51820
 PrivateKey = <result of cat R1-privkey>
 
 [Peer]
 PublicKey = <result of cat C1-pubkey>
-AllowedIPs = 10.0.0.1/32
+AllowedIPs = 10.220.0.1/22
 #Endpoint = endpoint is not needed on the listening side
 PersistentKeepalive = 21
 ```
@@ -109,17 +125,16 @@ PersistentKeepalive = 21
 {% tab title="Example" %}
 ```bash
 [Interface]
-Address = 10.0.0.1/32
+Address = 10.220.0.1/22
 SaveConfig = true
 ListenPort = 51820
 PrivateKey = qKGaBCnUQq2G821v1l2jm2xJc6IC9izOG2G92kyoEH8=
 
 [Peer]
 PublicKey = FnXP9t17JXTCf3kyuTBh/z83NeJsE8Ar2HtOCy2VPyw=
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.220.0.2/22
 Endpoint = r1.armada-alliance.com:51820
 PersistentKeepalive = 21
-
 ```
 {% endtab %}
 {% endtabs %}
@@ -144,13 +159,13 @@ Once both interfaces are up you can try and ping each other.
 {% tabs %}
 {% tab title="C1" %}
 ```bash
-ping 10.0.0.2
+ping 10.220.0.2
 ```
 {% endtab %}
 
 {% tab title="R1" %}
 ```bash
-ping 10.0.0.1
+ping 10.220.0.1
 ```
 {% endtab %}
 {% endtabs %}
