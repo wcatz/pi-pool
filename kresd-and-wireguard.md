@@ -4,7 +4,17 @@
 
 {% embed url="https://knot-resolver.readthedocs.io/en/stable/index.html" %}
 
+```bash
+sudo lsof -i -P -n
+networkctl status eth0
+```
 
+```bash
+wget https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
+sudo dpkg -i knot-resolver-release.deb
+sudo apt update
+sudo apt install -y knot-resolver knot-dnsutils
+```
 
 {% hint style="warning" %}
  Super-powers are granted randomly so please submit an issue if you're not happy with yours.
@@ -14,16 +24,10 @@
 sudo nano /etc/systemd/resolved.conf
 edit line 
 #DNSStubListener=yes to be DNSStubListener=no
+sudo systemctl disable systemd-resolved
 sudo systemctl stop systemd-resolved
 sudo systemctl status systemd-resolved
 sudo rm /etc/resolv.conf
-```
-
-```bash
-wget https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
-sudo dpkg -i knot-resolver-release.deb
-sudo apt update
-sudo apt install -y knot-resolver knot-dnsutils
 ```
 
 Once you're strong enough, save the world:
@@ -63,14 +67,22 @@ sudo nano /etc/knot-resolver/kresd.conf
 ```
 
 ```lua
--- listen to local connections
-net.listen(net.lo, 53)
-net.listen(net.eth0, 853, { kind = 'tls' })
+-- SPDX-License-Identifier: CC0-1.0
+-- vim:syntax=lua:set ts=4 sw=4:
+-- Refer to manual: https://knot-resolver.readthedocs.org/en/stable/
+
+-- Network interface configuration
+net.listen('127.0.0.1', 53, { kind = 'dns' })
+net.listen('127.0.0.1', 853, { kind = 'tls' })
+--net.listen('127.0.0.1', 443, { kind = 'doh2' })
+net.listen('::1', 53, { kind = 'dns', freebind = true })
+net.listen('::1', 853, { kind = 'tls', freebind = true })
+--net.listen('::1', 443, { kind = 'doh2' })
 
 -- Enable optional modules
 modules = {
   'policy',
-  'hints',
+  'hints > iterate',  -- Load /etc/hosts and allow custom root hints
   'serve_stale < cache',
   'workarounds < iterate',
   'stats',
@@ -86,11 +98,12 @@ policy.add(policy.slice(
       {'185.43.135.1', hostname='odvr.nic.cz'},
    })
 ))
-
+-- Cache size
+cache.size = 100 * MB
 ```
 
 ```bash
-sudo systemctl enable kresd@1.service
+sudo systemctl enable --now kresd@1.service
 sudo systemctl start kresd@1.service
 ```
 
