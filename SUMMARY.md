@@ -15,4 +15,5 @@
 * [wireguard notes](wireguard-notes.md)
 * [DNS over TLS stubby & dnsmasq](dns-over-tls.md)
 * [dns over tls resolved](dns-over-tls-resolved.md)
+* [kresd & wireguard](kresd-and-wireguard.md)
 
