@@ -12,10 +12,6 @@ Feel free to use a different port!
 
 {% embed url="https://github.com/pirate/wireguard-docs" %}
 
-{% embed url="https://www.linuxbabe.com/ubuntu/ubuntu-stubby-dns-over-tls" %}
-
-{% embed url="https://github.com/getdnsapi/stubby" %}
-
 
 
 ## Install Wireguard
