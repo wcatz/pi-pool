@@ -6,7 +6,7 @@ description: >-
 
 # knot-resolver & kresd
 
-## Getting Super Powers
+## Install knot-resolver
 
 {% embed url="https://knot-resolver.readthedocs.io/en/stable/index.html" %}
 
@@ -18,7 +18,7 @@ sudo apt install -y knot-resolver knot-dnsutils
 ```
 
 {% hint style="warning" %}
- Super-powers are granted randomly so please submit an issue if you're not happy with yours.
+ 
 {% endhint %}
 
 Stop resolved, confirm it's stopped and remove the symbolic link to /etc/systemd/resolved.conf
