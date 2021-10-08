@@ -1,4 +1,10 @@
-# kresd & wireguard
+---
+description: >-
+  DNS over TLS forwarding requests to cz.nic. Optionally serve DNS over TLS to a
+  client on a Wireguard VPN.
+---
+
+# knot-resolver & kresd
 
 ## Getting Super Powers
 

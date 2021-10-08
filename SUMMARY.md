@@ -13,7 +13,7 @@
 * [Create .img file](create-.img-file.md)
 * [M1 Mini Notes](m1-mini-notes.md)
 * [wireguard notes](wireguard-notes.md)
-* [kresd & wireguard](kresd-and-wireguard.md)
+* [knot-resolver & kresd](kresd-and-wireguard.md)
 * [DNS over TLS stubby & dnsmasq](dns-over-tls.md)
 * [dns over tls resolved](dns-over-tls-resolved.md)
 
