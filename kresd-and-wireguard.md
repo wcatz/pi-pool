@@ -19,7 +19,7 @@ sudo systemctl status systemd-resolved
 sudo rm /etc/resolv.conf
 ```
 
-```
+```bash
 wget https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
 sudo dpkg -i knot-resolver-release.deb
 sudo apt update
@@ -32,7 +32,7 @@ Once you're strong enough, save the world:
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
-```bash
+```yaml
 # This file is generated from information provided by the datasource.  Changes
 # to it will not persist across an instance reboot.  To disable cloud-init's
 # network configuration capabilities, write a file
@@ -62,7 +62,7 @@ sudo netplan apply
 sudo nano /etc/knot-resolver/kresd.conf
 ```
 
-```bash
+```lua
 -- listen to local connections
 net.listen(net.lo, 53)
 net.listen(net.eth0, 853, { kind = 'tls' })
