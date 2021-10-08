@@ -1,7 +1,7 @@
 ---
 description: >-
-  DNS over TLS forwarding requests to cz.nic. Optionally serve DNS over TLS to a
-  client on a Wireguard VPN.
+  DNS over TLS forwarding requests to cz.nic. Optionally serve DNS to a client
+  on a Wireguard VPN.
 ---
 
 # knot-resolver & kresd
@@ -9,11 +9,6 @@ description: >-
 ## Getting Super Powers
 
 {% embed url="https://knot-resolver.readthedocs.io/en/stable/index.html" %}
-
-```bash
-sudo lsof -i -P -n
-networkctl status eth0
-```
 
 ```bash
 wget https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
@@ -26,14 +21,15 @@ sudo apt install -y knot-resolver knot-dnsutils
  Super-powers are granted randomly so please submit an issue if you're not happy with yours.
 {% endhint %}
 
+Stop resolved, confirm it's stopped and remove the symbolic link to /etc/systemd/resolved.conf
+
 ```bash
-sudo nano /etc/systemd/resolved.conf
-# edit line 
-# DNSStubListener=yes to DNSStubListener=no
 sudo systemctl stop systemd-resolved
 sudo systemctl status systemd-resolved
 sudo rm /etc/resolv.conf
 ```
+
+Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub listener.
 
 ```bash
 sudo nano /etc/systemd/resolved.conf 
@@ -72,7 +68,7 @@ DNSStubListener=no
 #ResolveUnicastSingleLabel=no
 ```
 
-Configure netplan.
+Configure netplan to use kresd.
 
 ```bash
 sudo nano /etc/netplan/50-cloud-init.yaml
@@ -100,9 +96,13 @@ network:
   version: 2
 ```
 
+Apply the changes.
+
 ```bash
 sudo netplan apply
 ```
+
+Open the kresd.conf file and replace the contents with the below.
 
 ```bash
 sudo nano /etc/knot-resolver/kresd.conf
@@ -147,14 +147,20 @@ policy.add(policy.slice(
 cache.size = 100 * MB
 ```
 
+Start systemd-resolved back up.
+
 ```bash
 sudo systemctl start systemd-resolved
 ```
+
+Enable the kresd systemd service and start it.
 
 ```bash
 sudo systemctl enable --now kresd@1.service
 sudo systemctl start kresd@1.service
 ```
+
+Check for DNSSEC support.
 
 ```bash
 resolvectl statistics
@@ -176,5 +182,12 @@ Open another terminal and trigger a lookup.
 
 ```bash
 kdig +dnssec armada-alliance.com
+```
+
+### Useful commands
+
+```bash
+sudo lsof -i -P -n
+networkctl status eth0
 ```
 
