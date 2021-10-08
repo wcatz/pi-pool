@@ -68,6 +68,12 @@ DNSStubListener=no
 #ResolveUnicastSingleLabel=no
 ```
 
+{% hint style="warning" %}
+add ubuntu in /etc/hosts to make the below go away. Set a FQDN.
+
+sudo: unable to resolve host ubuntu: Name or service not known
+{% endhint %}
+
 Configure netplan to use kresd.
 
 ```bash
@@ -189,5 +195,6 @@ kdig +dnssec armada-alliance.com
 ```bash
 sudo lsof -i -P -n
 networkctl status eth0
+resolvectl status
 ```
 
