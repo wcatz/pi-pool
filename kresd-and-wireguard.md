@@ -139,7 +139,33 @@ cache.size = 100 * MB
 ```
 
 ```bash
+sudo systemctl start systemd-resolved
+```
+
+```bash
 sudo systemctl enable --now kresd@1.service
 sudo systemctl start kresd@1.service
+```
+
+```bash
+resolvectl statistics
+```
+
+## Confirm
+
+Install tshark.
+
+```bash
+sudo apt install tshark
+```
+
+```bash
+sudo tshark dst port 853
+```
+
+Open another terminal and trigger a lookup.
+
+```bash
+kdig +dnssec armada-alliance.com
 ```
 
