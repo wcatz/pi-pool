@@ -81,14 +81,6 @@ cat R1-pubkey
 {% endtab %}
 {% endtabs %}
 
-```c
-PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privkey)
-```
-
-```c
-PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnssec %i yes
-```
-
 {% tabs %}
 {% tab title="C1" %}
 ```bash
@@ -250,5 +242,15 @@ When you're sure you are not going to lock yourself out and that all the ports f
 sudo ufw enable
 # view rules
 sudo ufw status numbered
+```
+
+Notes & links
+
+```c
+PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnssec %i yes
+```
+
+```c
+PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privkey)
 ```
 
