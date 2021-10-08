@@ -149,6 +149,7 @@ policy.add(policy.slice(
       {'185.43.135.1', hostname='odvr.nic.cz'},
    })
 ))
+
 -- Cache size
 cache.size = 100 * MB
 ```
