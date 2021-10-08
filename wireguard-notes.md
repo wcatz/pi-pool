@@ -193,7 +193,7 @@ systemctl start wg-quick@wg0
 
 ### Topology
 
-You can now update your C1 & R1 topology files so they point 10.0.0.2 & 10.0.0.1 respectively through the Wireguard VPN.
+You can now update your C1 & R1 topology files so they point 10.220.0.2 & 10.220.0.1 respectively through the Wireguard VPN.
 
 ### Prometheus
 
