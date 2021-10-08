@@ -65,6 +65,7 @@ sudo nano /etc/knot-resolver/kresd.conf
 ```bash
 -- listen to local connections
 net.listen(net.lo, 53)
+net.listen(net.eth0, 853, { kind = 'tls' })
 
 -- Enable optional modules
 modules = {
