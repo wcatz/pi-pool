@@ -121,6 +121,9 @@ net.listen('::1', 53, { kind = 'dns', freebind = true })
 net.listen('::1', 853, { kind = 'tls', freebind = true })
 --net.listen('::1', 443, { kind = 'doh2' })
 
+-- Listen on Wireguard, interface must exist
+--net.listen('10.220.0.1', 853, { kind = 'tls' })
+
 -- Enable optional modules
 modules = {
   'policy',
