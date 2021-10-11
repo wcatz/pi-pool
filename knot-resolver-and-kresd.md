@@ -195,7 +195,8 @@ kdig +dnssec armada-alliance.com
 
 ```bash
 sudo lsof -i -P -n
-ss -a state established
+ss -a -t state established # -t for tcp
 networkctl status eth0
 resolvectl status
 ```
+
