@@ -29,7 +29,7 @@ sudo systemctl status systemd-resolved
 sudo rm /etc/resolv.conf
 ```
 
-Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub listener.
+Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub reso listener.
 
 ```bash
 sudo nano /etc/systemd/resolved.conf 
@@ -198,4 +198,3 @@ sudo lsof -i -P -n
 networkctl status eth0
 resolvectl status
 ```
-
