@@ -35,7 +35,7 @@ Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub resolver.
 sudo nano /etc/systemd/resolved.conf 
 ```
 
-```shell-session
+```bash
 #  This file is part of systemd.
 #
 #  systemd is free software; you can redistribute it and/or modify it
