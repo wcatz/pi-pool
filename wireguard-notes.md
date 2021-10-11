@@ -212,8 +212,7 @@ sudo ufw allow 22
 sudo ufw deny in on wg0 to any port 22 proto tcp
 # cardano-node port
 sudo ufw allow 3000
-# Wireguard udp only
-sudo ufw allow 51820/udp
+
 ```
 {% endtab %}
 
