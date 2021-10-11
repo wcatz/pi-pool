@@ -29,7 +29,7 @@ sudo systemctl status systemd-resolved
 sudo rm /etc/resolv.conf
 ```
 
-Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub reso listener.
+Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub resolver.
 
 ```bash
 sudo nano /etc/systemd/resolved.conf 
@@ -69,7 +69,7 @@ DNSStubListener=no
 ```
 
 {% hint style="warning" %}
-add ubuntu in /etc/hosts to make the below go away. Set a FQDN.
+add ubuntu in /etc/hosts to make the below go away or set a FQDN.
 
 sudo: unable to resolve host ubuntu: Name or service not known
 {% endhint %}
