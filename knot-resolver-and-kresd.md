@@ -35,7 +35,7 @@ Point DNS to kresd, turn on DNSSEC and DNSOverTLS & disable the stub resolver.
 sudo nano /etc/systemd/resolved.conf 
 ```
 
-```bash
+```shell-session
 #  This file is part of systemd.
 #
 #  systemd is free software; you can redistribute it and/or modify it
@@ -55,7 +55,7 @@ sudo nano /etc/systemd/resolved.conf
 # Google:     8.8.8.8 8.8.4.4 2001:4860:4860::8888 2001:4860:4860::8844
 # Quad9:      9.9.9.9 2620:fe::fe
 DNS=127.0.0.1 ::1
-#FallbackDNS=
+FallbackDNS=9.9.9.9
 #Domains=
 DNSSEC=yes
 DNSOverTLS=yes
