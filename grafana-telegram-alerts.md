@@ -16,7 +16,11 @@ Go to [https://t.me/botfather](https://t.me/botfather) in Telegram and create a 
 
 Something like that. Get creative.
 
-Follow the t.me link to your bot. Start it and click on the three dots and 'get info'. Copy your bots username
+### Create a Telegram group
+
+In Telegram you can create a group by clicking on the :pencil:symbol next to the search bar. You can go back and add an image and change the name later.
+
+### Add your bot to the new group
 
 {% hint style="info" %}
 Return to Bot Father if you need a link to your bot or if you need the api token.
@@ -24,17 +28,13 @@ Return to Bot Father if you need a link to your bot or if you need the api token
 [https://t.me/botfather](https://t.me/botfather)
 {% endhint %}
 
-### Create a Telegram group
-
-In Telegram you can create a group by clicking on the :pencil:symbol next to the search bar.
-
-### Add your bot to the new group
+Open botfather Follow the t.me link to your bot. Start it and click on the three dots and 'get info'. Copy your bots username.
 
 Edit your new group, click on add members. Enter your bots name in the search bar and add your bot to the group.
 
-### Find your bots group user id
+### Find your groups Chat ID
 
-Paste your bots API token into the url below. If you only get status ok you may have to remove and add your bot back in again. Otherwise use the image below to determine your Chat ID.
+Paste your bots API token into the url below. If you only get status ok you may have to remove and add your bot back in again. Otherwise use the image below to determine your Chat ID. Starts with -
 
 https://api.telegram.org/bot\<YOUR BOT API TOKEN>/getUpdates
 
@@ -44,4 +44,6 @@ https://api.telegram.org/bot\<YOUR BOT API TOKEN>/getUpdates
 
 Click the bell icon in Grafanas left hand verticle menu and choose notification channels. Choose 'Add channel'. Give it a name and choose Telegram under type. Enter the token and the chat id value you copied earlier. Click test and you should get a green 'test notification sent' and a message in your new group. If so go ahead and click save.
 
-###
+## Add a dashboard for monitoring
+
+Grafana Alerts are only available for 'graph' type panelsn not always how we would look at the data. Let's create a new dashboard with the graph type panels we need for alerts.
