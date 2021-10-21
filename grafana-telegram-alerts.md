@@ -42,8 +42,8 @@ https://api.telegram.org/bot\<YOUR BOT API TOKEN>/getUpdates
 
 ## Create a notification channel in Grafana
 
-Click the bell icon in Grafanas left hand verticle menu and choose notification channels. Choose 'Add channel'. Give it a name and choose Telegram under type. Enter the token and the chat id value you copied earlier. Click test and you should get a green 'test notification sent' and a message in your new group. If so go ahead and click save.
+Click the bell icon in Grafanas left hand vertical menu and choose notification channels. Choose 'Add channel'. Give it a name and choose Telegram under type. Enter the token and the chat id value you copied earlier. Click test and you should get a green 'test notification sent' and a message in your new group. If so go ahead and click save.
 
 ## Add a dashboard for monitoring
 
-Grafana Alerts are only available for 'graph' type panelsn not always how we would look at the data. Let's create a new dashboard with the graph type panels we need for alerts.
+Grafana Alerts are only available for 'graph' type panels, not always how we would look at the data. Let's create a new dashboard with graph type panels we need for alerts.
