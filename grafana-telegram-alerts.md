@@ -2,7 +2,9 @@
 
 ## Prerequisites&#x20;
 
-Prometheus data source working in Grafana & a Telegram account. To get alerts it is best to have Grafana on a vps or in a different location. This way if your internet goes down you will still be alerted. What I do is connect Grafana to a Prometheus endpoint through a Wireguard tunnel. I have a local Grafana and a remote Grafana using the same data source.
+Prometheus data source working in Grafana & a Telegram account. To get alerts it is best to have Grafana on a Pi in another location or on a vps. This way if your internet goes down you will still be alerted.&#x20;
+
+What I do is connect Grafana to a Prometheus endpoint through a Wireguard VPN on my core. I have a local Grafana and a remote Grafana using the same data source. One dashboard on the remote Grafana has alerts that use Telegram.
 
 ### Create a Telegram bot
 
@@ -46,4 +48,4 @@ Click the bell icon in Grafanas left hand vertical menu and choose notification 
 
 ## Add a dashboard for monitoring
 
-Grafana Alerts are only available for 'graph' type panels, not always how we would look at the data. Let's create a new dashboard with graph type panels we need for alerts.
+Grafana Alerts are only available for 'time series' & 'graph (old)' type panels, not always how we would look at the data. Let's create a new dashboard with graph type panels we need for alerts.
