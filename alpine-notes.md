@@ -26,11 +26,11 @@ Plug in monitor and keyboard and boot RPi
 passwd
 ```
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Alpine\_newbie\_apk\_packages" %}
+{% embed url="https://wiki.alpinelinux.org/wiki/Alpine_newbie_apk_packages" %}
 
 ## Setup Alpine 'sys' install
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Install\_to\_disk" %}
+{% embed url="https://wiki.alpinelinux.org/wiki/Install_to_disk" %}
 
 Run Alpine's automatic system configuration tool.
 
@@ -42,29 +42,29 @@ setup-alpine
 Go through setup choose chrony, when you get to the section for setup-disks use below quote as reference for a sys install
 {% endhint %}
 
-> No disks available. Try boot media /media/usb? \(y/n\) \[n\] **y**
+> No disks available. Try boot media /media/usb? (y/n) \[n] **y**
 
-> WARNING: you are stopping a sysinit service 
+> WARNING: you are stopping a sysinit service&#x20;
 >
-> Unmounting /.modloop ...                                                                                                                                                                                         \[ ok \]
+> Unmounting /.modloop ...                                                                                                                                                                                         \[ ok ]
 >
 > Available disks are:
 
-> sda    \(32.0 GB ASMT     2115            \)
+> sda    (32.0 GB ASMT     2115            )
 >
-> Which disk\(s\) would you like to use? \(or '?' for help or 'none'\) \[none\] **sda**
+> Which disk(s) would you like to use? (or '?' for help or 'none') \[none] **sda**
 >
 > The following disk is selected:
 >
-> sda    \(32.0 GB ASMT     2115            \)
+> sda    (32.0 GB ASMT     2115            )
 >
-> How would you like to use it? \('sys', 'data', 'lvm' or '?' for help\) \[?\] **sys**
+> How would you like to use it? ('sys', 'data', 'lvm' or '?' for help) \[?] **sys**
 >
-> WARNING: The following disk\(s\) will be erased:
+> WARNING: The following disk(s) will be erased:
 >
-> sda    \(32.0 GB ASMT     2115            \)
+> sda    (32.0 GB ASMT     2115            )
 >
-> WARNING: Erase the above disk\(s\) and continue? \(y/n\) \[n\] **y**
+> WARNING: Erase the above disk(s) and continue? (y/n) \[n] **y**
 
 ## Create user
 
@@ -264,7 +264,7 @@ ssh ada@<private server ip> -t bash
 Slap Ubuntu's .bashrc file in the home directory
 {% endhint %}
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Newbie\_Alpine\_Ecosystem" %}
+{% embed url="https://wiki.alpinelinux.org/wiki/Newbie_Alpine_Ecosystem" %}
 
 #### Speed up boot time create entropy.
 
@@ -327,9 +327,9 @@ During the booting time, you might notice errors related to the hardware clock. 
 
 ## Zram-init
 
-{% embed url="https://wiki.gentoo.org/wiki/Zram\#Initialization" %}
+{% embed url="https://wiki.gentoo.org/wiki/Zram#Initialization" %}
 
-{% embed url="https://unix.stackexchange.com/questions/594817/why-does-zram-occupy-much-more-memory-compared-to-its-compressed-value/596929\#596929​" %}
+{% embed url="https://unix.stackexchange.com/questions/594817/why-does-zram-occupy-much-more-memory-compared-to-its-compressed-value/596929#596929​" %}
 
 
 
@@ -363,7 +363,7 @@ sudo /etc/init.d/zram-init start
 
 ### Cardano-node init file
 
-{% embed url="https://wiki.alpinelinux.org/wiki/Writing\_Init\_Scripts" %}
+{% embed url="https://wiki.alpinelinux.org/wiki/Writing_Init_Scripts" %}
 
 ```bash
 sudo nano /etc/init.d/cardano-node
@@ -695,4 +695,3 @@ rc-status grafana
 ```bash
 wget -r -np -nH -R "index.html*" -e robots=off https://db.adamantium.online/db/
 ```
-

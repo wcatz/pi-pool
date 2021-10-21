@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Pi-Node Image & Guides](README.md)
-* [Pi-Node \(quick start\)](pi-node/README.md)
+* [Pi-Node (quick start)](pi-node/README.md)
   * [Logging in Securely](pi-node/logging-in-securely.md)
   * [Download & Flash](pi-node/download-and-write-it.md)
   * [User Setup](pi-node/user-setup.md)
@@ -16,4 +16,4 @@
 * [knot-resolver & kresd](knot-resolver-and-kresd.md)
 * [DNS over TLS stubby & dnsmasq](dns-over-tls.md)
 * [dns over tls resolved](dns-over-tls-resolved.md)
-
+* [Grafana Telegram Alerts](grafana-telegram-alerts.md)
