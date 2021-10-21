@@ -12,7 +12,7 @@ Go to [https://t.me/botfather](https://t.me/botfather) in Telegram and create a 
 
 > /newbot
 >
-> Graffana\_Alerts
+> Grafana\_Alerts
 >
 > my\__pool\__bot
 
