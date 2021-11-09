@@ -30,13 +30,15 @@ Return to Bot Father if you need a link to your bot or if you need the api token
 [https://t.me/botfather](https://t.me/botfather)
 {% endhint %}
 
-Open botfather Follow the t.me link to your bot. Start it and click on the three dots and 'get info'. Copy your bots username.
-
-Edit your new group, click on add members. Enter your bots name in the search bar and add your bot to the group.
+Open botfather Follow the t.me link to your bot. Start to enable the bot and click on the three dots and 'Add to Group'. Add your bot to your new group.
 
 ### Find your groups Chat ID
 
-Paste your bots API token into the url below. If you only get status ok you may have to remove and add your bot back in again. Otherwise use the image below to determine your Chat ID. Starts with -
+{% hint style="warning" %}
+You may have to post in your new group if you cannot find the chat.id that starts with a - sign. Also Firefox displays the json returned in an easier to read format than Chrome.
+{% endhint %}
+
+Paste your bots API token into the url below.  Determine your Chat ID. Starts with - sign like below.
 
 https://api.telegram.org/bot\<YOUR BOT API TOKEN>/getUpdates
 
@@ -46,6 +48,16 @@ https://api.telegram.org/bot\<YOUR BOT API TOKEN>/getUpdates
 
 Click the bell icon in Grafanas left hand vertical menu and choose notification channels. Choose 'Add channel'. Give it a name and choose Telegram under type. Enter the token and the chat id value you copied earlier. Click test and you should get a green 'test notification sent' and a message in your new group. If so go ahead and click save.
 
+### Add profile image for your bot
+
+Return to [botfather](https://t.me/botfather) and type /setuserpic choose your bot and click the paperclip icon to choose the image.
+
 ## Add a dashboard for monitoring
 
 Grafana Alerts are only available for 'time series' & 'graph (old)' type panels, not always how we would look at the data. Let's create a new dashboard with graph type panels we need for alerts.
+
+I am currently working on an alerts dashboard that can be added to Grafana and will add it to the dashboards repo when it is ready. Please feel free to share your dashboard with the alliance.
+
+{% embed url="https://github.com/armada-alliance/dashboards" %}
+Collection of Armada Alliance Dashboards
+{% endembed %}
